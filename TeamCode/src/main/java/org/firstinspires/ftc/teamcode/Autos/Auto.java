@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.Command;
 
 import org.firstinspires.ftc.teamcode.RobotCore;
 
@@ -9,5 +9,5 @@ import org.firstinspires.ftc.teamcode.RobotCore;
  * it returns a sequential command group, which is scheduled by AutonomousRobot during auto stage
  * */
 public interface Auto {
-    SequentialCommandGroup getAutonomousCommands(RobotCore robotCore);
+    Command getAutonomousCommands(RobotCore robotCore);
 }
