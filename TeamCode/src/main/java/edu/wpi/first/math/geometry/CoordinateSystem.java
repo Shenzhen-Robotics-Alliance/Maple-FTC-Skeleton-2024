@@ -32,7 +32,7 @@ public class CoordinateSystem {
     // Construct a change of basis matrix from the source coordinate system to the
     // NWU coordinate system. Each column vector in the change of basis matrix is
     // one of the old basis vectors mapped to its representation in the new basis.
-    var R = new Matrix<>(Nat.N3(), Nat.N3());
+    Matrix<edu.wpi.first.math.numbers.N3, edu.wpi.first.math.numbers.N3> R = new Matrix<>(Nat.N3(), Nat.N3());
     R.assignBlock(0, 0, positiveX.m_axis);
     R.assignBlock(0, 1, positiveY.m_axis);
     R.assignBlock(0, 2, positiveZ.m_axis);
@@ -124,7 +124,7 @@ public class CoordinateSystem {
    */
   public static Transform3d convert(
       Transform3d transform, CoordinateSystem from, CoordinateSystem to) {
-    var coordRot = from.m_rotation.minus(to.m_rotation);
+    Rotation3d coordRot = from.m_rotation.minus(to.m_rotation);
     return new Transform3d(
         convert(transform.getTranslation(), from, to),
         coordRot.unaryMinus().plus(transform.getRotation().rotateBy(coordRot)));

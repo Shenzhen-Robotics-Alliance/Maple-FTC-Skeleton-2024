@@ -72,7 +72,7 @@ public class InterpolatingMatrixTreeMap<K extends Number, R extends Num, C exten
    * @return The interpolated value.
    */
   public Matrix<R, C> interpolate(Matrix<R, C> val1, Matrix<R, C> val2, double d) {
-    var dydx = val2.minus(val1);
+    Matrix<R, C> dydx = val2.minus(val1);
     return dydx.times(d).plus(val1);
   }
 

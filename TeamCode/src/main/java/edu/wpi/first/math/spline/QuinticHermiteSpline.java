@@ -33,12 +33,12 @@ public class QuinticHermiteSpline extends Spline {
     // Populate the coefficients for the actual spline equations.
     // Row 0 is x coefficients
     // Row 1 is y coefficients
-    final var hermite = makeHermiteBasis();
-    final var x = getControlVectorFromArrays(xInitialControlVector, xFinalControlVector);
-    final var y = getControlVectorFromArrays(yInitialControlVector, yFinalControlVector);
+    final SimpleMatrix hermite = makeHermiteBasis();
+    final SimpleMatrix x = getControlVectorFromArrays(xInitialControlVector, xFinalControlVector);
+    final SimpleMatrix y = getControlVectorFromArrays(yInitialControlVector, yFinalControlVector);
 
-    final var xCoeffs = (hermite.mult(x)).transpose();
-    final var yCoeffs = (hermite.mult(y)).transpose();
+    final SimpleMatrix xCoeffs = (hermite.mult(x)).transpose();
+    final SimpleMatrix yCoeffs = (hermite.mult(y)).transpose();
 
     m_coefficients = new SimpleMatrix(6, 6);
 

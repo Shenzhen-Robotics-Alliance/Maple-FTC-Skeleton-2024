@@ -24,7 +24,7 @@ public final class TrajectoryGenerator {
   private static final Transform2d kFlip = new Transform2d(Translation2d.kZero, Rotation2d.kPi);
 
   private static final Trajectory kDoNothingTrajectory =
-      new Trajectory(List.of(new Trajectory.State()));
+      new Trajectory(com.sun.tools.javac.util.List.of(new Trajectory.State()));
   private static BiConsumer<String, StackTraceElement[]> errorFunc;
 
   /** Private constructor because this is a utility class. */
@@ -65,8 +65,8 @@ public final class TrajectoryGenerator {
       Spline.ControlVector end,
       TrajectoryConfig config) {
     // Clone the control vectors.
-    var newInitial = new Spline.ControlVector(initial.x, initial.y);
-    var newEnd = new Spline.ControlVector(end.x, end.y);
+    Spline.ControlVector newInitial = new Spline.ControlVector(initial.x, initial.y);
+    Spline.ControlVector newEnd = new Spline.ControlVector(end.x, end.y);
 
     // Change the orientation if reversed.
     if (config.isReversed()) {
@@ -90,7 +90,7 @@ public final class TrajectoryGenerator {
 
     // Change the points back to their original orientation.
     if (config.isReversed()) {
-      for (var point : points) {
+      for (PoseWithCurvature point : points) {
         point.poseMeters = point.poseMeters.plus(kFlip);
         point.curvatureRadPerMeter *= -1;
       }
@@ -121,7 +121,7 @@ public final class TrajectoryGenerator {
    */
   public static Trajectory generateTrajectory(
       Pose2d start, List<Translation2d> interiorWaypoints, Pose2d end, TrajectoryConfig config) {
-    var controlVectors =
+    Spline.ControlVector[] controlVectors =
         SplineHelper.getCubicControlVectorsFromWaypoints(
             start, interiorWaypoints.toArray(new Translation2d[0]), end);
 
@@ -140,11 +140,11 @@ public final class TrajectoryGenerator {
    */
   public static Trajectory generateTrajectory(
       ControlVectorList controlVectors, TrajectoryConfig config) {
-    final var newControlVectors = new ArrayList<Spline.ControlVector>(controlVectors.size());
+    final ArrayList<Spline.ControlVector> newControlVectors = new ArrayList<Spline.ControlVector>(controlVectors.size());
 
     // Create a new control vector list, flipping the orientation if reversed.
-    for (final var vector : controlVectors) {
-      var newVector = new Spline.ControlVector(vector.x, vector.y);
+    for (final Spline.ControlVector vector : controlVectors) {
+      Spline.ControlVector newVector = new Spline.ControlVector(vector.x, vector.y);
       if (config.isReversed()) {
         newVector.x[1] *= -1;
         newVector.y[1] *= -1;
@@ -166,7 +166,7 @@ public final class TrajectoryGenerator {
 
     // Change the points back to their original orientation.
     if (config.isReversed()) {
-      for (var point : points) {
+      for (PoseWithCurvature point : points) {
         point.poseMeters = point.poseMeters.plus(kFlip);
         point.curvatureRadPerMeter *= -1;
       }
@@ -216,7 +216,7 @@ public final class TrajectoryGenerator {
 
     // Change the points back to their original orientation.
     if (config.isReversed()) {
-      for (var point : points) {
+      for (PoseWithCurvature point : points) {
         point.poseMeters = point.poseMeters.plus(kFlip);
         point.curvatureRadPerMeter *= -1;
       }
@@ -243,15 +243,15 @@ public final class TrajectoryGenerator {
    */
   public static List<PoseWithCurvature> splinePointsFromSplines(Spline[] splines) {
     // Create the vector of spline points.
-    var splinePoints = new ArrayList<PoseWithCurvature>();
+    ArrayList<PoseWithCurvature> splinePoints = new ArrayList<PoseWithCurvature>();
 
     // Add the first point to the vector.
     splinePoints.add(splines[0].getPoint(0.0).get());
 
     // Iterate through the vector and parameterize each spline, adding the
     // parameterized points to the final vector.
-    for (final var spline : splines) {
-      var points = SplineParameterizer.parameterize(spline);
+    for (final Spline spline : splines) {
+      List<PoseWithCurvature> points = SplineParameterizer.parameterize(spline);
 
       // Append the array of poses to the vector. We are removing the first
       // point because it's a duplicate of the last point from the previous

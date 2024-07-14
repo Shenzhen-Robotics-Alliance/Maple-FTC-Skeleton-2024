@@ -4,12 +4,13 @@
 
 package edu.wpi.first.math.trajectory;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.trajectory.proto.TrajectoryProto;
-import edu.wpi.first.math.trajectory.proto.TrajectoryStateProto;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,10 +20,7 @@ import java.util.stream.Collectors;
  * Represents a time-parameterized trajectory. The trajectory contains of various States that
  * represent the pose, curvature, time elapsed, velocity, and acceleration at that point.
  */
-public class Trajectory implements ProtobufSerializable {
-  /** Trajectory protobuf for serialization. */
-  public static final TrajectoryProto proto = new TrajectoryProto();
-
+public class Trajectory {
   private final double m_totalTimeSeconds;
   private final List<State> m_states;
 
@@ -168,11 +166,11 @@ public class Trajectory implements ProtobufSerializable {
    * @return The transformed trajectory.
    */
   public Trajectory transformBy(Transform2d transform) {
-    var firstState = m_states.get(0);
-    var firstPose = firstState.poseMeters;
+    State firstState = m_states.get(0);
+    Pose2d firstPose = firstState.poseMeters;
 
     // Calculate the transformed first pose.
-    var newFirstPose = firstPose.plus(transform);
+    Pose2d newFirstPose = firstPose.plus(transform);
     List<State> newStates = new ArrayList<>();
 
     newStates.add(
@@ -184,7 +182,7 @@ public class Trajectory implements ProtobufSerializable {
             firstState.curvatureRadPerMeter));
 
     for (int i = 1; i < m_states.size(); i++) {
-      var state = m_states.get(i);
+      State state = m_states.get(i);
       // We are transforming relative to the coordinate frame of the new initial pose.
       newStates.add(
           new State(
@@ -253,7 +251,7 @@ public class Trajectory implements ProtobufSerializable {
     // interpolate between the end of this trajectory and the second state of the
     // other trajectory.
     for (int i = 1; i < other.getStates().size(); ++i) {
-      var s = other.getStates().get(i);
+      State s = other.getStates().get(i);
       states.add(
           new State(
               s.timeSeconds + m_totalTimeSeconds,
@@ -269,9 +267,7 @@ public class Trajectory implements ProtobufSerializable {
    * Represents a time-parameterized trajectory. The trajectory contains of various States that
    * represent the pose, curvature, time elapsed, velocity, and acceleration at that point.
    */
-  public static class State implements ProtobufSerializable {
-    /** Trajectory.State protobuf for serialization. */
-    public static final TrajectoryStateProto proto = new TrajectoryStateProto();
+  public static class State {
 
     /** The time elapsed since the beginning of the trajectory. */
     @JsonProperty("time")
@@ -370,6 +366,8 @@ public class Trajectory implements ProtobufSerializable {
           lerp(curvatureRadPerMeter, endValue.curvatureRadPerMeter, interpolationFrac));
     }
 
+    @NonNull
+    @SuppressLint("DefaultLocale")
     @Override
     public String toString() {
       return String.format(
@@ -383,12 +381,12 @@ public class Trajectory implements ProtobufSerializable {
 
     @Override
     public boolean equals(Object obj) {
-      return obj instanceof State state
-          && Double.compare(state.timeSeconds, timeSeconds) == 0
-          && Double.compare(state.velocityMetersPerSecond, velocityMetersPerSecond) == 0
-          && Double.compare(state.accelerationMetersPerSecondSq, accelerationMetersPerSecondSq) == 0
-          && Double.compare(state.curvatureRadPerMeter, curvatureRadPerMeter) == 0
-          && Objects.equals(poseMeters, state.poseMeters);
+      return obj instanceof State
+          && Double.compare(((State) obj).timeSeconds, timeSeconds) == 0
+          && Double.compare(((State) obj).velocityMetersPerSecond, velocityMetersPerSecond) == 0
+          && Double.compare(((State) obj).accelerationMetersPerSecondSq, accelerationMetersPerSecondSq) == 0
+          && Double.compare(((State) obj).curvatureRadPerMeter, curvatureRadPerMeter) == 0
+          && Objects.equals(poseMeters, ((State) obj).poseMeters);
     }
 
     @Override
@@ -415,6 +413,7 @@ public class Trajectory implements ProtobufSerializable {
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Trajectory other && m_states.equals(other.getStates());
+    return obj instanceof Trajectory
+            && m_states.equals(((Trajectory) obj).getStates());
   }
 }

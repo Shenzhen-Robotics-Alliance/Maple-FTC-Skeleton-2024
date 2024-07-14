@@ -56,7 +56,7 @@ public final class TrajectoryUtil {
     double[] elements = new double[trajectory.getStates().size() * 7];
 
     for (int i = 0; i < trajectory.getStates().size() * 7; i += 7) {
-      var state = trajectory.getStates().get(i / 7);
+      Trajectory.State state = trajectory.getStates().get(i / 7);
       elements[i] = state.timeSeconds;
       elements[i + 1] = state.velocityMetersPerSecond;
       elements[i + 2] = state.accelerationMetersPerSecondSq;

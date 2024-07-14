@@ -5,16 +5,12 @@
 package edu.wpi.first.math.geometry;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.proto.Rectangle2dProto;
-import edu.wpi.first.math.geometry.struct.Rectangle2dStruct;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /**
  * Represents a 2d rectangular space containing translational, rotational, and scaling components.
  */
-public class Rectangle2d implements ProtobufSerializable, StructSerializable {
+public class Rectangle2d {
   private final Pose2d m_center;
   private final double m_xWidth;
   private final double m_yWidth;
@@ -208,10 +204,4 @@ public class Rectangle2d implements ProtobufSerializable, StructSerializable {
   public int hashCode() {
     return Objects.hash(m_center, m_xWidth, m_yWidth);
   }
-
-  /** Rectangle2d protobuf for serialization. */
-  public static final Rectangle2dProto proto = new Rectangle2dProto();
-
-  /** Rectangle2d struct for serialization. */
-  public static final Rectangle2dStruct struct = new Rectangle2dStruct();
 }

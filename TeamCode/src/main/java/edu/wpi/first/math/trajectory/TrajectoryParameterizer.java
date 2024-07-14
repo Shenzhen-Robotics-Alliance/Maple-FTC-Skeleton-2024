@@ -62,8 +62,8 @@ public final class TrajectoryParameterizer {
       double maxVelocityMetersPerSecond,
       double maxAccelerationMetersPerSecondSq,
       boolean reversed) {
-    var constrainedStates = new ArrayList<ConstrainedState>(points.size());
-    var predecessor =
+    ArrayList<ConstrainedState> constrainedStates = new ArrayList<ConstrainedState>(points.size());
+    ConstrainedState predecessor =
         new ConstrainedState(
             points.get(0),
             0,
@@ -74,7 +74,7 @@ public final class TrajectoryParameterizer {
     // Forward pass
     for (int i = 0; i < points.size(); i++) {
       constrainedStates.add(new ConstrainedState());
-      var constrainedState = constrainedStates.get(i);
+      ConstrainedState constrainedState = constrainedStates.get(i);
       constrainedState.pose = points.get(i);
 
       // Begin constraining based on predecessor.
@@ -103,7 +103,7 @@ public final class TrajectoryParameterizer {
 
         // At this point, the constrained state is fully constructed apart from
         // all the custom-defined user constraints.
-        for (final var constraint : constraints) {
+        for (final TrajectoryConstraint constraint : constraints) {
           constrainedState.maxVelocityMetersPerSecond =
               Math.min(
                   constrainedState.maxVelocityMetersPerSecond,
@@ -149,7 +149,7 @@ public final class TrajectoryParameterizer {
       predecessor = constrainedState;
     }
 
-    var successor =
+    ConstrainedState successor =
         new ConstrainedState(
             points.get(points.size() - 1),
             constrainedStates.get(constrainedStates.size() - 1).distanceMeters,
@@ -159,7 +159,7 @@ public final class TrajectoryParameterizer {
 
     // Backward pass
     for (int i = points.size() - 1; i >= 0; i--) {
-      var constrainedState = constrainedStates.get(i);
+      ConstrainedState constrainedState = constrainedStates.get(i);
       double ds = constrainedState.distanceMeters - successor.distanceMeters; // negative
 
       while (true) {
@@ -206,13 +206,13 @@ public final class TrajectoryParameterizer {
 
     // Now we can integrate the constrained states forward in time to obtain our
     // trajectory states.
-    var states = new ArrayList<Trajectory.State>(points.size());
+    ArrayList<Trajectory.State> states = new ArrayList<Trajectory.State>(points.size());
     double timeSeconds = 0.0;
     double distanceMeters = 0.0;
     double velocityMetersPerSecond = 0.0;
 
     for (int i = 0; i < constrainedStates.size(); i++) {
-      final var state = constrainedStates.get(i);
+      final ConstrainedState state = constrainedStates.get(i);
 
       // Calculate the change in position between the current state and the previous
       // state.
@@ -260,9 +260,9 @@ public final class TrajectoryParameterizer {
 
   private static void enforceAccelerationLimits(
       boolean reverse, List<TrajectoryConstraint> constraints, ConstrainedState state) {
-    for (final var constraint : constraints) {
+    for (final TrajectoryConstraint constraint : constraints) {
       double factor = reverse ? -1.0 : 1.0;
-      final var minMaxAccel =
+      final TrajectoryConstraint.MinMax minMaxAccel =
           constraint.getMinMaxAccelerationMetersPerSecondSq(
               state.pose.poseMeters,
               state.pose.curvatureRadPerMeter,

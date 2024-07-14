@@ -42,21 +42,21 @@ public class MecanumDriveKinematicsConstraint implements TrajectoryConstraint {
   public double getMaxVelocityMetersPerSecond(
       Pose2d poseMeters, double curvatureRadPerMeter, double velocityMetersPerSecond) {
     // Represents the velocity of the chassis in the x direction
-    var xdVelocity = velocityMetersPerSecond * poseMeters.getRotation().getCos();
+    double xdVelocity = velocityMetersPerSecond * poseMeters.getRotation().getCos();
 
     // Represents the velocity of the chassis in the y direction
-    var ydVelocity = velocityMetersPerSecond * poseMeters.getRotation().getSin();
+    double ydVelocity = velocityMetersPerSecond * poseMeters.getRotation().getSin();
 
     // Create an object to represent the current chassis speeds.
-    var chassisSpeeds =
+    ChassisSpeeds chassisSpeeds =
         new ChassisSpeeds(xdVelocity, ydVelocity, velocityMetersPerSecond * curvatureRadPerMeter);
 
     // Get the wheel speeds and normalize them to within the max velocity.
-    var wheelSpeeds = m_kinematics.toWheelSpeeds(chassisSpeeds);
+    edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds wheelSpeeds = m_kinematics.toWheelSpeeds(chassisSpeeds);
     wheelSpeeds.desaturate(m_maxSpeedMetersPerSecond);
 
     // Convert normalized wheel speeds back to chassis speeds
-    var normSpeeds = m_kinematics.toChassisSpeeds(wheelSpeeds);
+    ChassisSpeeds normSpeeds = m_kinematics.toChassisSpeeds(wheelSpeeds);
 
     // Return the new linear chassis speed.
     return Math.hypot(normSpeeds.vxMetersPerSecond, normSpeeds.vyMetersPerSecond);

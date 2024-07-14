@@ -51,7 +51,7 @@ public class TravelingSalesman {
    * @return The optimized path as an array of Pose2ds.
    */
   public <Poses extends Num> Pose2d[] solve(Pose2d[] poses, int iterations) {
-    var solver =
+    SimulatedAnnealing<Vector<Poses>> solver =
         new SimulatedAnnealing<>(
             1.0,
             this::neighbor,
@@ -67,14 +67,14 @@ public class TravelingSalesman {
               return sum;
             });
 
-    var initial = new Vector<Poses>(() -> poses.length);
+    Vector<Poses> initial = new Vector<Poses>(() -> poses.length);
     for (int i = 0; i < poses.length; ++i) {
       initial.set(i, 0, i);
     }
 
-    var indices = solver.solve(initial, iterations);
+    Vector<Poses> indices = solver.solve(initial, iterations);
 
-    var solution = new Pose2d[poses.length];
+    Pose2d[] solution = new Pose2d[poses.length];
     for (int i = 0; i < poses.length; ++i) {
       solution[i] = poses[(int) indices.get(i, 0)];
     }
@@ -93,7 +93,7 @@ public class TravelingSalesman {
    *     array.
    */
   private <Poses extends Num> Vector<Poses> neighbor(Vector<Poses> state) {
-    var proposedState = new Vector<>(state);
+    Vector<Poses> proposedState = new Vector<>(state);
 
     int rangeStart = (int) (Math.random() * (state.getNumRows() - 1));
     int rangeEnd = (int) (Math.random() * (state.getNumRows() - 1));

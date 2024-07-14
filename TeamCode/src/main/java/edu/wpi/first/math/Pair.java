@@ -4,6 +4,8 @@
 
 package edu.wpi.first.math;
 
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 /**
@@ -58,6 +60,7 @@ public class Pair<A, B> {
     return new Pair<>(a, b);
   }
 
+  @NonNull
   @Override
   public String toString() {
     return String.format("Pair(%s, %s)", m_first, m_second);
@@ -72,9 +75,9 @@ public class Pair<A, B> {
   @Override
   public boolean equals(Object obj) {
     return obj == this
-        || obj instanceof Pair<?, ?> other
-            && Objects.equals(m_first, other.getFirst())
-            && Objects.equals(m_second, other.getSecond());
+        || obj instanceof Pair<?, ?>
+            && Objects.equals(m_first, ((Pair<?, ?>) obj).getFirst())
+            && Objects.equals(m_second, ((Pair<?, ?>) obj).getSecond());
   }
 
   @Override

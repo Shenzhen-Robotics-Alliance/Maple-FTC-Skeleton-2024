@@ -34,7 +34,7 @@ public final class StateSpaceUtil {
    */
   public static <States extends Num> Matrix<States, States> makeCovarianceMatrix(
       Nat<States> states, Matrix<States, N1> stdDevs) {
-    var result = new Matrix<>(states, states);
+    Matrix<States, States> result = new Matrix<>(states, states);
     for (int i = 0; i < states.getNum(); i++) {
       result.set(i, i, Math.pow(stdDevs.get(i, 0), 2));
     }
@@ -147,7 +147,7 @@ public final class StateSpaceUtil {
    */
   public static <I extends Num> Matrix<I, N1> clampInputMaxMagnitude(
       Matrix<I, N1> u, Matrix<I, N1> umin, Matrix<I, N1> umax) {
-    var result = new Matrix<I, N1>(new SimpleMatrix(u.getNumRows(), 1));
+    Matrix<I, N1> result = new Matrix<I, N1>(new SimpleMatrix(u.getNumRows(), 1));
     for (int i = 0; i < u.getNumRows(); i++) {
       result.set(i, 0, MathUtil.clamp(u.get(i, 0), umin.get(i, 0), umax.get(i, 0)));
     }

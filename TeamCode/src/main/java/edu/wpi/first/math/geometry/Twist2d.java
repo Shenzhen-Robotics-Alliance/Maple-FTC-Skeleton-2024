@@ -4,10 +4,10 @@
 
 package edu.wpi.first.math.geometry;
 
-import edu.wpi.first.math.geometry.proto.Twist2dProto;
-import edu.wpi.first.math.geometry.struct.Twist2dStruct;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 /**
@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * <p>A Twist can be used to represent a difference between two poses.
  */
-public class Twist2d implements ProtobufSerializable, StructSerializable {
+public class Twist2d {
   /** Linear "dx" component. */
   public double dx;
 
@@ -42,6 +42,8 @@ public class Twist2d implements ProtobufSerializable, StructSerializable {
     this.dtheta = dtheta;
   }
 
+  @NonNull
+  @SuppressLint("DefaultLocale")
   @Override
   public String toString() {
     return String.format("Twist2d(dX: %.2f, dY: %.2f, dTheta: %.2f)", dx, dy, dtheta);
@@ -55,20 +57,14 @@ public class Twist2d implements ProtobufSerializable, StructSerializable {
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Twist2d other
-        && Math.abs(other.dx - dx) < 1E-9
-        && Math.abs(other.dy - dy) < 1E-9
-        && Math.abs(other.dtheta - dtheta) < 1E-9;
+    return obj instanceof Twist2d
+        && Math.abs(((Twist2d) obj).dx - dx) < 1E-9
+        && Math.abs(((Twist2d) obj).dy - dy) < 1E-9
+        && Math.abs(((Twist2d) obj).dtheta - dtheta) < 1E-9;
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(dx, dy, dtheta);
   }
-
-  /** Twist2d protobuf for serialization. */
-  public static final Twist2dProto proto = new Twist2dProto();
-
-  /** Twist2d struct for serialization. */
-  public static final Twist2dStruct struct = new Twist2dStruct();
 }

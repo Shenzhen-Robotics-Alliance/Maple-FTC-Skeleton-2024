@@ -10,17 +10,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.geometry.proto.QuaternionProto;
-import edu.wpi.first.math.geometry.struct.QuaternionStruct;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /** Represents a quaternion. */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
-public class Quaternion implements ProtobufSerializable, StructSerializable {
+public class Quaternion {
   // Scalar r in versor form
   private final double m_w;
 
@@ -107,8 +103,8 @@ public class Quaternion implements ProtobufSerializable, StructSerializable {
    */
   public Quaternion times(Quaternion other) {
     // https://en.wikipedia.org/wiki/Quaternion#Scalar_and_vector_parts
-    final var r1 = m_w;
-    final var r2 = other.m_w;
+    final double r1 = m_w;
+    final double r2 = other.m_w;
 
     // v₁ ⋅ v₂
     double dot = m_x * other.m_x + m_y * other.m_y + m_z * other.m_z;
@@ -140,9 +136,9 @@ public class Quaternion implements ProtobufSerializable, StructSerializable {
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Quaternion other
-        && Math.abs(dot(other) - norm() * other.norm()) < 1e-9
-        && Math.abs(norm() - other.norm()) < 1e-9;
+    return obj instanceof Quaternion
+        && Math.abs(dot((Quaternion) obj) - norm() * ((Quaternion) obj).norm()) < 1e-9
+        && Math.abs(norm() - ((Quaternion) obj).norm()) < 1e-9;
   }
 
   @Override
@@ -178,7 +174,7 @@ public class Quaternion implements ProtobufSerializable, StructSerializable {
    * @return The inverse quaternion.
    */
   public Quaternion inverse() {
-    var norm = norm();
+    double norm = norm();
     return conjugate().divide(norm * norm);
   }
 
@@ -231,23 +227,22 @@ public class Quaternion implements ProtobufSerializable, StructSerializable {
    *
    * <p>source: wpimath/algorithms.md
    *
-   * <p>If this quaternion is in 𝖘𝖔(3) and you are looking for an element of SO(3), use {@link
-   * fromRotationVector}
+   * <p>If this quaternion is in 𝖘𝖔(3) and you are looking for an element of SO(3), use fromRotationVector
    *
    * @return The Matrix exponential of this quaternion.
    */
   public Quaternion exp() {
-    var scalar = Math.exp(getW());
+    double scalar = Math.exp(getW());
 
-    var axial_magnitude = Math.sqrt(getX() * getX() + getY() * getY() + getZ() * getZ());
-    var cosine = Math.cos(axial_magnitude);
+    double axial_magnitude = Math.sqrt(getX() * getX() + getY() * getY() + getZ() * getZ());
+    double cosine = Math.cos(axial_magnitude);
 
     double axial_scalar;
 
     if (axial_magnitude < 1e-9) {
       // Taylor series of sin(θ) / θ near θ = 0: 1 − θ²/6 + θ⁴/120 + O(n⁶)
-      var axial_magnitude_sq = axial_magnitude * axial_magnitude;
-      var axial_magnitude_sq_sq = axial_magnitude_sq * axial_magnitude_sq;
+      double axial_magnitude_sq = axial_magnitude * axial_magnitude;
+      double axial_magnitude_sq_sq = axial_magnitude_sq * axial_magnitude_sq;
       axial_scalar = 1.0 - axial_magnitude_sq / 6.0 + axial_magnitude_sq_sq / 120.0;
     } else {
       axial_scalar = Math.sin(axial_magnitude) / axial_magnitude;
@@ -275,18 +270,17 @@ public class Quaternion implements ProtobufSerializable, StructSerializable {
    *
    * <p>source: wpimath/algorithms.md
    *
-   * <p>If this quaternion is in SO(3) and you are looking for an element of 𝖘𝖔(3), use {@link
-   * toRotationVector}
+   * <p>If this quaternion is in SO(3) and you are looking for an element of 𝖘𝖔(3), use toRotationVector
    *
    * @return The logarithm of this quaternion.
    */
   public Quaternion log() {
-    var norm = norm();
-    var scalar = Math.log(norm);
+    double norm = norm();
+    double scalar = Math.log(norm);
 
-    var v_norm = Math.sqrt(getX() * getX() + getY() * getY() + getZ() * getZ());
+    double v_norm = Math.sqrt(getX() * getX() + getY() * getY() + getZ() * getZ());
 
-    var s_norm = getW() / norm;
+    double s_norm = getW() / norm;
 
     if (Math.abs(s_norm + 1) < 1e-9) {
       return new Quaternion(scalar, -Math.PI, 0, 0);
@@ -402,10 +396,4 @@ public class Quaternion implements ProtobufSerializable, StructSerializable {
 
     return VecBuilder.fill(coeff * getX(), coeff * getY(), coeff * getZ());
   }
-
-  /** Quaternion protobuf for serialization. */
-  public static final QuaternionProto proto = new QuaternionProto();
-
-  /** Quaternion struct for serialization. */
-  public static final QuaternionStruct struct = new QuaternionStruct();
 }

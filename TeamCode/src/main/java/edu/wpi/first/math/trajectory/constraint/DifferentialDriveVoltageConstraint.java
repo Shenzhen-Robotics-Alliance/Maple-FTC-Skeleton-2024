@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 
 /**
  * A class that enforces constraints on differential drive voltage expenditure based on the motor
@@ -49,9 +50,8 @@ public class DifferentialDriveVoltageConstraint implements TrajectoryConstraint 
   }
 
   @Override
-  public MinMax getMinMaxAccelerationMetersPerSecondSq(
-      Pose2d poseMeters, double curvatureRadPerMeter, double velocityMetersPerSecond) {
-    var wheelSpeeds =
+  public MinMax getMinMaxAccelerationMetersPerSecondSq(Pose2d poseMeters, double curvatureRadPerMeter, double velocityMetersPerSecond) {
+    DifferentialDriveWheelSpeeds wheelSpeeds =
         m_kinematics.toWheelSpeeds(
             new ChassisSpeeds(
                 velocityMetersPerSecond, 0, velocityMetersPerSecond * curvatureRadPerMeter));

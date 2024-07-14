@@ -330,7 +330,7 @@ public class LinearSystemLoop<States extends Num, Inputs extends Num, Outputs ex
    * @param dtSeconds Timestep for model update.
    */
   public void predict(double dtSeconds) {
-    var u =
+    Matrix<Inputs, N1> u =
         clampInput(
             m_controller
                 .calculate(getObserver().getXhat(), m_nextR)

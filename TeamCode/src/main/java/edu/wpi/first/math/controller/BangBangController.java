@@ -6,9 +6,6 @@ package edu.wpi.first.math.controller;
 
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.util.sendable.SendableRegistry;
 
 /**
  * Implements a bang-bang controller, which outputs either 0 or 1 depending on whether the
@@ -21,7 +18,7 @@ import edu.wpi.first.util.sendable.SendableRegistry;
  * hazardous. Always ensure that your motor controllers are set to "coast" before attempting to
  * control them with a bang-bang controller.
  */
-public class BangBangController implements Sendable {
+public class BangBangController {
   private static int instances;
 
   private double m_tolerance;
@@ -42,8 +39,6 @@ public class BangBangController implements Sendable {
     instances++;
 
     setTolerance(tolerance);
-
-    SendableRegistry.addLW(this, "BangBangController", instances);
 
     MathSharedStore.reportUsage(MathUsageId.kController_PIDController2, instances);
   }
@@ -146,15 +141,5 @@ public class BangBangController implements Sendable {
    */
   public double calculate(double measurement) {
     return calculate(measurement, m_setpoint);
-  }
-
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("BangBangController");
-    builder.addDoubleProperty("tolerance", this::getTolerance, this::setTolerance);
-    builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
-    builder.addDoubleProperty("measurement", this::getMeasurement, null);
-    builder.addDoubleProperty("error", this::getError, null);
-    builder.addBooleanProperty("atSetpoint", this::atSetpoint, null);
   }
 }

@@ -190,7 +190,7 @@ public class LinearFilter {
           "Order of derivative must be less than number of samples.");
     }
 
-    var S = new SimpleMatrix(samples, samples);
+    SimpleMatrix S = new SimpleMatrix(samples, samples);
     for (int row = 0; row < samples; ++row) {
       for (int col = 0; col < samples; ++col) {
         S.set(row, col, Math.pow(stencil[col], row));
@@ -198,12 +198,12 @@ public class LinearFilter {
     }
 
     // Fill in Kronecker deltas: https://en.wikipedia.org/wiki/Kronecker_delta
-    var d = new SimpleMatrix(samples, 1);
+    SimpleMatrix d = new SimpleMatrix(samples, 1);
     for (int i = 0; i < samples; ++i) {
       d.set(i, 0, (i == derivative) ? factorial(derivative) : 0.0);
     }
 
-    var a = S.solve(d).divide(Math.pow(period, derivative));
+    SimpleMatrix a = S.solve(d).divide(Math.pow(period, derivative));
 
     // Reverse gains list
     double[] ffGains = new double[samples];

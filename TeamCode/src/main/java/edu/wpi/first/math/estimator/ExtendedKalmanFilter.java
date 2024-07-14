@@ -143,18 +143,18 @@ public class ExtendedKalmanFilter<States extends Num, Inputs extends Num, Output
 
     reset();
 
-    final var contA =
+    final Matrix<States, States> contA =
         NumericalJacobian.numericalJacobianX(
             states, states, f, m_xHat, new Matrix<>(inputs, Nat.N1()));
-    final var C =
+    final Matrix<Outputs, States> C =
         NumericalJacobian.numericalJacobianX(
             outputs, states, h, m_xHat, new Matrix<>(inputs, Nat.N1()));
 
-    final var discPair = Discretization.discretizeAQ(contA, m_contQ, dtSeconds);
-    final var discA = discPair.getFirst();
-    final var discQ = discPair.getSecond();
+    final edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, States>> discPair = Discretization.discretizeAQ(contA, m_contQ, dtSeconds);
+    final Matrix<States, States> discA = discPair.getFirst();
+    final Matrix<States, States> discQ = discPair.getSecond();
 
-    final var discR = Discretization.discretizeR(m_contR, dtSeconds);
+    final Matrix<Outputs, Outputs> discR = Discretization.discretizeR(m_contR, dtSeconds);
 
     if (StateSpaceUtil.isDetectable(discA, C) && outputs.getNum() <= states.getNum()) {
       m_initP = DARE.dare(discA.transpose(), C.transpose(), discQ, discR);
@@ -268,12 +268,12 @@ public class ExtendedKalmanFilter<States extends Num, Inputs extends Num, Output
       BiFunction<Matrix<States, N1>, Matrix<Inputs, N1>, Matrix<States, N1>> f,
       double dtSeconds) {
     // Find continuous A
-    final var contA = NumericalJacobian.numericalJacobianX(m_states, m_states, f, m_xHat, u);
+    final Matrix<States, States> contA = NumericalJacobian.numericalJacobianX(m_states, m_states, f, m_xHat, u);
 
     // Find discrete A and Q
-    final var discPair = Discretization.discretizeAQ(contA, m_contQ, dtSeconds);
-    final var discA = discPair.getFirst();
-    final var discQ = discPair.getSecond();
+    final edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, States>> discPair = Discretization.discretizeAQ(contA, m_contQ, dtSeconds);
+    final Matrix<States, States> discA = discPair.getFirst();
+    final Matrix<States, States> discQ = discPair.getSecond();
 
     m_xHat = NumericalIntegration.rk4(f, m_xHat, u, dtSeconds);
 
@@ -355,10 +355,10 @@ public class ExtendedKalmanFilter<States extends Num, Inputs extends Num, Output
       Matrix<Rows, Rows> R,
       BiFunction<Matrix<Rows, N1>, Matrix<Rows, N1>, Matrix<Rows, N1>> residualFuncY,
       BiFunction<Matrix<States, N1>, Matrix<States, N1>, Matrix<States, N1>> addFuncX) {
-    final var C = NumericalJacobian.numericalJacobianX(rows, m_states, h, m_xHat, u);
-    final var discR = Discretization.discretizeR(R, m_dtSeconds);
+    final Matrix<Rows, States> C = NumericalJacobian.numericalJacobianX(rows, m_states, h, m_xHat, u);
+    final Matrix<Rows, Rows> discR = Discretization.discretizeR(R, m_dtSeconds);
 
-    final var S = C.times(m_P).times(C.transpose()).plus(discR);
+    final Matrix<Rows, Rows> S = C.times(m_P).times(C.transpose()).plus(discR);
 
     // We want to put K = PCᵀS⁻¹ into Ax = b form so we can solve it more
     // efficiently.

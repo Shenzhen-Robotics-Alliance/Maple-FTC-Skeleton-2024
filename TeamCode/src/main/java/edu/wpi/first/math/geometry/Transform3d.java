@@ -3,15 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package edu.wpi.first.math.geometry;
-
-import edu.wpi.first.math.geometry.proto.Transform3dProto;
-import edu.wpi.first.math.geometry.struct.Transform3dStruct;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /** Represents a transformation for a Pose3d in the pose's frame. */
-public class Transform3d implements ProtobufSerializable, StructSerializable {
+public class Transform3d {
   /**
    * A preallocated Transform3d representing no transformation.
    *
@@ -173,19 +168,13 @@ public class Transform3d implements ProtobufSerializable, StructSerializable {
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Transform3d other
-        && other.m_translation.equals(m_translation)
-        && other.m_rotation.equals(m_rotation);
+    return obj instanceof Transform3d
+        && ((Transform3d) obj).m_translation.equals(m_translation)
+        && ((Transform3d) obj).m_rotation.equals(m_rotation);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(m_translation, m_rotation);
   }
-
-  /** Transform3d protobuf for serialization. */
-  public static final Transform3dProto proto = new Transform3dProto();
-
-  /** Transform3d struct for serialization. */
-  public static final Transform3dStruct struct = new Transform3dStruct();
 }

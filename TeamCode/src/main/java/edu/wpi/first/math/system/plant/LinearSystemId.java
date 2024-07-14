@@ -7,7 +7,9 @@ package edu.wpi.first.math.system.plant;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.Num;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
@@ -193,18 +195,18 @@ public final class LinearSystemId {
       throw new IllegalArgumentException("gearing must be greater than zero.");
     }
 
-    var C1 =
+    double C1 =
         -(gearing * gearing)
             * motor.KtNMPerAmp
             / (motor.KvRadPerSecPerVolt * motor.rOhms * rMeters * rMeters);
-    var C2 = gearing * motor.KtNMPerAmp / (motor.rOhms * rMeters);
+    double C2 = gearing * motor.KtNMPerAmp / (motor.rOhms * rMeters);
 
     final double C3 = 1 / massKg + rbMeters * rbMeters / JKgMetersSquared;
     final double C4 = 1 / massKg - rbMeters * rbMeters / JKgMetersSquared;
-    var A = MatBuilder.fill(Nat.N2(), Nat.N2(), C3 * C1, C4 * C1, C4 * C1, C3 * C1);
-    var B = MatBuilder.fill(Nat.N2(), Nat.N2(), C3 * C2, C4 * C2, C4 * C2, C3 * C2);
-    var C = MatBuilder.fill(Nat.N2(), Nat.N2(), 1.0, 0.0, 0.0, 1.0);
-    var D = MatBuilder.fill(Nat.N2(), Nat.N2(), 0.0, 0.0, 0.0, 0.0);
+    Matrix<N2, N2> A = MatBuilder.fill(Nat.N2(), Nat.N2(), C3 * C1, C4 * C1, C4 * C1, C3 * C1);
+    Matrix<N2, N2> B = MatBuilder.fill(Nat.N2(), Nat.N2(), C3 * C2, C4 * C2, C4 * C2, C3 * C2);
+    Matrix<N2, N2> C = MatBuilder.fill(Nat.N2(), Nat.N2(), 1.0, 0.0, 0.0, 1.0);
+    Matrix<N2, N2> D = MatBuilder.fill(Nat.N2(), Nat.N2(), 0.0, 0.0, 0.0, 0.0);
 
     return new LinearSystem<>(A, B, C, D);
   }
@@ -268,7 +270,7 @@ public final class LinearSystemId {
     if (kA <= 0.0) {
       throw new IllegalArgumentException("Ka must be greater than zero.");
     }
-
+    
     return new LinearSystem<>(
         VecBuilder.fill(-kV / kA),
         VecBuilder.fill(1.0 / kA),

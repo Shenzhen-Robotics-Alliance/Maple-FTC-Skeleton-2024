@@ -77,16 +77,16 @@ public class KalmanFilter<States extends Num, Inputs extends Num, Outputs extend
     m_dtSeconds = dtSeconds;
 
     // Find discrete A and Q
-    var pair = Discretization.discretizeAQ(plant.getA(), m_contQ, dtSeconds);
-    var discA = pair.getFirst();
-    var discQ = pair.getSecond();
+    edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, States>> pair = Discretization.discretizeAQ(plant.getA(), m_contQ, dtSeconds);
+    Matrix<States, States> discA = pair.getFirst();
+    Matrix<States, States> discQ = pair.getSecond();
 
-    var discR = Discretization.discretizeR(m_contR, dtSeconds);
+    Matrix<Outputs, Outputs> discR = Discretization.discretizeR(m_contR, dtSeconds);
 
-    var C = plant.getC();
+    Matrix<Outputs, States> C = plant.getC();
 
     if (!StateSpaceUtil.isDetectable(discA, C)) {
-      var msg =
+      String msg =
           "The system passed to the Kalman filter is undetectable!\n\nA =\n"
               + discA.getStorage().toString()
               + "\nC =\n"
@@ -190,9 +190,9 @@ public class KalmanFilter<States extends Num, Inputs extends Num, Outputs extend
   @Override
   public void predict(Matrix<Inputs, N1> u, double dtSeconds) {
     // Find discrete A and Q
-    final var discPair = Discretization.discretizeAQ(m_plant.getA(), m_contQ, dtSeconds);
-    final var discA = discPair.getFirst();
-    final var discQ = discPair.getSecond();
+    final edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, States>> discPair = Discretization.discretizeAQ(m_plant.getA(), m_contQ, dtSeconds);
+    final Matrix<States, States> discA = discPair.getFirst();
+    final Matrix<States, States> discQ = discPair.getSecond();
 
     m_xHat = m_plant.calculateX(m_xHat, u, dtSeconds);
 
@@ -223,12 +223,12 @@ public class KalmanFilter<States extends Num, Inputs extends Num, Outputs extend
    * @param R Continuous measurement noise covariance matrix.
    */
   public void correct(Matrix<Inputs, N1> u, Matrix<Outputs, N1> y, Matrix<Outputs, Outputs> R) {
-    final var C = m_plant.getC();
-    final var D = m_plant.getD();
+    final Matrix<Outputs, States> C = m_plant.getC();
+    final Matrix<Outputs, Inputs> D = m_plant.getD();
 
-    final var discR = Discretization.discretizeR(R, m_dtSeconds);
+    final Matrix<Outputs, Outputs> discR = Discretization.discretizeR(R, m_dtSeconds);
 
-    final var S = C.times(m_P).times(C.transpose()).plus(discR);
+    final Matrix<Outputs, Outputs> S = C.times(m_P).times(C.transpose()).plus(discR);
 
     // We want to put K = PCᵀS⁻¹ into Ax = b form so we can solve it more
     // efficiently.

@@ -37,14 +37,14 @@ public final class NumericalJacobian {
           Nat<Cols> cols,
           Function<Matrix<Cols, N1>, Matrix<States, N1>> f,
           Matrix<Cols, N1> x) {
-    var result = new Matrix<>(rows, cols);
+    Matrix<Rows, Cols> result = new Matrix<>(rows, cols);
 
     for (int i = 0; i < cols.getNum(); i++) {
-      var dxPlus = x.copy();
-      var dxMinus = x.copy();
+      Matrix<Cols, N1> dxPlus = x.copy();
+      Matrix<Cols, N1> dxMinus = x.copy();
       dxPlus.set(i, 0, dxPlus.get(i, 0) + kEpsilon);
       dxMinus.set(i, 0, dxMinus.get(i, 0) - kEpsilon);
-      var dF = f.apply(dxPlus).minus(f.apply(dxMinus)).div(2 * kEpsilon);
+      Matrix<States, N1> dF = f.apply(dxPlus).minus(f.apply(dxMinus)).div(2 * kEpsilon);
 
       result.setColumn(i, Matrix.changeBoundsUnchecked(dF));
     }

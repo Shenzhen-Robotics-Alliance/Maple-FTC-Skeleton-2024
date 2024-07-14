@@ -54,10 +54,10 @@ public class HolonomicDriveController {
    * @return True if the pose error is within tolerance of the reference.
    */
   public boolean atReference() {
-    final var eTranslate = m_poseError.getTranslation();
-    final var eRotate = m_rotationError;
-    final var tolTranslate = m_poseTolerance.getTranslation();
-    final var tolRotate = m_poseTolerance.getRotation();
+    final edu.wpi.first.math.geometry.Translation2d eTranslate = m_poseError.getTranslation();
+    final Rotation2d eRotate = m_rotationError;
+    final edu.wpi.first.math.geometry.Translation2d tolTranslate = m_poseTolerance.getTranslation();
+    final Rotation2d tolRotate = m_poseTolerance.getRotation();
     return Math.abs(eTranslate.getX()) < tolTranslate.getX()
         && Math.abs(eTranslate.getY()) < tolTranslate.getY()
         && Math.abs(eRotate.getRadians()) < tolRotate.getRadians();

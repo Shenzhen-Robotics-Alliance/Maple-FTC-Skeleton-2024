@@ -53,14 +53,14 @@ public final class SplineHelper {
   public static QuinticHermiteSpline[] getQuinticSplinesFromWaypoints(List<Pose2d> waypoints) {
     QuinticHermiteSpline[] splines = new QuinticHermiteSpline[waypoints.size() - 1];
     for (int i = 0; i < waypoints.size() - 1; ++i) {
-      var p0 = waypoints.get(i);
-      var p1 = waypoints.get(i + 1);
+      Pose2d p0 = waypoints.get(i);
+      Pose2d p1 = waypoints.get(i + 1);
 
       // This just makes the splines look better.
-      final var scalar = 1.2 * p0.getTranslation().getDistance(p1.getTranslation());
+      final double scalar = 1.2 * p0.getTranslation().getDistance(p1.getTranslation());
 
-      var controlVecA = getQuinticControlVector(scalar, p0);
-      var controlVecB = getQuinticControlVector(scalar, p1);
+      Spline.ControlVector controlVecA = getQuinticControlVector(scalar, p0);
+      Spline.ControlVector controlVecB = getQuinticControlVector(scalar, p1);
 
       splines[i] =
           new QuinticHermiteSpline(controlVecA.x, controlVecB.x, controlVecA.y, controlVecB.y);
@@ -172,8 +172,8 @@ public final class SplineHelper {
                 new double[] {newWaypts[i + 1].getY(), newFy[i + 1]});
       }
     } else if (waypoints.length == 1) {
-      final var xDeriv = (3 * (xFinal[0] - xInitial[0]) - xFinal[1] - xInitial[1]) / 4.0;
-      final var yDeriv = (3 * (yFinal[0] - yInitial[0]) - yFinal[1] - yInitial[1]) / 4.0;
+      final double xDeriv = (3 * (xFinal[0] - xInitial[0]) - xFinal[1] - xInitial[1]) / 4.0;
+      final double yDeriv = (3 * (yFinal[0] - yInitial[0]) - yFinal[1] - yInitial[1]) / 4.0;
 
       double[] midXControlVector = {waypoints[0].getX(), xDeriv};
       double[] midYControlVector = {waypoints[0].getY(), yDeriv};
@@ -207,10 +207,10 @@ public final class SplineHelper {
       Spline.ControlVector[] controlVectors) {
     QuinticHermiteSpline[] splines = new QuinticHermiteSpline[controlVectors.length - 1];
     for (int i = 0; i < controlVectors.length - 1; i++) {
-      var xInitial = controlVectors[i].x;
-      var xFinal = controlVectors[i + 1].x;
-      var yInitial = controlVectors[i].y;
-      var yFinal = controlVectors[i + 1].y;
+      double[] xInitial = controlVectors[i].x;
+      double[] xFinal = controlVectors[i + 1].x;
+      double[] yInitial = controlVectors[i].y;
+      double[] yFinal = controlVectors[i + 1].y;
       splines[i] =
           new QuinticHermiteSpline(
               xInitial, xFinal,

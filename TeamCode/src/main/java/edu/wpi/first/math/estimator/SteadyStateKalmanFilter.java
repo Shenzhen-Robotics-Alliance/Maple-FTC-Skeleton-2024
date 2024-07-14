@@ -73,19 +73,19 @@ public class SteadyStateKalmanFilter<States extends Num, Inputs extends Num, Out
 
     this.m_plant = plant;
 
-    var contQ = StateSpaceUtil.makeCovarianceMatrix(states, stateStdDevs);
-    var contR = StateSpaceUtil.makeCovarianceMatrix(outputs, measurementStdDevs);
+    Matrix<States, States> contQ = StateSpaceUtil.makeCovarianceMatrix(states, stateStdDevs);
+    Matrix<Outputs, Outputs> contR = StateSpaceUtil.makeCovarianceMatrix(outputs, measurementStdDevs);
 
-    var pair = Discretization.discretizeAQ(plant.getA(), contQ, dtSeconds);
-    var discA = pair.getFirst();
-    var discQ = pair.getSecond();
+    edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, States>> pair = Discretization.discretizeAQ(plant.getA(), contQ, dtSeconds);
+    Matrix<States, States> discA = pair.getFirst();
+    Matrix<States, States> discQ = pair.getSecond();
 
-    var discR = Discretization.discretizeR(contR, dtSeconds);
+    Matrix<Outputs, Outputs> discR = Discretization.discretizeR(contR, dtSeconds);
 
-    var C = plant.getC();
+    Matrix<Outputs, States> C = plant.getC();
 
     if (!StateSpaceUtil.isDetectable(discA, C)) {
-      var msg =
+      String msg =
           "The system passed to the Kalman filter is undetectable!\n\nA =\n"
               + discA.getStorage().toString()
               + "\nC =\n"
@@ -95,10 +95,10 @@ public class SteadyStateKalmanFilter<States extends Num, Inputs extends Num, Out
       throw new IllegalArgumentException(msg);
     }
 
-    var P = new Matrix<>(DARE.dare(discA.transpose(), C.transpose(), discQ, discR));
+    Matrix<States, States> P = new Matrix<>(DARE.dare(discA.transpose(), C.transpose(), discQ, discR));
 
     // S = CPCᵀ + R
-    var S = C.times(P).times(C.transpose()).plus(discR);
+    Matrix<Outputs, Outputs> S = C.times(P).times(C.transpose()).plus(discR);
 
     // We want to put K = PCᵀS⁻¹ into Ax = b form so we can solve it more
     // efficiently.
@@ -199,8 +199,8 @@ public class SteadyStateKalmanFilter<States extends Num, Inputs extends Num, Out
    * @param y Measurement vector.
    */
   public void correct(Matrix<Inputs, N1> u, Matrix<Outputs, N1> y) {
-    final var C = m_plant.getC();
-    final var D = m_plant.getD();
+    final Matrix<Outputs, States> C = m_plant.getC();
+    final Matrix<Outputs, Inputs> D = m_plant.getD();
 
     // x̂ₖ₊₁⁺ = x̂ₖ₊₁⁻ + K(y − (Cx̂ₖ₊₁⁻ + Duₖ₊₁))
     m_xHat = m_xHat.plus(m_K.times(y.minus(C.times(m_xHat).plus(D.times(u)))));

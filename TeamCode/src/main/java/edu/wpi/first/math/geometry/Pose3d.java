@@ -8,18 +8,14 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.wpi.first.math.geometry.proto.Pose3dProto;
-import edu.wpi.first.math.geometry.struct.Pose3dStruct;
 import edu.wpi.first.math.interpolation.Interpolatable;
 import edu.wpi.first.math.jni.Pose3dJNI;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /** Represents a 3D pose containing translational and rotational elements. */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
-public class Pose3d implements Interpolatable<Pose3d>, ProtobufSerializable, StructSerializable {
+public class Pose3d implements Interpolatable<Pose3d> {
   /**
    * A preallocated Pose3d representing the origin.
    *
@@ -93,7 +89,7 @@ public class Pose3d implements Interpolatable<Pose3d>, ProtobufSerializable, Str
    * @return The transform that maps the other pose to the current pose.
    */
   public Transform3d minus(Pose3d other) {
-    final var pose = this.relativeTo(other);
+    final Pose3d pose = this.relativeTo(other);
     return new Transform3d(pose.getTranslation(), pose.getRotation());
   }
 
@@ -201,7 +197,7 @@ public class Pose3d implements Interpolatable<Pose3d>, ProtobufSerializable, Str
    * @return The current pose relative to the new origin pose.
    */
   public Pose3d relativeTo(Pose3d other) {
-    var transform = new Transform3d(other, this);
+    Transform3d transform = new Transform3d(other, this);
     return new Pose3d(transform.getTranslation(), transform.getRotation());
   }
 
@@ -222,7 +218,7 @@ public class Pose3d implements Interpolatable<Pose3d>, ProtobufSerializable, Str
    * @return The new pose of the robot.
    */
   public Pose3d exp(Twist3d twist) {
-    var quaternion = this.getRotation().getQuaternion();
+    Quaternion quaternion = this.getRotation().getQuaternion();
     double[] resultArray =
         Pose3dJNI.exp(
             this.getX(),
@@ -254,8 +250,8 @@ public class Pose3d implements Interpolatable<Pose3d>, ProtobufSerializable, Str
    * @return The twist that maps this to end.
    */
   public Twist3d log(Pose3d end) {
-    var thisQuaternion = this.getRotation().getQuaternion();
-    var endQuaternion = end.getRotation().getQuaternion();
+    Quaternion thisQuaternion = this.getRotation().getQuaternion();
+    Quaternion endQuaternion = end.getRotation().getQuaternion();
     double[] resultArray =
         Pose3dJNI.log(
             this.getX(),
@@ -303,9 +299,9 @@ public class Pose3d implements Interpolatable<Pose3d>, ProtobufSerializable, Str
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Pose3d pose
-        && m_translation.equals(pose.m_translation)
-        && m_rotation.equals(pose.m_rotation);
+    return obj instanceof Pose3d
+        && m_translation.equals(((Pose3d) obj).m_translation)
+        && m_rotation.equals(((Pose3d) obj).m_rotation);
   }
 
   @Override
@@ -320,17 +316,11 @@ public class Pose3d implements Interpolatable<Pose3d>, ProtobufSerializable, Str
     } else if (t >= 1) {
       return endValue;
     } else {
-      var twist = this.log(endValue);
-      var scaledTwist =
+      Twist3d twist = this.log(endValue);
+      Twist3d scaledTwist =
           new Twist3d(
               twist.dx * t, twist.dy * t, twist.dz * t, twist.rx * t, twist.ry * t, twist.rz * t);
       return this.exp(scaledTwist);
     }
   }
-
-  /** Pose3d protobuf for serialization. */
-  public static final Pose3dProto proto = new Pose3dProto();
-
-  /** Pose3d struct for serialization. */
-  public static final Pose3dStruct struct = new Pose3dStruct();
 }

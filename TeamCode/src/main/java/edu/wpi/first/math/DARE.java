@@ -43,7 +43,7 @@ public final class DARE {
       Matrix<States, Inputs> B,
       Matrix<States, States> Q,
       Matrix<Inputs, Inputs> R) {
-    var S = new Matrix<States, States>(new SimpleMatrix(A.getNumRows(), A.getNumCols()));
+    Matrix<States, States> S = new Matrix<States, States>(new SimpleMatrix(A.getNumRows(), A.getNumCols()));
     DAREJNI.dareDetailABQR(
         A.getStorage().getDDRM().getData(),
         B.getStorage().getDDRM().getData(),
@@ -121,7 +121,7 @@ public final class DARE {
       Matrix<States, States> Q,
       Matrix<Inputs, Inputs> R,
       Matrix<States, Inputs> N) {
-    var S = new Matrix<States, States>(new SimpleMatrix(A.getNumRows(), A.getNumCols()));
+    Matrix<States, States> S = new Matrix<States, States>(new SimpleMatrix(A.getNumRows(), A.getNumCols()));
     DAREJNI.dareDetailABQRN(
         A.getStorage().getDDRM().getData(),
         B.getStorage().getDDRM().getData(),
@@ -156,7 +156,7 @@ public final class DARE {
       Matrix<States, Inputs> B,
       Matrix<States, States> Q,
       Matrix<Inputs, Inputs> R) {
-    var S = new Matrix<States, States>(new SimpleMatrix(A.getNumRows(), A.getNumCols()));
+    Matrix<States, States> S = new Matrix<States, States>(new SimpleMatrix(A.getNumRows(), A.getNumCols()));
     DAREJNI.dareABQR(
         A.getStorage().getDDRM().getData(),
         B.getStorage().getDDRM().getData(),
@@ -226,7 +226,7 @@ public final class DARE {
       Matrix<States, States> Q,
       Matrix<Inputs, Inputs> R,
       Matrix<States, Inputs> N) {
-    var S = new Matrix<States, States>(new SimpleMatrix(A.getNumRows(), A.getNumCols()));
+    Matrix<States, States> S = new Matrix<States, States>(new SimpleMatrix(A.getNumRows(), A.getNumCols()));
     DAREJNI.dareABQRN(
         A.getStorage().getDDRM().getData(),
         B.getStorage().getDDRM().getData(),

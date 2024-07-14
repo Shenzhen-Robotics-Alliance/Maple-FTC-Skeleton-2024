@@ -50,7 +50,7 @@ public class RamseteController {
    *     more damping in response.
    * @deprecated Use LTVUnicycleController instead.
    */
-  @Deprecated(since = "2024", forRemoval = true)
+  @Deprecated()
   public RamseteController(double b, double zeta) {
     m_b = b;
     m_zeta = zeta;
@@ -62,7 +62,7 @@ public class RamseteController {
    *
    * @deprecated Use LTVUnicycleController instead.
    */
-  @Deprecated(since = "2024", forRemoval = true)
+  @Deprecated()
   public RamseteController() {
     this(2.0, 0.7);
   }
@@ -73,10 +73,10 @@ public class RamseteController {
    * @return True if the pose error is within tolerance of the reference.
    */
   public boolean atReference() {
-    final var eTranslate = m_poseError.getTranslation();
-    final var eRotate = m_poseError.getRotation();
-    final var tolTranslate = m_poseTolerance.getTranslation();
-    final var tolRotate = m_poseTolerance.getRotation();
+    final edu.wpi.first.math.geometry.Translation2d eTranslate = m_poseError.getTranslation();
+    final edu.wpi.first.math.geometry.Rotation2d eRotate = m_poseError.getRotation();
+    final edu.wpi.first.math.geometry.Translation2d tolTranslate = m_poseTolerance.getTranslation();
+    final edu.wpi.first.math.geometry.Rotation2d tolRotate = m_poseTolerance.getRotation();
     return Math.abs(eTranslate.getX()) < tolTranslate.getX()
         && Math.abs(eTranslate.getY()) < tolTranslate.getY()
         && Math.abs(eRotate.getRadians()) < tolRotate.getRadians();

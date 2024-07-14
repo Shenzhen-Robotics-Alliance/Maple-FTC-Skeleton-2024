@@ -148,10 +148,10 @@ public class LTVUnicycleController {
     //     [0  0  0]              [1  0]
     // A = [0  0  v]          B = [0  0]
     //     [0  0  0]              [0  1]
-    var A = new Matrix<>(Nat.N3(), Nat.N3());
-    var B = MatBuilder.fill(Nat.N3(), Nat.N2(), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
-    var Q = StateSpaceUtil.makeCostMatrix(qelems);
-    var R = StateSpaceUtil.makeCostMatrix(relems);
+    Matrix<N3, N3> A = new Matrix<>(Nat.N3(), Nat.N3());
+    Matrix<N3, N2> B = MatBuilder.fill(Nat.N3(), Nat.N2(), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    Matrix<N3, N3> Q = StateSpaceUtil.makeCostMatrix(qelems);
+    Matrix<N2, N2> R = StateSpaceUtil.makeCostMatrix(relems);
 
     for (double velocity = -maxVelocity; velocity < maxVelocity; velocity += 0.01) {
       // The DARE is ill-conditioned if the velocity is close to zero, so don't
@@ -162,11 +162,11 @@ public class LTVUnicycleController {
         A.set(State.kY.value, State.kHeading.value, velocity);
       }
 
-      var discABPair = Discretization.discretizeAB(A, B, dt);
-      var discA = discABPair.getFirst();
-      var discB = discABPair.getSecond();
+      edu.wpi.first.math.Pair<Matrix<N3, N3>, Matrix<N3, N2>> discABPair = Discretization.discretizeAB(A, B, dt);
+      Matrix<N3, N3> discA = discABPair.getFirst();
+      Matrix<N3, N2> discB = discABPair.getSecond();
 
-      var S = DARE.dareDetail(discA, discB, Q, R);
+      Matrix<N3, N3> S = DARE.dareDetail(discA, discB, Q, R);
 
       // K = (BᵀSB + R)⁻¹BᵀSA
       m_table.put(
@@ -186,10 +186,10 @@ public class LTVUnicycleController {
    * @return True if the pose error is within tolerance of the reference.
    */
   public boolean atReference() {
-    final var eTranslate = m_poseError.getTranslation();
-    final var eRotate = m_poseError.getRotation();
-    final var tolTranslate = m_poseTolerance.getTranslation();
-    final var tolRotate = m_poseTolerance.getRotation();
+    final edu.wpi.first.math.geometry.Translation2d eTranslate = m_poseError.getTranslation();
+    final edu.wpi.first.math.geometry.Rotation2d eRotate = m_poseError.getRotation();
+    final edu.wpi.first.math.geometry.Translation2d tolTranslate = m_poseTolerance.getTranslation();
+    final edu.wpi.first.math.geometry.Rotation2d tolRotate = m_poseTolerance.getRotation();
     return Math.abs(eTranslate.getX()) < tolTranslate.getX()
         && Math.abs(eTranslate.getY()) < tolTranslate.getY()
         && Math.abs(eRotate.getRadians()) < tolRotate.getRadians();
@@ -224,15 +224,15 @@ public class LTVUnicycleController {
 
     m_poseError = poseRef.relativeTo(currentPose);
 
-    var K = m_table.get(linearVelocityRef);
-    var e =
+    Matrix<N2, N3> K = m_table.get(linearVelocityRef);
+    Matrix<N3, edu.wpi.first.math.numbers.N1> e =
         MatBuilder.fill(
             Nat.N3(),
             Nat.N1(),
             m_poseError.getX(),
             m_poseError.getY(),
             m_poseError.getRotation().getRadians());
-    var u = K.times(e);
+    Matrix<N2, edu.wpi.first.math.numbers.N1> u = K.times(e);
 
     return new ChassisSpeeds(
         linearVelocityRef + u.get(0, 0), 0.0, angularVelocityRef + u.get(1, 0));

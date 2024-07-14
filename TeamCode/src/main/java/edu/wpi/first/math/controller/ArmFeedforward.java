@@ -4,17 +4,13 @@
 
 package edu.wpi.first.math.controller;
 
-import edu.wpi.first.math.controller.proto.ArmFeedforwardProto;
-import edu.wpi.first.math.controller.struct.ArmFeedforwardStruct;
 import edu.wpi.first.math.jni.ArmFeedforwardJNI;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 
 /**
  * A helper class that computes feedforward outputs for a simple arm (modeled as a motor acting
  * against the force of gravity on a beam suspended at an angle).
  */
-public class ArmFeedforward implements ProtobufSerializable, StructSerializable {
+public class ArmFeedforward {
   /** The static gain, in volts. */
   public final double ks;
 
@@ -26,12 +22,6 @@ public class ArmFeedforward implements ProtobufSerializable, StructSerializable 
 
   /** The acceleration gain, in volt seconds² per radian. */
   public final double ka;
-
-  /** Arm feedforward protobuf for serialization. */
-  public static final ArmFeedforwardProto proto = new ArmFeedforwardProto();
-
-  /** Arm feedforward struct for serialization. */
-  public static final ArmFeedforwardStruct struct = new ArmFeedforwardStruct();
 
   /**
    * Creates a new ArmFeedforward with the specified gains. Units of the gain values will dictate

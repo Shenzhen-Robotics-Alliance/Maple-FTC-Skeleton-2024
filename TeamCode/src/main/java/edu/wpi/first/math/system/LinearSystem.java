@@ -202,7 +202,7 @@ public class LinearSystem<States extends Num, Inputs extends Num, Outputs extend
    */
   public Matrix<States, N1> calculateX(
       Matrix<States, N1> x, Matrix<Inputs, N1> clampedU, double dtSeconds) {
-    var discABpair = Discretization.discretizeAB(m_A, m_B, dtSeconds);
+    edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, Inputs>> discABpair = Discretization.discretizeAB(m_A, m_B, dtSeconds);
 
     return discABpair.getFirst().times(x).plus(discABpair.getSecond().times(clampedU));
   }
@@ -257,16 +257,16 @@ public class LinearSystem<States extends Num, Inputs extends Num, Outputs extend
 
     SimpleMatrix new_C_Storage = new SimpleMatrix(outputIndices.length, m_C.getNumCols());
     int row = 0;
-    for (var index : outputIndicesList) {
-      var current_row_data = m_C.extractRowVector(index).getData();
+    for (int index : outputIndicesList) {
+      double[] current_row_data = m_C.extractRowVector(index).getData();
       new_C_Storage.setRow(row, 0, current_row_data);
       row++;
     }
 
     SimpleMatrix new_D_Storage = new SimpleMatrix(outputIndices.length, m_D.getNumCols());
     row = 0;
-    for (var index : outputIndicesList) {
-      var current_row_data = m_D.extractRowVector(index).getData();
+    for (int index : outputIndicesList) {
+      double[] current_row_data = m_D.extractRowVector(index).getData();
       new_D_Storage.setRow(row, 0, current_row_data);
       row++;
     }

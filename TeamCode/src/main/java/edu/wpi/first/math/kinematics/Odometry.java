@@ -115,12 +115,12 @@ public class Odometry<T> {
    * @return The new pose of the robot.
    */
   public Pose2d update(Rotation2d gyroAngle, T wheelPositions) {
-    var angle = gyroAngle.plus(m_gyroOffset);
+    Rotation2d angle = gyroAngle.plus(m_gyroOffset);
 
-    var twist = m_kinematics.toTwist2d(m_previousWheelPositions, wheelPositions);
+    edu.wpi.first.math.geometry.Twist2d twist = m_kinematics.toTwist2d(m_previousWheelPositions, wheelPositions);
     twist.dtheta = angle.minus(m_previousAngle).getRadians();
 
-    var newPose = m_poseMeters.exp(twist);
+    Pose2d newPose = m_poseMeters.exp(twist);
 
     m_previousWheelPositions = m_kinematics.copy(wheelPositions);
     m_previousAngle = angle;

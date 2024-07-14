@@ -86,8 +86,8 @@ public class DifferentialDriveAccelerationLimiter {
     Matrix<N2, N1> u = VecBuilder.fill(leftVoltage, rightVoltage);
 
     // Find unconstrained wheel accelerations
-    var x = VecBuilder.fill(leftVelocity, rightVelocity);
-    var dxdt = m_system.getA().times(x).plus(m_system.getB().times(u));
+    edu.wpi.first.math.Vector<N2> x = VecBuilder.fill(leftVelocity, rightVelocity);
+    Matrix<N2, N1> dxdt = m_system.getA().times(x).plus(m_system.getB().times(u));
 
     // Convert from wheel accelerations to linear and angular accelerations
     //
@@ -101,8 +101,8 @@ public class DifferentialDriveAccelerationLimiter {
     // [α]   [-1/trackwidth  1/trackwidth][dxdt(1)]
     //
     // accels = M dxdt where M = [0.5, 0.5; -1/trackwidth, 1/trackwidth]
-    var M = MatBuilder.fill(Nat.N2(), Nat.N2(), 0.5, 0.5, -1.0 / m_trackwidth, 1.0 / m_trackwidth);
-    var accels = M.times(dxdt);
+    Matrix<N2, N2> M = MatBuilder.fill(Nat.N2(), Nat.N2(), 0.5, 0.5, -1.0 / m_trackwidth, 1.0 / m_trackwidth);
+    Matrix<N2, N1> accels = M.times(dxdt);
 
     // Constrain the linear and angular accelerations
     if (accels.get(0, 0) > m_maxLinearAccel) {

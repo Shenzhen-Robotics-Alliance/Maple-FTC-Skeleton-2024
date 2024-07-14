@@ -6,20 +6,18 @@ package edu.wpi.first.math.kinematics;
 
 import static edu.wpi.first.units.Units.Meters;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.kinematics.proto.MecanumDriveWheelPositionsProto;
-import edu.wpi.first.math.kinematics.struct.MecanumDriveWheelPositionsStruct;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /** Represents the wheel positions for a mecanum drive drivetrain. */
 public class MecanumDriveWheelPositions
-    implements WheelPositions<MecanumDriveWheelPositions>,
-        ProtobufSerializable,
-        StructSerializable {
+    implements WheelPositions<MecanumDriveWheelPositions> {
   /** Distance measured by the front left wheel. */
   public double frontLeftMeters;
 
@@ -31,13 +29,6 @@ public class MecanumDriveWheelPositions
 
   /** Distance measured by the rear right wheel. */
   public double rearRightMeters;
-
-  /** MecanumDriveWheelPositions protobuf for serialization. */
-  public static final MecanumDriveWheelPositionsProto proto = new MecanumDriveWheelPositionsProto();
-
-  /** MecanumDriveWheelPositions struct for serialization. */
-  public static final MecanumDriveWheelPositionsStruct struct =
-      new MecanumDriveWheelPositionsStruct();
 
   /** Constructs a MecanumDriveWheelPositions with zeros for all member fields. */
   public MecanumDriveWheelPositions() {}
@@ -79,11 +70,11 @@ public class MecanumDriveWheelPositions
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof MecanumDriveWheelPositions other
-        && Math.abs(other.frontLeftMeters - frontLeftMeters) < 1E-9
-        && Math.abs(other.frontRightMeters - frontRightMeters) < 1E-9
-        && Math.abs(other.rearLeftMeters - rearLeftMeters) < 1E-9
-        && Math.abs(other.rearRightMeters - rearRightMeters) < 1E-9;
+    return obj instanceof MecanumDriveWheelPositions
+        && Math.abs(((MecanumDriveWheelPositions) obj).frontLeftMeters - frontLeftMeters) < 1E-9
+        && Math.abs(((MecanumDriveWheelPositions) obj).frontRightMeters - frontRightMeters) < 1E-9
+        && Math.abs(((MecanumDriveWheelPositions) obj).rearLeftMeters - rearLeftMeters) < 1E-9
+        && Math.abs(((MecanumDriveWheelPositions) obj).rearRightMeters - rearRightMeters) < 1E-9;
   }
 
   @Override
@@ -91,6 +82,8 @@ public class MecanumDriveWheelPositions
     return Objects.hash(frontLeftMeters, frontRightMeters, rearLeftMeters, rearRightMeters);
   }
 
+  @NonNull
+  @SuppressLint("DefaultLocale")
   @Override
   public String toString() {
     return String.format(

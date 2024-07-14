@@ -6,9 +6,11 @@ package edu.wpi.first.math.kinematics;
 
 import static edu.wpi.first.units.Units.Meters;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.kinematics.proto.DifferentialDriveWheelPositionsProto;
-import edu.wpi.first.math.kinematics.struct.DifferentialDriveWheelPositionsStruct;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import java.util.Objects;
@@ -21,14 +23,6 @@ public class DifferentialDriveWheelPositions
 
   /** Distance measured by the right side. */
   public double rightMeters;
-
-  /** DifferentialDriveWheelPostions struct for serialization. */
-  public static final DifferentialDriveWheelPositionsStruct struct =
-      new DifferentialDriveWheelPositionsStruct();
-
-  /** DifferentialDriveWheelPostions struct for serialization. */
-  public static final DifferentialDriveWheelPositionsProto proto =
-      new DifferentialDriveWheelPositionsProto();
 
   /**
    * Constructs a DifferentialDriveWheelPositions.
@@ -53,9 +47,9 @@ public class DifferentialDriveWheelPositions
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof DifferentialDriveWheelPositions other
-        && Math.abs(other.leftMeters - leftMeters) < 1E-9
-        && Math.abs(other.rightMeters - rightMeters) < 1E-9;
+    return obj instanceof DifferentialDriveWheelPositions
+        && Math.abs(((DifferentialDriveWheelPositions) obj).leftMeters - leftMeters) < 1E-9
+        && Math.abs(((DifferentialDriveWheelPositions) obj).rightMeters - rightMeters) < 1E-9;
   }
 
   @Override
@@ -63,6 +57,8 @@ public class DifferentialDriveWheelPositions
     return Objects.hash(leftMeters, rightMeters);
   }
 
+  @NonNull
+  @SuppressLint("DefaultLocale")
   @Override
   public String toString() {
     return String.format(

@@ -88,7 +88,7 @@ public class LTVDifferentialDriveController {
 
     // Control law derivation is in section 8.7 of
     // https://file.tavsys.net/control/controls-engineering-in-frc.pdf
-    var A =
+    Matrix<N5, N5> A =
         MatBuilder.fill(
             Nat.N5(),
             Nat.N5(),
@@ -117,7 +117,7 @@ public class LTVDifferentialDriveController {
             0.0,
             plant.getA(1, 0),
             plant.getA(1, 1));
-    var B =
+    Matrix<N5, N2> B =
         MatBuilder.fill(
             Nat.N5(),
             Nat.N2(),
@@ -131,8 +131,8 @@ public class LTVDifferentialDriveController {
             plant.getB(0, 1),
             plant.getB(1, 0),
             plant.getB(1, 1));
-    var Q = StateSpaceUtil.makeCostMatrix(qelems);
-    var R = StateSpaceUtil.makeCostMatrix(relems);
+    Matrix<N5, N5> Q = StateSpaceUtil.makeCostMatrix(qelems);
+    Matrix<N2, N2> R = StateSpaceUtil.makeCostMatrix(relems);
 
     // dx/dt = Ax + Bu
     // 0 = Ax + Bu
@@ -159,11 +159,11 @@ public class LTVDifferentialDriveController {
         A.set(State.kY.value, State.kHeading.value, velocity);
       }
 
-      var discABPair = Discretization.discretizeAB(A, B, dt);
-      var discA = discABPair.getFirst();
-      var discB = discABPair.getSecond();
+      edu.wpi.first.math.Pair<Matrix<N5, N5>, Matrix<N5, N2>> discABPair = Discretization.discretizeAB(A, B, dt);
+      Matrix<N5, N5> discA = discABPair.getFirst();
+      Matrix<N5, N2> discB = discABPair.getSecond();
 
-      var S = DARE.dareDetail(discA, discB, Q, R);
+      Matrix<N5, N5> S = DARE.dareDetail(discA, discB, Q, R);
 
       // K = (BᵀSB + R)⁻¹BᵀSA
       m_table.put(
@@ -231,7 +231,7 @@ public class LTVDifferentialDriveController {
       double rightVelocityRef) {
     // This implements the linear time-varying differential drive controller in
     // theorem 9.6.3 of https://tavsys.net/controls-in-frc.
-    var x =
+    Vector<N5> x =
         VecBuilder.fill(
             currentPose.getX(),
             currentPose.getY(),
@@ -239,13 +239,13 @@ public class LTVDifferentialDriveController {
             leftVelocity,
             rightVelocity);
 
-    var inRobotFrame = Matrix.eye(Nat.N5());
+    Matrix<N5, N5> inRobotFrame = Matrix.eye(Nat.N5());
     inRobotFrame.set(0, 0, Math.cos(x.get(State.kHeading.value, 0)));
     inRobotFrame.set(0, 1, Math.sin(x.get(State.kHeading.value, 0)));
     inRobotFrame.set(1, 0, -Math.sin(x.get(State.kHeading.value, 0)));
     inRobotFrame.set(1, 1, Math.cos(x.get(State.kHeading.value, 0)));
 
-    var r =
+    Vector<N5> r =
         VecBuilder.fill(
             poseRef.getX(),
             poseRef.getY(),
@@ -257,9 +257,9 @@ public class LTVDifferentialDriveController {
         State.kHeading.value, 0, MathUtil.angleModulus(m_error.get(State.kHeading.value, 0)));
 
     double velocity = (leftVelocity + rightVelocity) / 2.0;
-    var K = m_table.get(velocity);
+    Matrix<N2, N5> K = m_table.get(velocity);
 
-    var u = K.times(inRobotFrame).times(m_error);
+    Matrix<N2, N1> u = K.times(inRobotFrame).times(m_error);
 
     return new DifferentialDriveWheelVoltages(u.get(0, 0), u.get(1, 0));
   }

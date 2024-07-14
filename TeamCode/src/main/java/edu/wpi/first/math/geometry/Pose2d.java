@@ -10,13 +10,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.wpi.first.math.geometry.proto.Pose2dProto;
-import edu.wpi.first.math.geometry.struct.Pose2dStruct;
 import edu.wpi.first.math.interpolation.Interpolatable;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +21,7 @@ import java.util.Objects;
 /** Represents a 2D pose containing translational and rotational elements. */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
-public class Pose2d implements Interpolatable<Pose2d>, ProtobufSerializable, StructSerializable {
+public class Pose2d implements Interpolatable<Pose2d> {
   /**
    * A preallocated Pose2d representing the origin.
    *
@@ -103,7 +99,7 @@ public class Pose2d implements Interpolatable<Pose2d>, ProtobufSerializable, Str
    * @return The transform that maps the other pose to the current pose.
    */
   public Transform2d minus(Pose2d other) {
-    final var pose = this.relativeTo(other);
+    final Pose2d pose = this.relativeTo(other);
     return new Transform2d(pose.getTranslation(), pose.getRotation());
   }
 
@@ -199,7 +195,7 @@ public class Pose2d implements Interpolatable<Pose2d>, ProtobufSerializable, Str
    * @return The current pose relative to the new origin pose.
    */
   public Pose2d relativeTo(Pose2d other) {
-    var transform = new Transform2d(other, this);
+    Transform2d transform = new Transform2d(other, this);
     return new Pose2d(transform.getTranslation(), transform.getRotation());
   }
 
@@ -240,7 +236,7 @@ public class Pose2d implements Interpolatable<Pose2d>, ProtobufSerializable, Str
       s = sinTheta / dtheta;
       c = (1 - cosTheta) / dtheta;
     }
-    var transform =
+    Transform2d transform =
         new Transform2d(
             new Translation2d(dx * s - dy * c, dx * c + dy * s),
             new Rotation2d(cosTheta, sinTheta));
@@ -256,11 +252,11 @@ public class Pose2d implements Interpolatable<Pose2d>, ProtobufSerializable, Str
    * @return The twist that maps this to end.
    */
   public Twist2d log(Pose2d end) {
-    final var transform = end.relativeTo(this);
-    final var dtheta = transform.getRotation().getRadians();
-    final var halfDtheta = dtheta / 2.0;
+    final Pose2d transform = end.relativeTo(this);
+    final double dtheta = transform.getRotation().getRadians();
+    final double halfDtheta = dtheta / 2.0;
 
-    final var cosMinusOne = transform.getRotation().getCos() - 1;
+    final double cosMinusOne = transform.getRotation().getCos() - 1;
 
     double halfThetaByTanOfHalfDtheta;
     if (Math.abs(cosMinusOne) < 1E-9) {
@@ -308,9 +304,9 @@ public class Pose2d implements Interpolatable<Pose2d>, ProtobufSerializable, Str
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Pose2d pose
-        && m_translation.equals(pose.m_translation)
-        && m_rotation.equals(pose.m_rotation);
+    return obj instanceof Pose2d
+        && m_translation.equals(((Pose2d) obj).m_translation)
+        && m_rotation.equals(((Pose2d) obj).m_rotation);
   }
 
   @Override
@@ -325,15 +321,9 @@ public class Pose2d implements Interpolatable<Pose2d>, ProtobufSerializable, Str
     } else if (t >= 1) {
       return endValue;
     } else {
-      var twist = this.log(endValue);
-      var scaledTwist = new Twist2d(twist.dx * t, twist.dy * t, twist.dtheta * t);
+      Twist2d twist = this.log(endValue);
+      Twist2d scaledTwist = new Twist2d(twist.dx * t, twist.dy * t, twist.dtheta * t);
       return this.exp(scaledTwist);
     }
   }
-
-  /** Pose2d protobuf for serialization. */
-  public static final Pose2dProto proto = new Pose2dProto();
-
-  /** Pose2d struct for serialization. */
-  public static final Pose2dStruct struct = new Pose2dStruct();
 }

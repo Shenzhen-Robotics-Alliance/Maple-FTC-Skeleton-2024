@@ -12,14 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.proto.Rotation2dProto;
-import edu.wpi.first.math.geometry.struct.Rotation2dStruct;
 import edu.wpi.first.math.interpolation.Interpolatable;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /**
@@ -32,7 +28,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class Rotation2d
-    implements Interpolatable<Rotation2d>, ProtobufSerializable, StructSerializable {
+    implements Interpolatable<Rotation2d> {
   /**
    * A preallocated Rotation2d representing no rotation.
    *
@@ -319,8 +315,8 @@ public class Rotation2d
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Rotation2d other
-        && Math.hypot(m_cos - other.m_cos, m_sin - other.m_sin) < 1E-9;
+    return obj instanceof Rotation2d
+        && Math.hypot(m_cos - ((Rotation2d) obj).m_cos, m_sin - ((Rotation2d) obj).m_sin) < 1E-9;
   }
 
   @Override
@@ -332,10 +328,4 @@ public class Rotation2d
   public Rotation2d interpolate(Rotation2d endValue, double t) {
     return plus(endValue.minus(this).times(MathUtil.clamp(t, 0, 1)));
   }
-
-  /** Rotation2d protobuf for serialization. */
-  public static final Rotation2dProto proto = new Rotation2dProto();
-
-  /** Rotation2d struct for serialization. */
-  public static final Rotation2dStruct struct = new Rotation2dStruct();
 }

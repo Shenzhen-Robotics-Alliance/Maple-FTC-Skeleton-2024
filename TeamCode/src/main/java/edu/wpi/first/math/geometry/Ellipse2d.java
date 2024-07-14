@@ -5,15 +5,11 @@
 package edu.wpi.first.math.geometry;
 
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.geometry.proto.Ellipse2dProto;
-import edu.wpi.first.math.geometry.struct.Ellipse2dStruct;
 import edu.wpi.first.math.jni.Ellipse2dJNI;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /** Represents a 2d ellipse space containing translational, rotational, and scaling components. */
-public class Ellipse2d implements ProtobufSerializable, StructSerializable {
+public class Ellipse2d {
   private final Pose2d m_center;
   private final double m_xSemiAxis;
   private final double m_ySemiAxis;
@@ -171,7 +167,7 @@ public class Ellipse2d implements ProtobufSerializable, StructSerializable {
     }
 
     // Find nearest point
-    var nearestPoint = new double[2];
+    double[] nearestPoint = new double[2];
     Ellipse2dJNI.findNearestPoint(
         m_center.getX(),
         m_center.getY(),
@@ -232,10 +228,4 @@ public class Ellipse2d implements ProtobufSerializable, StructSerializable {
 
     return (x * x) / (m_xSemiAxis * m_xSemiAxis) + (y * y) / (m_ySemiAxis * m_ySemiAxis);
   }
-
-  /** Ellipse2d protobuf for serialization. */
-  public static final Ellipse2dProto proto = new Ellipse2dProto();
-
-  /** Ellipse2d struct for serialization. */
-  public static final Ellipse2dStruct struct = new Ellipse2dStruct();
 }

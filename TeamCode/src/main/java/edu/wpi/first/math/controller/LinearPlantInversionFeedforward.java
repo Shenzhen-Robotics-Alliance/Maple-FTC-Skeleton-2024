@@ -56,7 +56,7 @@ public class LinearPlantInversionFeedforward<
    */
   public LinearPlantInversionFeedforward(
       Matrix<States, States> A, Matrix<States, Inputs> B, double dtSeconds) {
-    var discABPair = Discretization.discretizeAB(A, B, dtSeconds);
+    edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, Inputs>> discABPair = Discretization.discretizeAB(A, B, dtSeconds);
     this.m_A = discABPair.getFirst();
     this.m_B = discABPair.getSecond();
 

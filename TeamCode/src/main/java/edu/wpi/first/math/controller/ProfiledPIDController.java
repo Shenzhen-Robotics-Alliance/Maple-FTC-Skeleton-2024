@@ -8,15 +8,12 @@ import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.util.sendable.SendableRegistry;
 
 /**
  * Implements a PID control loop whose setpoint is constrained by a trapezoid profile. Users should
  * call reset() when they first start running the controller to avoid unwanted behavior.
  */
-public class ProfiledPIDController implements Sendable {
+public class ProfiledPIDController {
   private static int instances;
 
   private PIDController m_controller;
@@ -65,7 +62,6 @@ public class ProfiledPIDController implements Sendable {
     m_profile = new TrapezoidProfile(m_constraints);
     instances++;
 
-    SendableRegistry.add(this, "ProfiledPIDController", instances);
     MathSharedStore.reportUsage(MathUsageId.kController_ProfiledPIDController, instances);
   }
 
@@ -426,36 +422,5 @@ public class ProfiledPIDController implements Sendable {
    */
   public void reset(double measuredPosition) {
     reset(measuredPosition, 0.0);
-  }
-
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("ProfiledPIDController");
-    builder.addDoubleProperty("p", this::getP, this::setP);
-    builder.addDoubleProperty("i", this::getI, this::setI);
-    builder.addDoubleProperty("d", this::getD, this::setD);
-    builder.addDoubleProperty(
-        "izone",
-        this::getIZone,
-        (double toSet) -> {
-          try {
-            setIZone(toSet);
-          } catch (IllegalArgumentException e) {
-            MathSharedStore.reportError("IZone must be a non-negative number!", e.getStackTrace());
-          }
-        });
-    builder.addDoubleProperty(
-        "maxVelocity",
-        () -> getConstraints().maxVelocity,
-        maxVelocity ->
-            setConstraints(
-                new TrapezoidProfile.Constraints(maxVelocity, getConstraints().maxAcceleration)));
-    builder.addDoubleProperty(
-        "maxAcceleration",
-        () -> getConstraints().maxAcceleration,
-        maxAcceleration ->
-            setConstraints(
-                new TrapezoidProfile.Constraints(getConstraints().maxVelocity, maxAcceleration)));
-    builder.addDoubleProperty("goal", () -> getGoal().position, this::setGoal);
   }
 }

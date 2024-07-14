@@ -5,18 +5,18 @@
 package edu.wpi.first.math.controller;
 
 import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.controller.proto.ElevatorFeedforwardProto;
-import edu.wpi.first.math.controller.struct.ElevatorFeedforwardStruct;
+import edu.wpi.first.math.Num;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 
 /**
  * A helper class that computes feedforward outputs for a simple elevator (modeled as a motor acting
  * against the force of gravity).
  */
-public class ElevatorFeedforward implements ProtobufSerializable, StructSerializable {
+public class ElevatorFeedforward {
   /** The static gain. */
   public final double ks;
 
@@ -28,12 +28,6 @@ public class ElevatorFeedforward implements ProtobufSerializable, StructSerializ
 
   /** The acceleration gain. */
   public final double ka;
-
-  /** ElevatorFeedforward protobuf for serialization. */
-  public static final ElevatorFeedforwardProto proto = new ElevatorFeedforwardProto();
-
-  /** ElevatorFeedforward struct for serialization. */
-  public static final ElevatorFeedforwardStruct struct = new ElevatorFeedforwardStruct();
 
   /**
    * Creates a new ElevatorFeedforward with the specified gains. Units of the gain values will
@@ -115,11 +109,12 @@ public class ElevatorFeedforward implements ProtobufSerializable, StructSerializ
     //   uₖ = B_d⁺(xₖ₊₁ − A_d xₖ) − Ka(-(Kg/Ka + Ks/Ka sgn(x)))
     //   uₖ = B_d⁺(xₖ₊₁ − A_d xₖ) + Ka(Kg/Ka + Ks/Ka sgn(x))
     //   uₖ = B_d⁺(xₖ₊₁ − A_d xₖ) + Kg + Ks sgn(x)
-    var plant = LinearSystemId.identifyVelocitySystem(this.kv, this.ka);
-    var feedforward = new LinearPlantInversionFeedforward<>(plant, dtSeconds);
+    LinearSystem plant = LinearSystemId.identifyVelocitySystem(this.kv, this.ka);
 
-    var r = MatBuilder.fill(Nat.N1(), Nat.N1(), currentVelocity);
-    var nextR = MatBuilder.fill(Nat.N1(), Nat.N1(), nextVelocity);
+    LinearPlantInversionFeedforward<Num, Num, Num> feedforward = new LinearPlantInversionFeedforward<>(plant, dtSeconds);
+
+    Matrix r = MatBuilder.fill(Nat.N1(), Nat.N1(), currentVelocity);
+    Matrix nextR = MatBuilder.fill(Nat.N1(), Nat.N1(), nextVelocity);
 
     return kg + ks * Math.signum(currentVelocity) + feedforward.calculate(r, nextR).get(0, 0);
   }

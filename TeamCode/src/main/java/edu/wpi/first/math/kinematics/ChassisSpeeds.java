@@ -8,19 +8,19 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
-import edu.wpi.first.math.kinematics.proto.ChassisSpeedsProto;
-import edu.wpi.first.math.kinematics.struct.ChassisSpeedsStruct;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Time;
 import edu.wpi.first.units.Velocity;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /**
@@ -32,7 +32,7 @@ import java.util.Objects;
  * component because it can never move sideways. Holonomic drivetrains such as swerve and mecanum
  * will often have all three components.
  */
-public class ChassisSpeeds implements ProtobufSerializable, StructSerializable {
+public class ChassisSpeeds {
   /** Velocity along the x-axis. (Fwd is +) */
   public double vxMetersPerSecond;
 
@@ -41,12 +41,6 @@ public class ChassisSpeeds implements ProtobufSerializable, StructSerializable {
 
   /** Represents the angular velocity of the robot frame. (CCW is +) */
   public double omegaRadiansPerSecond;
-
-  /** ChassisSpeeds protobuf for serialization. */
-  public static final ChassisSpeedsProto proto = new ChassisSpeedsProto();
-
-  /** ChassisSpeeds struct for serialization. */
-  public static final ChassisSpeedsStruct struct = new ChassisSpeedsStruct();
 
   /** Constructs a ChassisSpeeds with zeros for dx, dy, and theta. */
   public ChassisSpeeds() {}
@@ -116,7 +110,7 @@ public class ChassisSpeeds implements ProtobufSerializable, StructSerializable {
       double dtSeconds) {
     // Construct the desired pose after a timestep, relative to the current pose. The desired pose
     // has decoupled translation and rotation.
-    var desiredDeltaPose =
+    Pose2d desiredDeltaPose =
         new Pose2d(
             vxMetersPerSecond * dtSeconds,
             vyMetersPerSecond * dtSeconds,
@@ -124,7 +118,7 @@ public class ChassisSpeeds implements ProtobufSerializable, StructSerializable {
 
     // Find the chassis translation/rotation deltas in the robot frame that move the robot from its
     // current pose to the desired pose
-    var twist = Pose2d.kZero.log(desiredDeltaPose);
+    Twist2d twist = Pose2d.kZero.log(desiredDeltaPose);
 
     // Turn the chassis translation/rotation deltas into average velocities
     return new ChassisSpeeds(twist.dx / dtSeconds, twist.dy / dtSeconds, twist.dtheta / dtSeconds);
@@ -199,7 +193,7 @@ public class ChassisSpeeds implements ProtobufSerializable, StructSerializable {
       double omegaRadiansPerSecond,
       Rotation2d robotAngle) {
     // CW rotation into chassis frame
-    var rotated =
+    Translation2d rotated =
         new Translation2d(vxMetersPerSecond, vyMetersPerSecond).rotateBy(robotAngle.unaryMinus());
     return new ChassisSpeeds(rotated.getX(), rotated.getY(), omegaRadiansPerSecond);
   }
@@ -268,7 +262,7 @@ public class ChassisSpeeds implements ProtobufSerializable, StructSerializable {
       double omegaRadiansPerSecond,
       Rotation2d robotAngle) {
     // CCW rotation out of chassis frame
-    var rotated = new Translation2d(vxMetersPerSecond, vyMetersPerSecond).rotateBy(robotAngle);
+    Translation2d rotated = new Translation2d(vxMetersPerSecond, vyMetersPerSecond).rotateBy(robotAngle);
     return new ChassisSpeeds(rotated.getX(), rotated.getY(), omegaRadiansPerSecond);
   }
 
@@ -392,12 +386,14 @@ public class ChassisSpeeds implements ProtobufSerializable, StructSerializable {
   @Override
   public boolean equals(Object o) {
     return o == this
-        || o instanceof ChassisSpeeds c
-            && vxMetersPerSecond == c.vxMetersPerSecond
-            && vyMetersPerSecond == c.vyMetersPerSecond
-            && omegaRadiansPerSecond == c.omegaRadiansPerSecond;
+        || o instanceof ChassisSpeeds
+            && vxMetersPerSecond == ((ChassisSpeeds) o).vxMetersPerSecond
+            && vyMetersPerSecond == ((ChassisSpeeds) o).vyMetersPerSecond
+            && omegaRadiansPerSecond == ((ChassisSpeeds) o).omegaRadiansPerSecond;
   }
 
+  @NonNull
+  @SuppressLint("DefaultLocale")
   @Override
   public String toString() {
     return String.format(

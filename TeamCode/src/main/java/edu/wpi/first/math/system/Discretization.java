@@ -47,18 +47,18 @@ public final class Discretization {
 
     // M = [A  B]
     //     [0  0]
-    var M = new Matrix<>(new SimpleMatrix(states + inputs, states + inputs));
+    Matrix<Num, Num> M = new Matrix<>(new SimpleMatrix(states + inputs, states + inputs));
     M.assignBlock(0, 0, contA);
     M.assignBlock(0, contA.getNumCols(), contB);
 
     //  ϕ = eᴹᵀ = [A_d  B_d]
     //            [ 0    I ]
-    var phi = M.times(dtSeconds).exp();
+    Matrix<Num, Num> phi = M.times(dtSeconds).exp();
 
-    var discA = new Matrix<States, States>(new SimpleMatrix(states, states));
+    Matrix<States, States> discA = new Matrix<States, States>(new SimpleMatrix(states, states));
     discA.extractFrom(0, 0, phi);
 
-    var discB = new Matrix<States, Inputs>(new SimpleMatrix(states, inputs));
+    Matrix<States, Inputs> discB = new Matrix<States, Inputs>(new SimpleMatrix(states, inputs));
     discB.extractFrom(0, contB.getNumRows(), phi);
 
     return new Pair<>(discA, discB);
@@ -83,7 +83,7 @@ public final class Discretization {
 
     // M = [−A  Q ]
     //     [ 0  Aᵀ]
-    final var M = new Matrix<>(new SimpleMatrix(2 * states, 2 * states));
+    final Matrix<Num, Num> M = new Matrix<>(new SimpleMatrix(2 * states, 2 * states));
     M.assignBlock(0, 0, contA.times(-1.0));
     M.assignBlock(0, states, Q);
     M.assignBlock(states, 0, new Matrix<>(new SimpleMatrix(states, states)));
@@ -91,7 +91,7 @@ public final class Discretization {
 
     // ϕ = eᴹᵀ = [−A_d  A_d⁻¹Q_d]
     //           [ 0      A_dᵀ  ]
-    final var phi = M.times(dtSeconds).exp();
+    final Matrix<Num, Num> phi = M.times(dtSeconds).exp();
 
     // ϕ₁₂ = A_d⁻¹Q_d
     final Matrix<States, States> phi12 = phi.block(states, states, 0, states);
@@ -99,12 +99,12 @@ public final class Discretization {
     // ϕ₂₂ = A_dᵀ
     final Matrix<States, States> phi22 = phi.block(states, states, states, states);
 
-    final var discA = phi22.transpose();
+    final Matrix<States, States> discA = phi22.transpose();
 
     Q = discA.times(phi12);
 
     // Make discrete Q symmetric if it isn't already
-    final var discQ = Q.plus(Q.transpose()).div(2.0);
+    final Matrix<States, States> discQ = Q.plus(Q.transpose()).div(2.0);
 
     return new Pair<>(discA, discQ);
   }

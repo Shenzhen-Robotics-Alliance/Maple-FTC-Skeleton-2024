@@ -27,11 +27,11 @@ public final class NumericalIntegration {
    */
   @SuppressWarnings("overloads")
   public static double rk4(DoubleFunction<Double> f, double x, double dtSeconds) {
-    final var h = dtSeconds;
-    final var k1 = f.apply(x);
-    final var k2 = f.apply(x + h * k1 * 0.5);
-    final var k3 = f.apply(x + h * k2 * 0.5);
-    final var k4 = f.apply(x + h * k3);
+    final double h = dtSeconds;
+    final Double k1 = f.apply(x);
+    final Double k2 = f.apply(x + h * k1 * 0.5);
+    final Double k3 = f.apply(x + h * k2 * 0.5);
+    final Double k4 = f.apply(x + h * k3);
 
     return x + h / 6.0 * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
   }
@@ -48,12 +48,12 @@ public final class NumericalIntegration {
   @SuppressWarnings("overloads")
   public static double rk4(
       BiFunction<Double, Double, Double> f, double x, Double u, double dtSeconds) {
-    final var h = dtSeconds;
+    final double h = dtSeconds;
 
-    final var k1 = f.apply(x, u);
-    final var k2 = f.apply(x + h * k1 * 0.5, u);
-    final var k3 = f.apply(x + h * k2 * 0.5, u);
-    final var k4 = f.apply(x + h * k3, u);
+    final Double k1 = f.apply(x, u);
+    final Double k2 = f.apply(x + h * k1 * 0.5, u);
+    final Double k3 = f.apply(x + h * k2 * 0.5, u);
+    final Double k4 = f.apply(x + h * k3, u);
 
     return x + h / 6.0 * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
   }
@@ -75,7 +75,7 @@ public final class NumericalIntegration {
       Matrix<States, N1> x,
       Matrix<Inputs, N1> u,
       double dtSeconds) {
-    final var h = dtSeconds;
+    final double h = dtSeconds;
 
     Matrix<States, N1> k1 = f.apply(x, u);
     Matrix<States, N1> k2 = f.apply(x.plus(k1.times(h * 0.5)), u);
@@ -97,7 +97,7 @@ public final class NumericalIntegration {
   @SuppressWarnings("overloads")
   public static <States extends Num> Matrix<States, N1> rk4(
       Function<Matrix<States, N1>, Matrix<States, N1>> f, Matrix<States, N1> x, double dtSeconds) {
-    final var h = dtSeconds;
+    final double h = dtSeconds;
 
     Matrix<States, N1> k1 = f.apply(x);
     Matrix<States, N1> k2 = f.apply(x.plus(k1.times(h * 0.5)));
@@ -188,14 +188,14 @@ public final class NumericalIntegration {
         // Only allow us to advance up to the dt remaining
         h = Math.min(h, dtSeconds - dtElapsed);
 
-        var k1 = f.apply(x, u);
-        var k2 = f.apply(x.plus(k1.times(A[0][0]).times(h)), u);
-        var k3 = f.apply(x.plus(k1.times(A[1][0]).plus(k2.times(A[1][1])).times(h)), u);
-        var k4 =
+        Matrix<States, N1> k1 = f.apply(x, u);
+        Matrix<States, N1> k2 = f.apply(x.plus(k1.times(A[0][0]).times(h)), u);
+        Matrix<States, N1> k3 = f.apply(x.plus(k1.times(A[1][0]).plus(k2.times(A[1][1])).times(h)), u);
+        Matrix<States, N1> k4 =
             f.apply(
                 x.plus(k1.times(A[2][0]).plus(k2.times(A[2][1])).plus(k3.times(A[2][2])).times(h)),
                 u);
-        var k5 =
+        Matrix<States, N1> k5 =
             f.apply(
                 x.plus(
                     k1.times(A[3][0])
@@ -204,7 +204,7 @@ public final class NumericalIntegration {
                         .plus(k4.times(A[3][3]))
                         .times(h)),
                 u);
-        var k6 =
+        Matrix<States, N1> k6 =
             f.apply(
                 x.plus(
                     k1.times(A[4][0])
@@ -226,7 +226,7 @@ public final class NumericalIntegration {
                     .plus(k5.times(A[5][4]))
                     .plus(k6.times(A[5][5]))
                     .times(h));
-        var k7 = f.apply(newX, u);
+        Matrix<States, N1> k7 = f.apply(newX, u);
 
         truncationError =
             (k1.times(b1[0] - b2[0])

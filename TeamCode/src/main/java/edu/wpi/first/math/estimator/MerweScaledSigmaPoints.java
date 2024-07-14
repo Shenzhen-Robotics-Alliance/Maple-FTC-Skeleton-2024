@@ -88,8 +88,8 @@ public class MerweScaledSigmaPoints<S extends Num> {
         new Matrix<>(new SimpleMatrix(m_states.getNum(), 2 * m_states.getNum() + 1));
     sigmas.setColumn(0, x);
     for (int k = 0; k < m_states.getNum(); k++) {
-      var xPlusU = x.plus(U.extractColumnVector(k));
-      var xMinusU = x.minus(U.extractColumnVector(k));
+      Matrix<S, N1> xPlusU = x.plus(U.extractColumnVector(k));
+      Matrix<S, N1> xMinusU = x.minus(U.extractColumnVector(k));
       sigmas.setColumn(k + 1, xPlusU);
       sigmas.setColumn(m_states.getNum() + k + 1, xMinusU);
     }

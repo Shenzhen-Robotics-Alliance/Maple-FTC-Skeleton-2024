@@ -6,30 +6,24 @@ package edu.wpi.first.math.kinematics;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.proto.SwerveModuleStateProto;
-import edu.wpi.first.math.kinematics.struct.SwerveModuleStateStruct;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Velocity;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /** Represents the state of one swerve module. */
 public class SwerveModuleState
-    implements Comparable<SwerveModuleState>, ProtobufSerializable, StructSerializable {
+    implements Comparable<SwerveModuleState> {
   /** Speed of the wheel of the module. */
   public double speedMetersPerSecond;
 
   /** Angle of the module. */
   public Rotation2d angle = Rotation2d.kZero;
-
-  /** SwerveModuleState protobuf for serialization. */
-  public static final SwerveModuleStateProto proto = new SwerveModuleStateProto();
-
-  /** SwerveModuleState struct for serialization. */
-  public static final SwerveModuleStateStruct struct = new SwerveModuleStateStruct();
 
   /** Constructs a SwerveModuleState with zeros for speed and angle. */
   public SwerveModuleState() {}
@@ -57,9 +51,9 @@ public class SwerveModuleState
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof SwerveModuleState other
-        && Math.abs(other.speedMetersPerSecond - speedMetersPerSecond) < 1E-9
-        && angle.equals(other.angle);
+    return obj instanceof SwerveModuleState
+        && Math.abs(((SwerveModuleState) obj).speedMetersPerSecond - speedMetersPerSecond) < 1E-9
+        && angle.equals(((SwerveModuleState) obj).angle);
   }
 
   @Override
@@ -79,6 +73,8 @@ public class SwerveModuleState
     return Double.compare(this.speedMetersPerSecond, other.speedMetersPerSecond);
   }
 
+  @NonNull
+  @SuppressLint("DefaultLocale")
   @Override
   public String toString() {
     return String.format(
@@ -96,7 +92,7 @@ public class SwerveModuleState
    */
   public static SwerveModuleState optimize(
       SwerveModuleState desiredState, Rotation2d currentAngle) {
-    var delta = desiredState.angle.minus(currentAngle);
+    Rotation2d delta = desiredState.angle.minus(currentAngle);
     if (Math.abs(delta.getDegrees()) > 90.0) {
       return new SwerveModuleState(
           -desiredState.speedMetersPerSecond, desiredState.angle.rotateBy(Rotation2d.kPi));

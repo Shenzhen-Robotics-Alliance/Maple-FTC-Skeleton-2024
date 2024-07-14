@@ -13,14 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.geometry.proto.Translation3dProto;
-import edu.wpi.first.math.geometry.struct.Translation3dStruct;
 import edu.wpi.first.math.interpolation.Interpolatable;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /**
@@ -33,7 +29,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class Translation3d
-    implements Interpolatable<Translation3d>, ProtobufSerializable, StructSerializable {
+    implements Interpolatable<Translation3d> {
   /**
    * A preallocated Translation3d representing the origin.
    *
@@ -75,7 +71,7 @@ public class Translation3d
    * @param angle The angle between the x-axis and the translation vector.
    */
   public Translation3d(double distance, Rotation3d angle) {
-    final var rectangular = new Translation3d(distance, 0.0, 0.0).rotateBy(angle);
+    final Translation3d rectangular = new Translation3d(distance, 0.0, 0.0).rotateBy(angle);
     m_x = rectangular.getX();
     m_y = rectangular.getY();
     m_z = rectangular.getZ();
@@ -174,8 +170,8 @@ public class Translation3d
    * @return The new rotated translation.
    */
   public Translation3d rotateBy(Rotation3d other) {
-    final var p = new Quaternion(0.0, m_x, m_y, m_z);
-    final var qprime = other.getQuaternion().times(p).times(other.getQuaternion().inverse());
+    final Quaternion p = new Quaternion(0.0, m_x, m_y, m_z);
+    final Quaternion qprime = other.getQuaternion().times(p).times(other.getQuaternion().inverse());
     return new Translation3d(qprime.getX(), qprime.getY(), qprime.getZ());
   }
 
@@ -261,10 +257,10 @@ public class Translation3d
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Translation3d other
-        && Math.abs(other.m_x - m_x) < 1E-9
-        && Math.abs(other.m_y - m_y) < 1E-9
-        && Math.abs(other.m_z - m_z) < 1E-9;
+    return obj instanceof Translation3d
+        && Math.abs(((Translation3d) obj).m_x - m_x) < 1E-9
+        && Math.abs(((Translation3d) obj).m_y - m_y) < 1E-9
+        && Math.abs(((Translation3d) obj).m_z - m_z) < 1E-9;
   }
 
   @Override
@@ -279,10 +275,4 @@ public class Translation3d
         MathUtil.interpolate(this.getY(), endValue.getY(), t),
         MathUtil.interpolate(this.getZ(), endValue.getZ(), t));
   }
-
-  /** Translation3d protobuf for serialization. */
-  public static final Translation3dProto proto = new Translation3dProto();
-
-  /** Translation3d struct for serialization. */
-  public static final Translation3dStruct struct = new Translation3dStruct();
 }

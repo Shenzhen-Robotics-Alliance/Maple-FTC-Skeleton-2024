@@ -6,16 +6,12 @@ package edu.wpi.first.math.geometry;
 
 import static edu.wpi.first.units.Units.Meters;
 
-import edu.wpi.first.math.geometry.proto.Transform2dProto;
-import edu.wpi.first.math.geometry.struct.Transform2dStruct;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Objects;
 
 /** Represents a transformation for a Pose2d in the pose's frame. */
-public class Transform2d implements ProtobufSerializable, StructSerializable {
+public class Transform2d {
   /**
    * A preallocated Transform2d representing no transformation.
    *
@@ -179,19 +175,13 @@ public class Transform2d implements ProtobufSerializable, StructSerializable {
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Transform2d other
-        && other.m_translation.equals(m_translation)
-        && other.m_rotation.equals(m_rotation);
+    return obj instanceof Transform2d
+        && ((Transform2d) obj).m_translation.equals(m_translation)
+        && ((Transform2d) obj).m_rotation.equals(m_rotation);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(m_translation, m_rotation);
   }
-
-  /** Transform2d protobuf for serialization. */
-  public static final Transform2dProto proto = new Transform2dProto();
-
-  /** Transform2d struct for serialization. */
-  public static final Transform2dStruct struct = new Transform2dStruct();
 }

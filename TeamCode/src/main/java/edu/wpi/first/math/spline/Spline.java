@@ -52,7 +52,7 @@ public abstract class Spline {
    */
   public Optional<PoseWithCurvature> getPoint(double t) {
     SimpleMatrix polynomialBases = new SimpleMatrix(m_degree + 1, 1);
-    final var coefficients = getCoefficients();
+    final SimpleMatrix coefficients = getCoefficients();
 
     // Populate the polynomial bases.
     for (int i = 0; i <= m_degree; i++) {

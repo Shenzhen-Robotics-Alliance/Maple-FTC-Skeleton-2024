@@ -6,16 +6,12 @@ package edu.wpi.first.math.kinematics;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
-import edu.wpi.first.math.kinematics.proto.MecanumDriveWheelSpeedsProto;
-import edu.wpi.first.math.kinematics.struct.MecanumDriveWheelSpeedsStruct;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Velocity;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 
 /** Represents the wheel speeds for a mecanum drive drivetrain. */
-public class MecanumDriveWheelSpeeds implements ProtobufSerializable, StructSerializable {
+public class MecanumDriveWheelSpeeds {
   /** Speed of the front left wheel. */
   public double frontLeftMetersPerSecond;
 
@@ -27,12 +23,6 @@ public class MecanumDriveWheelSpeeds implements ProtobufSerializable, StructSeri
 
   /** Speed of the rear right wheel. */
   public double rearRightMetersPerSecond;
-
-  /** MecanumDriveWheelSpeeds protobuf for serialization. */
-  public static final MecanumDriveWheelSpeedsProto proto = new MecanumDriveWheelSpeedsProto();
-
-  /** MecanumDriveWheelSpeeds struct for serialization. */
-  public static final MecanumDriveWheelSpeedsStruct struct = new MecanumDriveWheelSpeedsStruct();
 
   /** Constructs a MecanumDriveWheelSpeeds with zeros for all member fields. */
   public MecanumDriveWheelSpeeds() {}

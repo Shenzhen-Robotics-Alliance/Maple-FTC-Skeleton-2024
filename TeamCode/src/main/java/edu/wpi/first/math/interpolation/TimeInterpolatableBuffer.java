@@ -80,7 +80,7 @@ public final class TimeInterpolatableBuffer<T> {
    */
   private void cleanUp(double time) {
     while (!m_pastSnapshots.isEmpty()) {
-      var entry = m_pastSnapshots.firstEntry();
+      java.util.Map.Entry<Double, T> entry = m_pastSnapshots.firstEntry();
       if (time - entry.getKey() >= m_historySize) {
         m_pastSnapshots.remove(entry.getKey());
       } else {
@@ -106,13 +106,13 @@ public final class TimeInterpolatableBuffer<T> {
     }
 
     // Special case for when the requested time is the same as a sample
-    var nowEntry = m_pastSnapshots.get(timeSeconds);
+    T nowEntry = m_pastSnapshots.get(timeSeconds);
     if (nowEntry != null) {
       return Optional.of(nowEntry);
     }
 
-    var topBound = m_pastSnapshots.ceilingEntry(timeSeconds);
-    var bottomBound = m_pastSnapshots.floorEntry(timeSeconds);
+    java.util.Map.Entry<Double, T> topBound = m_pastSnapshots.ceilingEntry(timeSeconds);
+    java.util.Map.Entry<Double, T> bottomBound = m_pastSnapshots.floorEntry(timeSeconds);
 
     // Return null if neither sample exists, and the opposite bound if the other is null
     if (topBound == null && bottomBound == null) {

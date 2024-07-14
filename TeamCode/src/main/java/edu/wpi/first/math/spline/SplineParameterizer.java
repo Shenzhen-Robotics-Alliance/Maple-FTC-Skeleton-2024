@@ -101,32 +101,32 @@ public final class SplineParameterizer {
    *     with approximately opposing headings)
    */
   public static List<PoseWithCurvature> parameterize(Spline spline, double t0, double t1) {
-    var splinePoints = new ArrayList<PoseWithCurvature>();
+    ArrayList<PoseWithCurvature> splinePoints = new ArrayList<PoseWithCurvature>();
 
     // The parameterization does not add the initial point. Let's add that.
     splinePoints.add(spline.getPoint(t0).get());
 
     // We use an "explicit stack" to simulate recursion, instead of a recursive function call
     // This give us greater control, instead of a stack overflow
-    var stack = new ArrayDeque<StackContents>();
+    ArrayDeque<StackContents> stack = new ArrayDeque<StackContents>();
     stack.push(new StackContents(t0, t1));
 
     int iterations = 0;
 
     while (!stack.isEmpty()) {
-      var current = stack.removeFirst();
+      StackContents current = stack.removeFirst();
 
-      var start = spline.getPoint(current.t0);
+      java.util.Optional<PoseWithCurvature> start = spline.getPoint(current.t0);
       if (!start.isPresent()) {
         throw new MalformedSplineException(kMalformedSplineExceptionMsg);
       }
 
-      var end = spline.getPoint(current.t1);
+      java.util.Optional<PoseWithCurvature> end = spline.getPoint(current.t1);
       if (!end.isPresent()) {
         throw new MalformedSplineException(kMalformedSplineExceptionMsg);
       }
 
-      final var twist = start.get().poseMeters.log(end.get().poseMeters);
+      final edu.wpi.first.math.geometry.Twist2d twist = start.get().poseMeters.log(end.get().poseMeters);
       if (Math.abs(twist.dy) > kMaxDy
           || Math.abs(twist.dx) > kMaxDx
           || Math.abs(twist.dtheta) > kMaxDtheta) {

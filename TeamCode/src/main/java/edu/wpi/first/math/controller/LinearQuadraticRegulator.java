@@ -106,12 +106,12 @@ public class LinearQuadraticRegulator<States extends Num, Inputs extends Num, Ou
       Matrix<States, States> Q,
       Matrix<Inputs, Inputs> R,
       double dtSeconds) {
-    var discABPair = Discretization.discretizeAB(A, B, dtSeconds);
-    var discA = discABPair.getFirst();
-    var discB = discABPair.getSecond();
+    edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, Inputs>> discABPair = Discretization.discretizeAB(A, B, dtSeconds);
+    Matrix<States, States> discA = discABPair.getFirst();
+    Matrix<States, Inputs> discB = discABPair.getSecond();
 
     if (!StateSpaceUtil.isStabilizable(discA, discB)) {
-      var msg =
+      String msg =
           "The system passed to the LQR is unstabilizable!\n\nA =\n"
               + discA.getStorage().toString()
               + "\nB =\n"
@@ -121,7 +121,7 @@ public class LinearQuadraticRegulator<States extends Num, Inputs extends Num, Ou
       throw new IllegalArgumentException(msg);
     }
 
-    var S = DARE.dare(discA, discB, Q, R);
+    Matrix<States, States> S = DARE.dare(discA, discB, Q, R);
 
     // K = (BᵀSB + R)⁻¹BᵀSA
     m_K =
@@ -156,11 +156,11 @@ public class LinearQuadraticRegulator<States extends Num, Inputs extends Num, Ou
       Matrix<Inputs, Inputs> R,
       Matrix<States, Inputs> N,
       double dtSeconds) {
-    var discABPair = Discretization.discretizeAB(A, B, dtSeconds);
-    var discA = discABPair.getFirst();
-    var discB = discABPair.getSecond();
+    edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, Inputs>> discABPair = Discretization.discretizeAB(A, B, dtSeconds);
+    Matrix<States, States> discA = discABPair.getFirst();
+    Matrix<States, Inputs> discB = discABPair.getSecond();
 
-    var S = DARE.dare(discA, discB, Q, R, N);
+    Matrix<States, States> S = DARE.dare(discA, discB, Q, R, N);
 
     // K = (BᵀSB + R)⁻¹(BᵀSA + Nᵀ)
     m_K =
@@ -270,9 +270,9 @@ public class LinearQuadraticRegulator<States extends Num, Inputs extends Num, Ou
    */
   public void latencyCompensate(
       LinearSystem<States, Inputs, Outputs> plant, double dtSeconds, double inputDelaySeconds) {
-    var discABPair = Discretization.discretizeAB(plant.getA(), plant.getB(), dtSeconds);
-    var discA = discABPair.getFirst();
-    var discB = discABPair.getSecond();
+    edu.wpi.first.math.Pair<Matrix<States, States>, Matrix<States, Inputs>> discABPair = Discretization.discretizeAB(plant.getA(), plant.getB(), dtSeconds);
+    Matrix<States, States> discA = discABPair.getFirst();
+    Matrix<States, Inputs> discB = discABPair.getSecond();
 
     m_K = m_K.times((discA.minus(discB.times(m_K))).pow(inputDelaySeconds / dtSeconds));
   }

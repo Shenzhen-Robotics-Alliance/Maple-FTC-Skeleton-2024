@@ -13,14 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.geometry.proto.Translation2dProto;
-import edu.wpi.first.math.geometry.struct.Translation2dStruct;
 import edu.wpi.first.math.interpolation.Interpolatable;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -35,7 +31,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class Translation2d
-    implements Interpolatable<Translation2d>, ProtobufSerializable, StructSerializable {
+    implements Interpolatable<Translation2d> {
   /**
    * A preallocated Translation2d representing the origin.
    *
@@ -278,9 +274,9 @@ public class Translation2d
    */
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Translation2d other
-        && Math.abs(other.m_x - m_x) < 1E-9
-        && Math.abs(other.m_y - m_y) < 1E-9;
+    return obj instanceof Translation2d
+        && Math.abs(((Translation2d) obj).m_x - m_x) < 1E-9
+        && Math.abs(((Translation2d) obj).m_y - m_y) < 1E-9;
   }
 
   @Override
@@ -294,10 +290,4 @@ public class Translation2d
         MathUtil.interpolate(this.getX(), endValue.getX(), t),
         MathUtil.interpolate(this.getY(), endValue.getY(), t));
   }
-
-  /** Translation2d protobuf for serialization. */
-  public static final Translation2dProto proto = new Translation2dProto();
-
-  /** Translation2d struct for serialization. */
-  public static final Translation2dStruct struct = new Translation2dStruct();
 }

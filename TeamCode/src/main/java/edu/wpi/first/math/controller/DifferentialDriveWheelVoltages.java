@@ -4,26 +4,13 @@
 
 package edu.wpi.first.math.controller;
 
-import edu.wpi.first.math.controller.proto.DifferentialDriveWheelVoltagesProto;
-import edu.wpi.first.math.controller.struct.DifferentialDriveWheelVoltagesStruct;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
-
 /** Motor voltages for a differential drive. */
-public class DifferentialDriveWheelVoltages implements ProtobufSerializable, StructSerializable {
+public class DifferentialDriveWheelVoltages {
   /** Left wheel voltage. */
   public double left;
 
   /** Right wheel voltage. */
   public double right;
-
-  /** DifferentialDriveWheelVoltages protobuf for serialization. */
-  public static final DifferentialDriveWheelVoltagesProto proto =
-      new DifferentialDriveWheelVoltagesProto();
-
-  /** DifferentialDriveWheelVoltages struct for serialization. */
-  public static final DifferentialDriveWheelVoltagesStruct struct =
-      new DifferentialDriveWheelVoltagesStruct();
 
   /** Default constructor. */
   public DifferentialDriveWheelVoltages() {}

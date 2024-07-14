@@ -208,7 +208,7 @@ public class UnscentedKalmanFilter<States extends Num, Inputs extends Num, Outpu
     Sbar.assignBlock(0, 2 * s.getNum(), squareRootR);
 
     QRDecompositionHouseholder_DDRM qr = new QRDecompositionHouseholder_DDRM();
-    var qrStorage = Sbar.transpose().getStorage();
+    SimpleMatrix qrStorage = Sbar.transpose().getStorage();
 
     if (!qr.decompose(qrStorage.getDDRM())) {
       throw new RuntimeException("QR decomposition failed! Input matrix:\n" + qrStorage);
@@ -344,10 +344,10 @@ public class UnscentedKalmanFilter<States extends Num, Inputs extends Num, Outpu
     // Discretize Q before projecting mean and covariance forward
     Matrix<States, States> contA =
         NumericalJacobian.numericalJacobianX(m_states, m_states, m_f, m_xHat, u);
-    var discQ = Discretization.discretizeAQ(contA, m_contQ, dtSeconds).getSecond();
-    var squareRootDiscQ = discQ.lltDecompose(true);
+    Matrix<States, States> discQ = Discretization.discretizeAQ(contA, m_contQ, dtSeconds).getSecond();
+    Matrix<States, States> squareRootDiscQ = discQ.lltDecompose(true);
 
-    var sigmas = m_pts.squareRootSigmaPoints(m_xHat, m_S);
+    Matrix<States, ?> sigmas = m_pts.squareRootSigmaPoints(m_xHat, m_S);
 
     for (int i = 0; i < m_pts.getNumSigmas(); ++i) {
       Matrix<States, N1> x = sigmas.extractColumnVector(i);
@@ -355,7 +355,7 @@ public class UnscentedKalmanFilter<States extends Num, Inputs extends Num, Outpu
       m_sigmasF.setColumn(i, NumericalIntegration.rk4(m_f, x, u, dtSeconds));
     }
 
-    var ret =
+    Pair<Matrix<States, N1>, Matrix<States, States>> ret =
         squareRootUnscentedTransform(
             m_states,
             m_states,
@@ -456,19 +456,19 @@ public class UnscentedKalmanFilter<States extends Num, Inputs extends Num, Outpu
       BiFunction<Matrix<R, N1>, Matrix<R, N1>, Matrix<R, N1>> residualFuncY,
       BiFunction<Matrix<States, N1>, Matrix<States, N1>, Matrix<States, N1>> residualFuncX,
       BiFunction<Matrix<States, N1>, Matrix<States, N1>, Matrix<States, N1>> addFuncX) {
-    final var discR = Discretization.discretizeR(R, m_dtSeconds);
-    final var squareRootDiscR = discR.lltDecompose(true);
+    final Matrix<R, R> discR = Discretization.discretizeR(R, m_dtSeconds);
+    final Matrix<R, R> squareRootDiscR = discR.lltDecompose(true);
 
     // Transform sigma points into measurement space
     Matrix<R, ?> sigmasH = new Matrix<>(new SimpleMatrix(rows.getNum(), 2 * m_states.getNum() + 1));
-    var sigmas = m_pts.squareRootSigmaPoints(m_xHat, m_S);
+    Matrix<States, ?> sigmas = m_pts.squareRootSigmaPoints(m_xHat, m_S);
     for (int i = 0; i < m_pts.getNumSigmas(); i++) {
       Matrix<R, N1> hRet = h.apply(sigmas.extractColumnVector(i), u);
       sigmasH.setColumn(i, hRet);
     }
 
     // Mean and covariance of prediction passed through unscented transform
-    var transRet =
+    Pair<Matrix<R, N1>, Matrix<R, R>> transRet =
         squareRootUnscentedTransform(
             m_states,
             rows,
@@ -478,15 +478,15 @@ public class UnscentedKalmanFilter<States extends Num, Inputs extends Num, Outpu
             meanFuncY,
             residualFuncY,
             squareRootDiscR);
-    var yHat = transRet.getFirst();
-    var Sy = transRet.getSecond();
+    Matrix<R, N1> yHat = transRet.getFirst();
+    Matrix<R, R> Sy = transRet.getSecond();
 
     // Compute cross covariance of the state and the measurements
     Matrix<States, R> Pxy = new Matrix<>(m_states, rows);
     for (int i = 0; i < m_pts.getNumSigmas(); i++) {
       // Pxy += (sigmas_f[:, i] - x̂)(sigmas_h[:, i] - ŷ)ᵀ W_c[i]
-      var dx = residualFuncX.apply(m_sigmasF.extractColumnVector(i), m_xHat);
-      var dy = residualFuncY.apply(sigmasH.extractColumnVector(i), yHat).transpose();
+      Matrix<States, N1> dx = residualFuncX.apply(m_sigmasF.extractColumnVector(i), m_xHat);
+      Matrix<N1, R> dy = residualFuncY.apply(sigmasH.extractColumnVector(i), yHat).transpose();
 
       Pxy = Pxy.plus(dx.times(dy).times(m_pts.getWc(i)));
     }

@@ -7,12 +7,9 @@ package edu.wpi.first.math.controller;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.util.sendable.SendableRegistry;
 
 /** Implements a PID control loop. */
-public class PIDController implements Sendable, AutoCloseable {
+public class PIDController {
   private static int instances;
 
   // Factor for "proportional" control
@@ -109,16 +106,9 @@ public class PIDController implements Sendable, AutoCloseable {
     m_period = period;
 
     instances++;
-    SendableRegistry.addLW(this, "PIDController", instances);
 
     MathSharedStore.reportUsage(MathUsageId.kController_PIDController2, instances);
   }
-
-  @Override
-  public void close() {
-    SendableRegistry.remove(this);
-  }
-
   /**
    * Sets the PID Controller gain parameters.
    *
@@ -418,24 +408,5 @@ public class PIDController implements Sendable, AutoCloseable {
     m_totalError = 0;
     m_velocityError = 0;
     m_haveMeasurement = false;
-  }
-
-  @Override
-  public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("PIDController");
-    builder.addDoubleProperty("p", this::getP, this::setP);
-    builder.addDoubleProperty("i", this::getI, this::setI);
-    builder.addDoubleProperty("d", this::getD, this::setD);
-    builder.addDoubleProperty(
-        "izone",
-        this::getIZone,
-        (double toSet) -> {
-          try {
-            setIZone(toSet);
-          } catch (IllegalArgumentException e) {
-            MathSharedStore.reportError("IZone must be a non-negative number!", e.getStackTrace());
-          }
-        });
-    builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
   }
 }

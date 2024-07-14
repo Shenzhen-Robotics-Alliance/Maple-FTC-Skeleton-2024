@@ -61,10 +61,10 @@ public class DifferentialDriveFeedforward {
       double currentRightVelocity,
       double nextRightVelocity,
       double dtSeconds) {
-    var feedforward = new LinearPlantInversionFeedforward<>(m_plant, dtSeconds);
-    var r = VecBuilder.fill(currentLeftVelocity, currentRightVelocity);
-    var nextR = VecBuilder.fill(nextLeftVelocity, nextRightVelocity);
-    var u = feedforward.calculate(r, nextR);
+    LinearPlantInversionFeedforward<N2, N2, N2> feedforward = new LinearPlantInversionFeedforward<>(m_plant, dtSeconds);
+    edu.wpi.first.math.Vector<N2> r = VecBuilder.fill(currentLeftVelocity, currentRightVelocity);
+    edu.wpi.first.math.Vector<N2> nextR = VecBuilder.fill(nextLeftVelocity, nextRightVelocity);
+    edu.wpi.first.math.Matrix<N2, edu.wpi.first.math.numbers.N1> u = feedforward.calculate(r, nextR);
     return new DifferentialDriveWheelVoltages(u.get(0, 0), u.get(1, 0));
   }
 }

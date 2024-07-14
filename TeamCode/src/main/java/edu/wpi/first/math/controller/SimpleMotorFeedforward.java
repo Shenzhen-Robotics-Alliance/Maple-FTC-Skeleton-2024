@@ -72,11 +72,11 @@ public class SimpleMotorFeedforward {
    * @return The computed feedforward.
    */
   public double calculate(double currentVelocity, double nextVelocity, double dtSeconds) {
-    var plant = LinearSystemId.identifyVelocitySystem(this.kv, this.ka);
-    var feedforward = new LinearPlantInversionFeedforward<>(plant, dtSeconds);
+    edu.wpi.first.math.system.LinearSystem<edu.wpi.first.math.numbers.N1, edu.wpi.first.math.numbers.N1, edu.wpi.first.math.numbers.N1> plant = LinearSystemId.identifyVelocitySystem(this.kv, this.ka);
+    LinearPlantInversionFeedforward<edu.wpi.first.math.numbers.N1, edu.wpi.first.math.numbers.N1, edu.wpi.first.math.numbers.N1> feedforward = new LinearPlantInversionFeedforward<>(plant, dtSeconds);
 
-    var r = MatBuilder.fill(Nat.N1(), Nat.N1(), currentVelocity);
-    var nextR = MatBuilder.fill(Nat.N1(), Nat.N1(), nextVelocity);
+    edu.wpi.first.math.Matrix<edu.wpi.first.math.numbers.N1, edu.wpi.first.math.numbers.N1> r = MatBuilder.fill(Nat.N1(), Nat.N1(), currentVelocity);
+    edu.wpi.first.math.Matrix<edu.wpi.first.math.numbers.N1, edu.wpi.first.math.numbers.N1> nextR = MatBuilder.fill(Nat.N1(), Nat.N1(), nextVelocity);
 
     return ks * Math.signum(currentVelocity) + feedforward.calculate(r, nextR).get(0, 0);
   }
