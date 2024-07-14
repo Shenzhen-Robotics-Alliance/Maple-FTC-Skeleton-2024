@@ -80,12 +80,12 @@ public class Per<N extends Unit<N>, D extends Unit<D>> extends Unit<Per<N, D>> {
       N numerator, D denominator) {
     final long key = ((long) numerator.hashCode()) << 32L | (denominator.hashCode() & 0xFFFFFFFFL);
 
-    var existing = cache.get(key);
+    Per existing = cache.get(key);
     if (existing != null) {
       return existing;
     }
 
-    var newUnit = new Per<>(numerator, denominator);
+    Per<N, D> newUnit = new Per<>(numerator, denominator);
     cache.put(key, newUnit);
     return newUnit;
   }

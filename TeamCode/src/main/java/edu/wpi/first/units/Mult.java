@@ -73,7 +73,7 @@ public class Mult<A extends Unit<A>, B extends Unit<B>> extends Unit<Mult<A, B>>
       return cache.get(key);
     }
 
-    var mult = new Mult<A, B>(a, b);
+    Mult<A, B> mult = new Mult<A, B>(a, b);
     cache.put(key, mult);
     return mult;
   }

@@ -91,24 +91,29 @@ public interface Measure<U extends Unit<U>> extends Comparable<Measure<U>> {
       return times(other.baseUnitMagnitude());
     }
 
-    if (unit() instanceof Per<?, ?> per
-        && other.unit().getBaseUnit().equals(per.denominator().getBaseUnit())) {
-      // denominator of the Per cancels out, return with just the units of the numerator
+    if (unit() instanceof Per<?, ?>
+        && other.unit().getBaseUnit().equals(((Per<?, ?>) unit()).denominator().getBaseUnit())) {
+        Per<?, ?> per = (Per<?, ?>) unit();
+        // denominator of the Per cancels out, return with just the units of the numerator
       Unit<?> numerator = per.numerator();
       return numerator.ofBaseUnits(baseUnitMagnitude() * other.baseUnitMagnitude());
-    } else if (unit() instanceof Velocity<?> v && other.unit().getBaseUnit().equals(Seconds)) {
-      // Multiplying a velocity by a time, return the scalar unit (eg Distance)
+    } else if (unit() instanceof Velocity<?> && other.unit().getBaseUnit().equals(Seconds)) {
+        Velocity<?> v = (Velocity<?>) unit();
+        // Multiplying a velocity by a time, return the scalar unit (eg Distance)
       Unit<?> numerator = v.getUnit();
       return numerator.ofBaseUnits(baseUnitMagnitude() * other.baseUnitMagnitude());
-    } else if (other.unit() instanceof Per<?, ?> per
-        && unit().getBaseUnit().equals(per.denominator().getBaseUnit())) {
-      Unit<?> numerator = per.numerator();
+    } else if (other.unit() instanceof Per<?, ?>
+        && unit().getBaseUnit().equals(((Per<?, ?>) other.unit()).denominator().getBaseUnit())) {
+        Per<?, ?> per = (Per<?, ?>) other.unit();
+        Unit<?> numerator = per.numerator();
       return numerator.ofBaseUnits(baseUnitMagnitude() * other.baseUnitMagnitude());
-    } else if (unit() instanceof Per<?, ?> per
-        && other.unit() instanceof Per<?, ?> otherPer
-        && per.denominator().getBaseUnit().equals(otherPer.numerator().getBaseUnit())
-        && per.numerator().getBaseUnit().equals(otherPer.denominator().getBaseUnit())) {
-      // multiplying eg meters per second * milliseconds per foot
+    } else if (unit() instanceof Per<?, ?>
+        && other.unit() instanceof Per<?, ?>
+        && ((Per<?, ?>) unit()).denominator().getBaseUnit().equals(((Per<?, ?>) other.unit()).numerator().getBaseUnit())
+        && ((Per<?, ?>) unit()).numerator().getBaseUnit().equals(((Per<?, ?>) other.unit()).denominator().getBaseUnit())) {
+        Per<?, ?> otherPer = (Per<?, ?>) other.unit();
+        Per<?, ?> per = (Per<?, ?>) unit();
+        // multiplying eg meters per second * milliseconds per foot
       // return a scalar
       return Units.Value.of(baseUnitMagnitude() * other.baseUnitMagnitude());
     }
@@ -144,13 +149,15 @@ public interface Measure<U extends Unit<U>> extends Comparable<Measure<U>> {
     if (other.unit() instanceof Dimensionless) {
       return divide(other.baseUnitMagnitude());
     }
-    if (other.unit() instanceof Velocity<?> velocity
-        && velocity.getUnit().getBaseUnit().equals(unit().getBaseUnit())) {
-      return times(velocity.reciprocal().ofBaseUnits(1 / other.baseUnitMagnitude()));
+    if (other.unit() instanceof Velocity<?>
+        && ((Velocity<?>) other.unit()).getUnit().getBaseUnit().equals(unit().getBaseUnit())) {
+        Velocity<?> velocity = (Velocity<?>) other.unit();
+        return times(velocity.reciprocal().ofBaseUnits(1 / other.baseUnitMagnitude()));
     }
-    if (other.unit() instanceof Per<?, ?> per
-        && per.numerator().getBaseUnit().equals(unit().getBaseUnit())) {
-      return times(per.reciprocal().ofBaseUnits(1 / other.baseUnitMagnitude()));
+    if (other.unit() instanceof Per<?, ?>
+        && ((Per<?, ?>) other.unit()).numerator().getBaseUnit().equals(unit().getBaseUnit())) {
+        Per<?, ?> per = (Per<?, ?>) other.unit();
+        return times(per.reciprocal().ofBaseUnits(1 / other.baseUnitMagnitude()));
     }
     return unit().per(other.unit()).ofBaseUnits(baseUnitMagnitude() / other.baseUnitMagnitude());
   }
@@ -166,7 +173,7 @@ public interface Measure<U extends Unit<U>> extends Comparable<Measure<U>> {
    * @return the velocity result
    */
   default Measure<Velocity<U>> per(Measure<Time> period) {
-    var newUnit = unit().per(period.unit());
+    Velocity<U> newUnit = unit().per(period.unit());
     return ImmutableMeasure.ofBaseUnits(baseUnitMagnitude() / period.baseUnitMagnitude(), newUnit);
   }
 
@@ -182,7 +189,7 @@ public interface Measure<U extends Unit<U>> extends Comparable<Measure<U>> {
    * @return the relational measure
    */
   default <U2 extends Unit<U2>> Measure<Per<U, U2>> per(U2 denominator) {
-    var newUnit = unit().per(denominator);
+    Per<U, U2> newUnit = unit().per(denominator);
     return newUnit.of(magnitude());
   }
 
@@ -197,7 +204,7 @@ public interface Measure<U extends Unit<U>> extends Comparable<Measure<U>> {
    * @return the velocity measure
    */
   default Measure<Velocity<U>> per(Time time) {
-    var newUnit = unit().per(time);
+    Velocity<U> newUnit = unit().per(time);
     return newUnit.of(magnitude());
   }
 
@@ -268,7 +275,7 @@ public interface Measure<U extends Unit<U>> extends Comparable<Measure<U>> {
     }
 
     // abs so negative inputs are calculated correctly
-    var tolerance = Math.abs(other.baseUnitMagnitude() * varianceThreshold);
+    double tolerance = Math.abs(other.baseUnitMagnitude() * varianceThreshold);
 
     return Math.abs(this.baseUnitMagnitude() - other.baseUnitMagnitude()) <= tolerance;
   }

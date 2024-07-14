@@ -106,8 +106,8 @@ public class Velocity<D extends Unit<D>> extends Unit<Velocity<D>> {
       return cache.get(key);
     }
 
-    var name = numerator.name() + " per " + period.name();
-    var symbol = numerator.symbol() + "/" + period.symbol();
+    String name = numerator.name() + " per " + period.name();
+    String symbol = numerator.symbol() + "/" + period.symbol();
 
     Velocity<D> velocity = new Velocity<>((D) numerator, period, name, symbol);
     cache.put(key, velocity);

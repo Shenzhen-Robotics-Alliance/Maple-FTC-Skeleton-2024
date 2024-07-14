@@ -83,9 +83,9 @@ public class ImmutableMeasure<U extends Unit<U>> implements Measure<U> {
    */
   @Override
   public boolean equals(Object o) {
-    return o instanceof Measure<?> that
-        && Objects.equals(m_unit, that.unit())
-        && m_baseUnitMagnitude == that.baseUnitMagnitude();
+    return o instanceof Measure<?>
+        && Objects.equals(m_unit, ((Measure<?>) o).unit())
+        && m_baseUnitMagnitude == ((Measure<?>) o).baseUnitMagnitude();
   }
 
   @Override

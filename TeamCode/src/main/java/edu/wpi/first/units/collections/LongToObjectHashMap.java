@@ -71,7 +71,7 @@ public class LongToObjectHashMap<V> {
     while (m_uses[bucket]) {
       if (m_keys[bucket] == key) {
         // replace the existing value
-        var oldValue = m_values[bucket];
+        V oldValue = m_values[bucket];
         m_values[bucket] = value;
         return oldValue;
       }
@@ -125,7 +125,7 @@ public class LongToObjectHashMap<V> {
         m_keys[bucket] = 0L;
         m_uses[bucket] = false;
 
-        var oldValue = m_values[bucket];
+        V oldValue = m_values[bucket];
         m_values[bucket] = null;
         return oldValue;
       }
@@ -222,7 +222,7 @@ public class LongToObjectHashMap<V> {
         values.add(m_values[bucket]);
       }
     }
-    return List.copyOf(values); // return a readonly copy
+    return new ArrayList<>(values); // return a readonly copy
   }
 
   /**
@@ -330,7 +330,7 @@ public class LongToObjectHashMap<V> {
    * @return the desired bucket index
    */
   private int bucket(long key) {
-    var hash = hash(key);
+    long hash = hash(key);
     return (int) (hash & mask());
   }
 

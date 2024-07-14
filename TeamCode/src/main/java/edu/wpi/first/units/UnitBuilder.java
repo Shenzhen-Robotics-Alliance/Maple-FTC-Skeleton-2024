@@ -246,10 +246,10 @@ public final class UnitBuilder<U extends Unit<U>> {
   public U make() {
     return make(
         (baseUnit, toBaseUnits, fromBaseUnits, name, symbol) -> {
-          var baseClass = baseUnit.getClass();
+          Class<?> baseClass = baseUnit.getClass();
 
           try {
-            var ctor = getConstructor(baseUnit);
+            Constructor<? extends Unit<U>> ctor = getConstructor(baseUnit);
 
             return (U) ctor.newInstance(baseUnit, toBaseUnits, fromBaseUnits, name, symbol);
           } catch (InstantiationException e) {
@@ -274,9 +274,9 @@ public final class UnitBuilder<U extends Unit<U>> {
   @SuppressWarnings({"unchecked", "PMD.AvoidAccessibilityAlteration"})
   private static <U extends Unit<U>> Constructor<? extends Unit<U>> getConstructor(U baseUnit)
       throws NoSuchMethodException {
-    var baseClass = baseUnit.getClass();
+    Class<?> baseClass = baseUnit.getClass();
 
-    var ctor =
+    Constructor<?> ctor =
         baseClass.getDeclaredConstructor(
             baseClass, // baseUnit
             UnaryFunction.class, // toBaseUnits

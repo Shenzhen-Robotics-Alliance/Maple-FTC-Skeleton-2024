@@ -286,9 +286,9 @@ public final class MutableMeasure<U extends Unit<U>> implements Measure<U> {
 
   @Override
   public boolean equals(Object o) {
-    return o instanceof Measure<?> that
-        && Objects.equals(m_unit, that.unit())
-        && this.isEquivalent(that);
+    return o instanceof Measure<?>
+        && Objects.equals(m_unit, ((Measure<?>) o).unit())
+        && this.isEquivalent((Measure<?>) o);
   }
 
   @Override
