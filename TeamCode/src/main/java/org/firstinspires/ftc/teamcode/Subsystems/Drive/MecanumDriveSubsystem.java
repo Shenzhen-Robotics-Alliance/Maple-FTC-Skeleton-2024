@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Drive;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Utils.InterpolatedMotorFeedForward;
@@ -12,11 +12,11 @@ import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 
 public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDriveSubsystem {
-    private final Motor frontLeft, frontRight, backLeft, backRight;
+    private final DcMotor frontLeft, frontRight, backLeft, backRight;
     private final MecanumDriveKinematics mecanumDriveKinematics;
     private final InterpolatedMotorFeedForward motorFeedForward;
 
-    public MecanumDriveSubsystem(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight) {
+    public MecanumDriveSubsystem(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight) {
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;
         this.backLeft = backLeft;
@@ -38,10 +38,13 @@ public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDri
         feedMotorSpeedForward(frontRight, wheelSpeeds.frontRightMetersPerSecond);
         feedMotorSpeedForward(backLeft, wheelSpeeds.rearLeftMetersPerSecond);
         feedMotorSpeedForward(backRight, wheelSpeeds.rearRightMetersPerSecond);
+
+        Constants.telemetry.addData("Chassis Speeds", speeds);
+        Constants.telemetry.addData("Wheel Speeds", wheelSpeeds);
     }
 
-    private void feedMotorSpeedForward(Motor motor, double desiredSpeedMetersPerSecond) {
-        motor.set(motorFeedForward.getMotorPower(desiredSpeedMetersPerSecond));
+    private void feedMotorSpeedForward(DcMotor motor, double desiredSpeedMetersPerSecond) {
+        motor.setPower(motorFeedForward.getMotorPower(desiredSpeedMetersPerSecond));
     }
 
     @Override

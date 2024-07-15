@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.arcrobotics.ftclib.command.Robot;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.Commands.Drive.GamePadDrive;
+import org.firstinspires.ftc.teamcode.Utils.MapleJoystickDriveInput;
+
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 
 /**
@@ -18,10 +21,23 @@ public class TeleOpRobot extends Robot {
         this.pilotGamePad = pilotGamePad;
         this.copilotGamePad = copilotGamePad;
 
-        // TODO: here, register all the subsystems
+        registerSubsystems();
+
+        configureKeyBindings();
     }
-    public void configureKeyBindings() {
-        // TODO: configure the bindings of commands
+
+
+    private void registerSubsystems() {
+        register(robotCore.driveSubsystem);
+    }
+
+    private void configureKeyBindings() {
+        robotCore.driveSubsystem.setDefaultCommand(new GamePadDrive(
+                robotCore.driveSubsystem,
+                MapleJoystickDriveInput.leftHandedJoystick(pilotGamePad),
+                () -> false,
+                robotCore.currentSide
+        ));
     }
 
     @Override

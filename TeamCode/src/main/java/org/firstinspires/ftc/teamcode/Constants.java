@@ -1,15 +1,30 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Utils.EmptyTelemetry;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 
 public class Constants {
     public static long matchStartTimeMillis = System.currentTimeMillis();
+    public static Telemetry telemetry = new EmptyTelemetry();
     public static final class SystemConfigs {
         public static final double robotUpdateRateHZ = 60.0;
     }
-    public static final class HardwareNames {
+    public static final class HardwareConfigs {
+        public static final String
+                HORIZONTAL_ODOMETER_WHEEL_NAME = "backLeft",
+                VERTICAL_ODOMETER_WHEEL_1_NAME = "frontLeft",
+                VERTICAL_ODOMETER_WHEEL_2_NAME = "frontRight";
 
+        public static final DcMotorSimple.Direction
+                frontLeftMotorDirection = DcMotorSimple.Direction.REVERSE,
+                frontRightMotorDirection = DcMotorSimple.Direction.FORWARD,
+                backLeftMotorDirection = DcMotorSimple.Direction.REVERSE,
+                backRightMotorDirection = DcMotorSimple.Direction.FORWARD;
     }
 
     public static final class ChassisConfigs {

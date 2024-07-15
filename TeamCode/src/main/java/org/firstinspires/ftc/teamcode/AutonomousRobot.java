@@ -12,17 +12,15 @@ import java.util.function.BooleanSupplier;
  * here we schedule the autonomous commands
  * */
 public class AutonomousRobot extends Robot {
-    private final MapleLoopClock loopClock = new MapleLoopClock(Constants.SystemConfigs.robotUpdateRateHZ);
-
     public AutonomousRobot(RobotCore robotCore, Auto auto) {
         super();
-        // TODO: register subsystems from robot core
+
+        registerSubsystems();
+
         super.schedule(auto.getAutonomousCommands(robotCore));
     }
 
-    @Override
-    public void run() {
-        super.run();
-        loopClock.tick();
+    private void registerSubsystems() {
+        // TODO: register subsystems from robot core
     }
 }

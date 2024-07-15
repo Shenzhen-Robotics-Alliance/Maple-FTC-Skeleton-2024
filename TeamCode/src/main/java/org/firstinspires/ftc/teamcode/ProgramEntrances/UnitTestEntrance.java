@@ -8,9 +8,10 @@ import org.firstinspires.ftc.teamcode.Tests.SimpleUnitTest;
 
 @TeleOp(name = "UnitTest")
 public class UnitTestEntrance extends OpMode {
-    private final SimpleUnitTest test = new MotorsMatch(hardwareMap);
+    private SimpleUnitTest test;
     @Override
     public void init() {
+        test = new MotorsMatch(hardwareMap ,gamepad1);
         test.testStart();
     }
 
