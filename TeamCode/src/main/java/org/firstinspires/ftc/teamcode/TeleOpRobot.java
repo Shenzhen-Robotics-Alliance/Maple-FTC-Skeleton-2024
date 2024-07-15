@@ -17,10 +17,15 @@ public class TeleOpRobot extends Robot {
         this.robotCore = robotCore;
         this.pilotGamePad = pilotGamePad;
         this.copilotGamePad = copilotGamePad;
-        
+
         // TODO: here, register all the subsystems
     }
     public void configureKeyBindings() {
         // TODO: configure the bindings of commands
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
     }
 }
