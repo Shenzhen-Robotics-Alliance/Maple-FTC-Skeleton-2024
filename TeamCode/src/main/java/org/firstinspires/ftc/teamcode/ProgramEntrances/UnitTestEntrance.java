@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Tests.MotorsMatch;
+import org.firstinspires.ftc.teamcode.Tests.OdometerTest;
 import org.firstinspires.ftc.teamcode.Tests.SimpleUnitTest;
 
 @TeleOp(name = "UnitTest")
@@ -11,8 +12,7 @@ public class UnitTestEntrance extends OpMode {
     private SimpleUnitTest test;
     @Override
     public void init() {
-        test = new MotorsMatch(hardwareMap ,gamepad1);
-        test.testStart();
+        test = new OdometerTest(hardwareMap, telemetry);
     }
 
     @Override
@@ -22,6 +22,11 @@ public class UnitTestEntrance extends OpMode {
 
     @Override
     public void start() {
+        test.testStart();
+    }
+
+    @Override
+    public void stop() {
         test.testEnd();
     }
 }
