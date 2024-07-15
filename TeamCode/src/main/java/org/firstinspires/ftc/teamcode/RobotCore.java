@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Drive.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Utils.AllianceSide;
@@ -24,12 +25,17 @@ public final class RobotCore {
                 frontRight = hardwareMap.get(DcMotor.class, "frontRight"),
                 backLeft = hardwareMap.get(DcMotor.class, "backLeft"),
                 backRight = hardwareMap.get(DcMotor.class, "backRight");
+
+        final IMU imu = hardwareMap.get(IMU.class, "imu");
+        imu.initialize(Constants.HardwareConfigs.imuParams);
+
         frontLeft.setDirection(Constants.HardwareConfigs.frontLeftMotorDirection);
         frontRight.setDirection(Constants.HardwareConfigs.frontRightMotorDirection);
         backLeft.setDirection(Constants.HardwareConfigs.backLeftMotorDirection);
         backRight.setDirection(Constants.HardwareConfigs.backRightMotorDirection);
         this.driveSubsystem = new MecanumDriveSubsystem(
-                frontLeft, frontRight, backLeft, backRight
+                frontLeft, frontRight, backLeft, backRight,
+                imu
         );
     }
 }

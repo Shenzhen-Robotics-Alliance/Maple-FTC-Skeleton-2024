@@ -2,33 +2,52 @@ package org.firstinspires.ftc.teamcode.Subsystems.Drive;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Utils.InterpolatedMotorFeedForward;
+import org.firstinspires.ftc.teamcode.Utils.MapleTime;
 
+import edu.wpi.first.math.estimator.MecanumDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
+import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 
 public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDriveSubsystem {
     private final DcMotor frontLeft, frontRight, backLeft, backRight;
     private final MecanumDriveKinematics mecanumDriveKinematics;
     private final InterpolatedMotorFeedForward motorFeedForward;
+    private final MecanumDrivePoseEstimator poseEstimator;
+    private final IMU imu;
 
-    public MecanumDriveSubsystem(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight) {
+    public MecanumDriveSubsystem(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight, IMU imu) {
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;
         this.backLeft = backLeft;
         this.backRight = backRight;
+        this.imu = imu;
 
         this.mecanumDriveKinematics = Constants.ChassisConfigs.KINEMATICS;
+        this.poseEstimator = new MecanumDrivePoseEstimator(
+                mecanumDriveKinematics,
+                getIMUAngle(),
+                new MecanumDriveWheelPositions(0, 0, 0, 0),
+                new Pose2d()
+        );
         this.motorFeedForward = new InterpolatedMotorFeedForward(Constants.ChassisConfigs.chassisMotorPower, Constants.ChassisConfigs.chassisSpeedsMetersPerSecond);
     }
 
     @Override
     public void periodic() {
-        super.periodic();
+        poseEstimator.updateWithTime(
+                MapleTime.getMatchTimeSeconds(),
+                getIMUAngle(),
+                new MecanumDriveWheelPositions(0, 0, 0, 0)
+        );
     }
 
     @Override
@@ -49,12 +68,16 @@ public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDri
 
     @Override
     public Pose2d getPose() {
-        return null;
+        return poseEstimator.getEstimatedPosition();
+    }
+
+    private Rotation2d getIMUAngle() {
+        return Rotation2d.fromRadians(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
     }
 
     @Override
     public void setPose(Pose2d currentPose) {
-
+        poseEstimator.resetPose(currentPose);
     }
 
     @Override

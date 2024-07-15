@@ -17,10 +17,11 @@ public class OpModeUtils {
         Constants.matchStartTimeMillis = System.currentTimeMillis();
 
         while (opModeIsActivated.getAsBoolean() && !isStopRequested.getAsBoolean()) {
-            telemetry.clearAll();
             robot.run();
             telemetry.update();
             loopClock.tick();
         }
+        robot.reset(); // cancel the commands
+        Constants.telemetry = new EmptyTelemetry(); // destroy the telemetry instance
     }
 }

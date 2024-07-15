@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Constants;
@@ -88,11 +89,27 @@ public class MapleJoystickDriveInput {
         );
     }
 
+    public static MapleJoystickDriveInput leftHandedJoystick(GamepadEx driverGamePad) {
+        return new MapleJoystickDriveInput(
+                driverGamePad::getLeftX,
+                () -> -driverGamePad.getLeftY(), // GamepadEx has reversed y
+                driverGamePad::getRightX
+        );
+    }
+
     public static MapleJoystickDriveInput rightHandedJoystick(Gamepad driverGamePad) {
         return new MapleJoystickDriveInput(
                 () -> driverGamePad.right_stick_x,
                 () -> driverGamePad.right_stick_y,
                 () -> driverGamePad.left_stick_x
+        );
+    }
+
+    public static MapleJoystickDriveInput rightHandedJoystick(GamepadEx driverGamePad) {
+        return new MapleJoystickDriveInput(
+                driverGamePad::getRightX,
+                () -> -driverGamePad.getRightY(), // GamepadEx has reversed y
+                driverGamePad::getLeftX
         );
     }
 }

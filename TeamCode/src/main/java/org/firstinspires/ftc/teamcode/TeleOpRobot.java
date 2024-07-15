@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.Robot;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Commands.Drive.GamePadDrive;
 import org.firstinspires.ftc.teamcode.Utils.MapleJoystickDriveInput;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 
 /**
  * robot during teleop stage'
@@ -14,12 +17,12 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
  * */
 public class TeleOpRobot extends Robot {
     private final RobotCore robotCore;
-    private final Gamepad pilotGamePad, copilotGamePad;
+    private final GamepadEx pilotGamePad, copilotGamePad;
     public TeleOpRobot(RobotCore robotCore, Gamepad pilotGamePad, Gamepad copilotGamePad) {
         super();
         this.robotCore = robotCore;
-        this.pilotGamePad = pilotGamePad;
-        this.copilotGamePad = copilotGamePad;
+        this.pilotGamePad = new GamepadEx(pilotGamePad);
+        this.copilotGamePad = new GamepadEx(copilotGamePad);
 
         registerSubsystems();
 
@@ -35,9 +38,13 @@ public class TeleOpRobot extends Robot {
         robotCore.driveSubsystem.setDefaultCommand(new GamePadDrive(
                 robotCore.driveSubsystem,
                 MapleJoystickDriveInput.leftHandedJoystick(pilotGamePad),
-                () -> false,
+                () -> true,
                 robotCore.currentSide
         ));
+
+        this.pilotGamePad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                () -> robotCore.driveSubsystem.setPose(new Pose2d())
+        );
     }
 
     @Override

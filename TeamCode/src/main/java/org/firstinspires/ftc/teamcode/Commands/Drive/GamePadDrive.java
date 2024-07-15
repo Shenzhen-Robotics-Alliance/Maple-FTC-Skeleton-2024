@@ -41,6 +41,7 @@ public class GamePadDrive extends CommandBase {
         final ChassisSpeeds desiredDriveStationCentricSpeed = driveInput.getJoystickChassisSpeeds(
                 driveSubsystem.getChassisMaxLinearVelocity(), driveSubsystem.getChassisMaxAngularVelocity()
         );
+        Constants.telemetry.addData("Driver Station Requested Speed", desiredDriveStationCentricSpeed);
         this.currentChassisSpeedsSetPointDriverStationCentric = HolonomicDriveSubsystem.constrainAcceleration(
                 currentChassisSpeedsSetPointDriverStationCentric,
                 desiredDriveStationCentricSpeed,

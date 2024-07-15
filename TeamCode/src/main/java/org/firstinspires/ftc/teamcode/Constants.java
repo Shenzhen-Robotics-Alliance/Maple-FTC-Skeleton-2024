@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.ftccommon.internal.manualcontrol.parameters.ImuParameters;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Utils.EmptyTelemetry;
 
@@ -25,6 +28,11 @@ public class Constants {
                 frontRightMotorDirection = DcMotorSimple.Direction.FORWARD,
                 backLeftMotorDirection = DcMotorSimple.Direction.REVERSE,
                 backRightMotorDirection = DcMotorSimple.Direction.FORWARD;
+
+        public static final IMU.Parameters imuParams = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
+        ));
     }
 
     public static final class ChassisConfigs {
