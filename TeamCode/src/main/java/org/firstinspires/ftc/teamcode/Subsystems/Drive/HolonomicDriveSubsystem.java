@@ -5,8 +5,6 @@ import com.arcrobotics.ftclib.command.Subsystem;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.Utils.AllianceSide;
 
-import java.util.Objects;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -88,7 +86,7 @@ public interface HolonomicDriveSubsystem extends Subsystem {
     default void runRobotCentricChassisSpeeds(ChassisSpeeds speeds) {
         runRawChassisSpeeds(ChassisSpeeds.discretize(
                 speeds,
-                1.0/Constants.SystemConfigs.robotUpdateRateHZ
+                1.0/Constants.SystemConfigs.ROBOT_UPDATE_RATE_HZ
         ));
     }
 

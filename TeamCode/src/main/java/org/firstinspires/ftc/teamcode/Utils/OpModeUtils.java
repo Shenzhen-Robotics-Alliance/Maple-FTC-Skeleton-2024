@@ -11,7 +11,7 @@ import java.util.function.BooleanSupplier;
 
 public class OpModeUtils {
     public static void runOpMode(Robot robot, Runnable waitForStart, BooleanSupplier opModeIsActivated, BooleanSupplier isStopRequested, Telemetry driveStationTelemetry) {
-        final MapleLoopClock loopClock = new MapleLoopClock(Constants.SystemConfigs.robotUpdateRateHZ);
+        final MapleLoopClock loopClock = new MapleLoopClock(Constants.SystemConfigs.ROBOT_UPDATE_RATE_HZ);
         Constants.telemetry = new MultipleTelemetry(driveStationTelemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart.run();

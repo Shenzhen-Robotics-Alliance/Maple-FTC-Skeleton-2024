@@ -9,6 +9,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 
 public class OdometerWheelsPoseEstimator extends PoseEstimator<OdometerWheelsPositions> {
+    public final OdometerWheelsKinematics kinematics;
     /**
      * Constructs an Odometer Wheels Pose Estimator with default standard deviations for the model and vision measurements.
      * The default standard deviations of the model states are:
@@ -22,34 +23,24 @@ public class OdometerWheelsPoseEstimator extends PoseEstimator<OdometerWheelsPos
      * @param trackWidthMeters
      * @param centerWheelOffsetMeters
      * @param gyroAngle
-     * @param leftWheelMeters
-     * @param rightWheelMeters
-     * @param centerWheelMeters
+     * @param wheelsPositions
      * @param initialPose
      */
     public OdometerWheelsPoseEstimator(
             double trackWidthMeters, double centerWheelOffsetMeters,
-            Rotation2d gyroAngle, double leftWheelMeters, double rightWheelMeters, double centerWheelMeters,
+            Rotation2d gyroAngle, OdometerWheelsPositions wheelsPositions,
             Pose2d initialPose) {
-        super(
+        this(
                 new OdometerWheelsKinematics(trackWidthMeters, centerWheelOffsetMeters),
-                new OdometerWheelsOdometry(
-                        trackWidthMeters, centerWheelOffsetMeters, gyroAngle,
-                        new OdometerWheelsPositions(leftWheelMeters, rightWheelMeters, centerWheelMeters),
-                        initialPose
-                ),
+                gyroAngle, wheelsPositions, initialPose,
                 VecBuilder.fill(0.01, 0.01, 0.005), VecBuilder.fill(0.2, 0.2, 0.35)
         );
     }
 
     /**
      * Constructs a PoseEstimator.
-     * @param trackWidthMeters
-     * @param centerWheelOffsetMeters
+     * @param kinematics
      * @param gyroAngle
-     * @param leftWheelMeters
-     * @param rightWheelMeters
-     * @param centerWheelMeters
      * @param initialPose
      * @param stateStdDevs             Standard deviations of the pose estimate (x position in meters, y position
      *                                 in meters, and heading in radians). Increase these numbers to trust your state estimate
@@ -59,19 +50,18 @@ public class OdometerWheelsPoseEstimator extends PoseEstimator<OdometerWheelsPos
      *                                 the vision pose measurement less.
      */
     public OdometerWheelsPoseEstimator(
-            double trackWidthMeters, double centerWheelOffsetMeters,
-            Rotation2d gyroAngle, double leftWheelMeters, double rightWheelMeters, double centerWheelMeters,
+            OdometerWheelsKinematics kinematics,
+            Rotation2d gyroAngle,
+            OdometerWheelsPositions wheelsPositions,
             Pose2d initialPose,
             Matrix<N3, N1> stateStdDevs, Matrix<N3, N1> visionMeasurementStdDevs) {
         super(
-                new OdometerWheelsKinematics(trackWidthMeters, centerWheelOffsetMeters),
-                new OdometerWheelsOdometry(
-                        trackWidthMeters, centerWheelOffsetMeters, gyroAngle,
-                        new OdometerWheelsPositions(leftWheelMeters, rightWheelMeters, centerWheelMeters),
-                        initialPose
-                ),
+                kinematics,
+                new OdometerWheelsOdometry(kinematics, gyroAngle, wheelsPositions, initialPose),
                 stateStdDevs, visionMeasurementStdDevs
         );
+
+        this.kinematics = kinematics;
     }
 
     /**

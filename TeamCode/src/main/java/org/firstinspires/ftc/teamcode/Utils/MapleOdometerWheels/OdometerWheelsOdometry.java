@@ -8,21 +8,12 @@ public class OdometerWheelsOdometry extends Odometry<OdometerWheelsPositions> {
     /**
      * Constructs an Odometry object.
      *
-     * @param trackWidthMeters
-     * @param centerWheelOffsetMeters
      * @param gyroAngle         The angle reported by the gyroscope.
      * @param wheelPositions    The current encoder readings.
      * @param initialPoseMeters The starting position of the robot on the field.
      */
-    public OdometerWheelsOdometry(double trackWidthMeters, double centerWheelOffsetMeters, Rotation2d gyroAngle, OdometerWheelsPositions wheelPositions, Pose2d initialPoseMeters) {
-        super(
-                new OdometerWheelsKinematics(
-                        trackWidthMeters, centerWheelOffsetMeters
-                ),
-                gyroAngle,
-                wheelPositions,
-                initialPoseMeters
-        );
+    public OdometerWheelsOdometry(OdometerWheelsKinematics kinematics, Rotation2d gyroAngle, OdometerWheelsPositions wheelPositions, Pose2d initialPoseMeters) {
+        super(kinematics, gyroAngle, wheelPositions, initialPoseMeters);
     }
 
     public void resetPosition(Rotation2d gyroAngle, double leftWheelMeters, double rightWheelMeters, double centerWheelMeters, Pose2d currentPose) {

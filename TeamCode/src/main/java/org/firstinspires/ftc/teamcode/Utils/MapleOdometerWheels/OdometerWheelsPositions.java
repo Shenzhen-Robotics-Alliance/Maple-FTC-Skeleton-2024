@@ -50,4 +50,12 @@ public class OdometerWheelsPositions implements WheelPositions<OdometerWheelsPos
     public OdometerWheelsPositions copy() {
         return new OdometerWheelsPositions(leftWheelMeters, rightWheelMeters, centerWheelMeters);
     }
+
+    public OdometerWheelsPositions minus(OdometerWheelsPositions previousValue) {
+        return new OdometerWheelsPositions(
+                this.leftWheelMeters - previousValue.leftWheelMeters,
+                this.rightWheelMeters - previousValue.rightWheelMeters,
+                this.centerWheelMeters - previousValue.centerWheelMeters
+        );
+    }
 }

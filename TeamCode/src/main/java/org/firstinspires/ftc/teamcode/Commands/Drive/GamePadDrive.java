@@ -47,7 +47,7 @@ public class GamePadDrive extends CommandBase {
                 desiredDriveStationCentricSpeed,
                 driveSubsystem.getChassisMaxLinearVelocity() / Constants.DriverConfigs.linearAccelerationSmoothOutTime,
                 driveSubsystem.getChassisMaxAngularVelocity() / Constants.DriverConfigs.rotationalAccelerationSmoothOutTime,
-                1/Constants.SystemConfigs.robotUpdateRateHZ
+                1/Constants.SystemConfigs.ROBOT_UPDATE_RATE_HZ
         );
 
         if (driveStationCentricModeSwitch.getAsBoolean() && allianceSide != AllianceSide.NOT_GIVEN)

@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Utils.EmptyTelemetry;
 
-import java.net.PortUnreachableException;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 
@@ -15,8 +13,9 @@ public class Constants {
     public static long matchStartTimeMillis = System.currentTimeMillis();
     public static Telemetry telemetry = new EmptyTelemetry();
     public static final class SystemConfigs {
-        public static final double robotUpdateRateHZ = 50.0;
-        public static final double odometryUpdateRateHZ = 200.0;
+        public static final double ROBOT_UPDATE_RATE_HZ = 50.0;
+        public static final double ODOMETRY_UPDATE_RATE_HZ = 200.0;
+        public static final double IMU_UPDATE_HZ = 5;
     }
     public static final class ChassisHardwareConfigs {
         public static final String

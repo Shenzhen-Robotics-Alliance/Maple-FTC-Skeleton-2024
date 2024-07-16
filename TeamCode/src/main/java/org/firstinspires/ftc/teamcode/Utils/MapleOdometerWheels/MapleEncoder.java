@@ -28,7 +28,7 @@ public class MapleEncoder {
         this(encoderInstance, inverted, ticksPerRevolution, gearRatio, 0);
     }
     public MapleEncoder(DcMotor encoderInstance, boolean inverted, double ticksPerRevolution, double gearRatio, double wheelRadius) {
-        this(encoderInstance, inverted, ticksPerRevolution, gearRatio, wheelRadius, Constants.SystemConfigs.robotUpdateRateHZ);
+        this(encoderInstance, inverted, ticksPerRevolution, gearRatio, wheelRadius, Constants.SystemConfigs.ROBOT_UPDATE_RATE_HZ);
     }
 
     public MapleEncoder(DcMotor encoderInstance, boolean inverted, double ticksPerRevolution, double gearRatio, double wheelRadius, double updateRateHZ) {
