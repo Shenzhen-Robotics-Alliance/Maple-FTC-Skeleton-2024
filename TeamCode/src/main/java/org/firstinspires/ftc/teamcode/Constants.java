@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Utils.EmptyTelemetry;
 
+import java.net.PortUnreachableException;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 
@@ -21,6 +23,12 @@ public class Constants {
                 CENTER_ODOMETER_WHEEL_NAME = "frontRight",
                 LEFT_ODOMETER_WHEEL_NAME = "backLeft",
                 RIGHT_ODOMETER_WHEEL_NAME = "backRight";
+
+        /* if the RAW encoder reading is POSITIVE when moving to the left, false; other wise, true */
+        public static final boolean CENTER_ODOMETER_WHEEL_INVERTED = true;
+        /* if the RAW encoder reading is POSITIVE when moving front, false; other wise, true */
+        public static final boolean LEFT_ODOMETER_WHEEL_INVERTED = true;
+        public static final boolean RIGHT_ODOMETER_WHEEL_INVERTED = false;
 
         public static final double
                 frontLeftMotorDirection = -1,

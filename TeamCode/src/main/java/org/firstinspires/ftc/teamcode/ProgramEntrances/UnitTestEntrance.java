@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Tests.MotorsMatch;
 import org.firstinspires.ftc.teamcode.Tests.OdometerTest;
+import org.firstinspires.ftc.teamcode.Tests.OdometryCalibration;
 import org.firstinspires.ftc.teamcode.Tests.SimpleUnitTest;
 
 @TeleOp(name = "UnitTest")
@@ -16,7 +17,7 @@ public class UnitTestEntrance extends OpMode {
     @Override
     public void init() {
         final Telemetry multipleTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        test = new OdometerTest(hardwareMap, multipleTelemetry);
+        test = new OdometryCalibration(hardwareMap, multipleTelemetry, gamepad1);
     }
 
     @Override
