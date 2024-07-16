@@ -30,14 +30,23 @@ public class MapleEncoder {
     public MapleEncoder(DcMotor encoderInstance, boolean inverted, double ticksPerRevolution, double gearRatio, double wheelRadius) {
         this(encoderInstance, inverted, ticksPerRevolution, gearRatio, wheelRadius, Constants.SystemConfigs.robotUpdateRateHZ);
     }
+
     public MapleEncoder(DcMotor encoderInstance, boolean inverted, double ticksPerRevolution, double gearRatio, double wheelRadius, double updateRateHZ) {
+        this(
+                encoderInstance, inverted, ticksPerRevolution, gearRatio, wheelRadius, updateRateHZ,
+                // LinearFilter.movingAverage(10)
+                LinearFilter.singlePoleIIR((1.0/updateRateHZ) * 10, 1.0/updateRateHZ)
+        );
+    }
+    public MapleEncoder(DcMotor encoderInstance, boolean inverted, double ticksPerRevolution, double gearRatio, double wheelRadius, double updateRateHZ, LinearFilter filter) {
         this.encoderInstance = encoderInstance;
         this.encoderReadingRatio = inverted ? -1 : 1;
         this.ticksPerRevolution = ticksPerRevolution;
         this.gearRatio = gearRatio;
         this.wheelRadius = wheelRadius;
         this.periodSeconds = 1.0/updateRateHZ;
-        this.filter = LinearFilter.singlePoleIIR(periodSeconds * 5, periodSeconds);
+
+        this.filter = filter;
 
         this.calibratedPositionTicks = this.positionTicks = getCurrentPositionTicks();
         this.deltaTicks = this.filteredVelocityTicksPerSecond = 0;
@@ -51,12 +60,13 @@ public class MapleEncoder {
         this.calibratedPositionTicks = getCurrentPositionTicks();
     }
 
+    private double unfilteredVelocityTicksPerSecond = 0;
     public void poll() {
         final int latestTicks = getCurrentPositionTicks();
         this.deltaTicks = latestTicks - this.positionTicks;
         this.positionTicks = latestTicks;
-        final double ticksPerSecondUnFiltered = deltaTicks / periodSeconds;
-        this.filteredVelocityTicksPerSecond = filter.calculate(ticksPerSecondUnFiltered);
+        this.unfilteredVelocityTicksPerSecond = deltaTicks / periodSeconds;
+        this.filteredVelocityTicksPerSecond = filter.calculate(this.unfilteredVelocityTicksPerSecond);
     }
 
     public double getRevolutionsSinceCalibration() {
@@ -65,6 +75,15 @@ public class MapleEncoder {
 
     public double getVelocityRevolutionsPerSecond() {
         return filteredVelocityTicksPerSecond / ticksPerRevolution / gearRatio;
+    }
+
+    /**
+     * gets the encoder
+     * @return the unfiltered encoder velocity, in rev/sec
+     * */
+    @Deprecated
+    public double getUnfilteredVelocityRevolutionsPerSecond() {
+        return unfilteredVelocityTicksPerSecond / ticksPerRevolution / gearRatio;
     }
 
     public double getDistanceMeters() {

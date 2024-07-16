@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -7,6 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Utils.MapleLoopClock;
+import org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels.MapleEncoder;
 
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -14,44 +17,45 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class OdometerTest implements SimpleUnitTest {
-    private final DcMotor encoder1, encoder2, encoder3;
+    private final MapleEncoder encoder1, encoder2, encoder3;
     private final IMU imu;
     private final Telemetry telemetry;
-    private int encoderMillis;
-    private final Queue<Integer> reading1;
-    private Queue<Integer> reading2;
-    private Queue<Integer> reading3;
+    private int encoderReadTimeMillis;
+    private final Queue<Double> reading1, reading2, reading3;
     private static final MapleLoopClock mainThreadClock = new MapleLoopClock(50), odometerClock = new MapleLoopClock(200);
     private static final long imuUpdateMarginMillis = 200;
     private final Lock odometryLock = new ReentrantLock();
     private boolean running;
     public OdometerTest(HardwareMap hardwareMap, Telemetry telemetry) {
-        encoder1 = hardwareMap.get(DcMotor.class, "backRight");
-        encoder2 = hardwareMap.get(DcMotor.class, "frontRight");
-        encoder3 = hardwareMap.get(DcMotor.class, "backLeft");
+        encoder1 = new MapleEncoder(hardwareMap.get(DcMotor.class, "backRight"), false, 2048, 1, 1, 200);
+        encoder2 = new MapleEncoder(hardwareMap.get(DcMotor.class, "frontRight"), false, 2048, 1, 1, 200);
+        encoder3 = new MapleEncoder(hardwareMap.get(DcMotor.class, "backLeft"), false, 2048, 1, 1, 200);
         this.imu = hardwareMap.get(IMU.class, "imu");
         this.telemetry = telemetry;
 
-        encoderMillis = 0;
+        encoderReadTimeMillis = 0;
         reading1 = new ArrayBlockingQueue<>(10);
         reading2 = new ArrayBlockingQueue<>(10);
         reading3 = new ArrayBlockingQueue<>(10);
     }
 
+    private double vel1 = 0, vel2 = 0, vel3 = 0;
     private void updateEncoders() {
         final long millis0 = System.currentTimeMillis();
-        final int
-                reading1Cached = encoder1.getCurrentPosition(),
-                reading2Cached = encoder2.getCurrentPosition(),
-                reading3Cached = encoder3.getCurrentPosition();
+        encoder1.poll();
+        encoder2.poll();
+        encoder3.poll();
         final int elapsedMillis = (int) (System.currentTimeMillis() - millis0);
 
         odometryLock.lock();
-        reading1.add(reading1Cached);
-        reading2.add(reading2Cached);
-        reading3.add(reading3Cached);
+        reading1.add(encoder1.getRevolutionsSinceCalibration());
+        reading2.add(encoder2.getRevolutionsSinceCalibration());
+        reading3.add(encoder3.getRevolutionsSinceCalibration());
+        vel1 = encoder1.getVelocityRevolutionsPerSecond();
+        vel2 = encoder2.getVelocityRevolutionsPerSecond();
+        vel3 = encoder3.getVelocityRevolutionsPerSecond();
         odometryLock.unlock();
-        this.encoderMillis = elapsedMillis;
+        this.encoderReadTimeMillis = elapsedMillis;
         odometerClock.tick();
     }
 
@@ -81,8 +85,12 @@ public class OdometerTest implements SimpleUnitTest {
         odometryLock.lock();
         telemetry.addData("yaw", yawDegrees);
         telemetry.addData("yaw read time millis", yawMillis);
-        telemetry.addData("read time millis", encoderMillis);
+        telemetry.addData("encoder read time millis", encoderReadTimeMillis);
         telemetry.addData("readings", reading1.toString() + "/" + reading2.toString() + "/" + reading3.toString());
+
+        telemetry.addData("vel1", vel1);
+        telemetry.addData("vel1 unfiltered", encoder1.getUnfilteredVelocityRevolutionsPerSecond());
+
         telemetry.update();
         reading1.clear();
         reading2.clear();

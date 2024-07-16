@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.Robot;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -8,9 +10,9 @@ import org.firstinspires.ftc.teamcode.Constants;
 import java.util.function.BooleanSupplier;
 
 public class OpModeUtils {
-    public static void runOpMode(Robot robot, Runnable waitForStart, BooleanSupplier opModeIsActivated, BooleanSupplier isStopRequested, Telemetry telemetry) {
+    public static void runOpMode(Robot robot, Runnable waitForStart, BooleanSupplier opModeIsActivated, BooleanSupplier isStopRequested, Telemetry driveStationTelemetry) {
         final MapleLoopClock loopClock = new MapleLoopClock(Constants.SystemConfigs.robotUpdateRateHZ);
-        Constants.telemetry = telemetry;
+        Constants.telemetry = new MultipleTelemetry(driveStationTelemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart.run();
 
@@ -18,7 +20,7 @@ public class OpModeUtils {
 
         while (opModeIsActivated.getAsBoolean() && !isStopRequested.getAsBoolean()) {
             robot.run();
-            telemetry.update();
+            driveStationTelemetry.update();
             loopClock.tick();
         }
         robot.reset(); // cancel the commands
