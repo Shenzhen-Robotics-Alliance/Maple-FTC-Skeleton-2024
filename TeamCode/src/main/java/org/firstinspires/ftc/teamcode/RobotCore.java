@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -27,7 +26,7 @@ public final class RobotCore {
                 backRight = hardwareMap.get(DcMotor.class, "backRight");
 
         final IMU imu = hardwareMap.get(IMU.class, "imu");
-        imu.initialize(Constants.HardwareConfigs.imuParams);
+        imu.initialize(Constants.ChassisHardwareConfigs.imuParams);
 
         this.driveSubsystem = new MecanumDriveSubsystem(
                 frontLeft, frontRight, backLeft, backRight,

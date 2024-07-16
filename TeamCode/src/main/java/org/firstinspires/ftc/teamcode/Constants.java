@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,7 +16,7 @@ public class Constants {
         public static final double robotUpdateRateHZ = 50.0;
         public static final double odometryUpdateRateHZ = 200.0;
     }
-    public static final class HardwareConfigs {
+    public static final class ChassisHardwareConfigs {
         public static final String
                 CENTER_ODOMETER_WHEEL_NAME = "frontRight",
                 LEFT_ODOMETER_WHEEL_NAME = "backLeft",
@@ -33,6 +32,9 @@ public class Constants {
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP
         ));
+
+        public static final double ODOMETER_ENCODER_TICKS_PER_REVOLUTION = 2048;
+        public static final double ODOMETER_WHEELS_RADIUS = 48.0/2/1000;
     }
 
     public static final class ChassisConfigs {

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Drive;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -54,10 +53,10 @@ public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDri
     @Override
     public void runRawChassisSpeeds(ChassisSpeeds speeds) {
         final MecanumDriveWheelSpeeds wheelSpeeds = mecanumDriveKinematics.toWheelSpeeds(speeds);
-        feedMotorSpeedForward(frontLeft, wheelSpeeds.frontLeftMetersPerSecond * Constants.HardwareConfigs.frontLeftMotorDirection);
-        feedMotorSpeedForward(frontRight, wheelSpeeds.frontRightMetersPerSecond * Constants.HardwareConfigs.frontRightMotorDirection);
-        feedMotorSpeedForward(backLeft, wheelSpeeds.rearLeftMetersPerSecond * Constants.HardwareConfigs.backLeftMotorDirection);
-        feedMotorSpeedForward(backRight, wheelSpeeds.rearRightMetersPerSecond * Constants.HardwareConfigs.backRightMotorDirection);
+        feedMotorSpeedForward(frontLeft, wheelSpeeds.frontLeftMetersPerSecond * Constants.ChassisHardwareConfigs.frontLeftMotorDirection);
+        feedMotorSpeedForward(frontRight, wheelSpeeds.frontRightMetersPerSecond * Constants.ChassisHardwareConfigs.frontRightMotorDirection);
+        feedMotorSpeedForward(backLeft, wheelSpeeds.rearLeftMetersPerSecond * Constants.ChassisHardwareConfigs.backLeftMotorDirection);
+        feedMotorSpeedForward(backRight, wheelSpeeds.rearRightMetersPerSecond * Constants.ChassisHardwareConfigs.backRightMotorDirection);
 
         Constants.telemetry.addData("Chassis Speeds", speeds);
         Constants.telemetry.addData("Wheel Speeds", wheelSpeeds);
