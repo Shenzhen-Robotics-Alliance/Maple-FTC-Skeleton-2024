@@ -29,10 +29,6 @@ public final class RobotCore {
         final IMU imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(Constants.HardwareConfigs.imuParams);
 
-        frontLeft.setDirection(Constants.HardwareConfigs.frontLeftMotorDirection);
-        frontRight.setDirection(Constants.HardwareConfigs.frontRightMotorDirection);
-        backLeft.setDirection(Constants.HardwareConfigs.backLeftMotorDirection);
-        backRight.setDirection(Constants.HardwareConfigs.backRightMotorDirection);
         this.driveSubsystem = new MecanumDriveSubsystem(
                 frontLeft, frontRight, backLeft, backRight,
                 imu

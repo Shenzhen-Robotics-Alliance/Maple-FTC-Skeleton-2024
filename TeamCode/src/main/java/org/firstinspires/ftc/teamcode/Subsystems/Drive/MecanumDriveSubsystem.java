@@ -54,10 +54,10 @@ public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDri
     @Override
     public void runRawChassisSpeeds(ChassisSpeeds speeds) {
         final MecanumDriveWheelSpeeds wheelSpeeds = mecanumDriveKinematics.toWheelSpeeds(speeds);
-        feedMotorSpeedForward(frontLeft, wheelSpeeds.frontLeftMetersPerSecond);
-        feedMotorSpeedForward(frontRight, wheelSpeeds.frontRightMetersPerSecond);
-        feedMotorSpeedForward(backLeft, wheelSpeeds.rearLeftMetersPerSecond);
-        feedMotorSpeedForward(backRight, wheelSpeeds.rearRightMetersPerSecond);
+        feedMotorSpeedForward(frontLeft, wheelSpeeds.frontLeftMetersPerSecond * Constants.HardwareConfigs.frontLeftMotorDirection);
+        feedMotorSpeedForward(frontRight, wheelSpeeds.frontRightMetersPerSecond * Constants.HardwareConfigs.frontRightMotorDirection);
+        feedMotorSpeedForward(backLeft, wheelSpeeds.rearLeftMetersPerSecond * Constants.HardwareConfigs.backLeftMotorDirection);
+        feedMotorSpeedForward(backRight, wheelSpeeds.rearRightMetersPerSecond * Constants.HardwareConfigs.backRightMotorDirection);
 
         Constants.telemetry.addData("Chassis Speeds", speeds);
         Constants.telemetry.addData("Wheel Speeds", wheelSpeeds);
