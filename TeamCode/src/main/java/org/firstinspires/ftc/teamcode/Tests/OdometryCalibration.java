@@ -94,7 +94,7 @@ public class OdometryCalibration implements SimpleUnitTest {
             final double trackWidth = (rightOdometerWheel.getDistanceMeters() - leftOdometerWheel.getDistanceMeters()) / radiansRotated,
                     centerWheelOffset = centerOdometerWheel.getDistanceMeters() / radiansRotated;
             telemetry.addData("track width (meters)", trackWidth); // 0.257
-            telemetry.addData("center wheel offset (meters)", centerWheelOffset); // 0.020
+            telemetry.addData("center wheel offset (meters)", centerWheelOffset); // -0.022
         }
 
         telemetry.update();

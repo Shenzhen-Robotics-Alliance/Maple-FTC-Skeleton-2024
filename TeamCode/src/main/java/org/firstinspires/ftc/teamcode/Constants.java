@@ -43,6 +43,9 @@ public class Constants {
 
         public static final double ODOMETER_ENCODER_TICKS_PER_REVOLUTION = 2048;
         public static final double ODOMETER_WHEELS_RADIUS = 48.0/2/1000;
+
+        public static final double ODOMETER_WHEELS_TRACK_WIDTH_METERS = 0.257;
+        public static final double ODOMETER_CENTER_WHEELS_OFFSET = -0.022;
     }
 
     public static final class ChassisConfigs {
