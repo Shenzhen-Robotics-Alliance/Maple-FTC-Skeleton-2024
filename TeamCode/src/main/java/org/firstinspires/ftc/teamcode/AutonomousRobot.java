@@ -15,12 +15,6 @@ public class AutonomousRobot extends Robot {
     public AutonomousRobot(RobotCore robotCore, Auto auto) {
         super();
 
-        registerSubsystems();
-
         super.schedule(auto.getAutonomousCommands(robotCore));
-    }
-
-    private void registerSubsystems() {
-        // TODO: register subsystems from robot core
     }
 }

@@ -24,14 +24,7 @@ public class TeleOpRobot extends Robot {
         this.pilotGamePad = new GamepadEx(pilotGamePad);
         this.copilotGamePad = new GamepadEx(copilotGamePad);
 
-        registerSubsystems();
-
         configureKeyBindings();
-    }
-
-
-    private void registerSubsystems() {
-        register(robotCore.driveSubsystem);
     }
 
     private void configureKeyBindings() {
