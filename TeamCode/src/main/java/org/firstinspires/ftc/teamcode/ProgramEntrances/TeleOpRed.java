@@ -17,6 +17,6 @@ public class TeleOpRed extends LinearOpMode {
                 gamepad1, gamepad2
         );
 
-        OpModeUtils.runOpMode(robot, this::waitForStart, this::opModeIsActive, this::isStopRequested, telemetry);
+        OpModeUtils.runTeleOp(robot, this);
     }
 }

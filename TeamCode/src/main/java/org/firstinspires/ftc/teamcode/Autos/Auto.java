@@ -10,4 +10,6 @@ import org.firstinspires.ftc.teamcode.RobotCore;
  * */
 public interface Auto {
     Command getAutonomousCommands(RobotCore robotCore);
+
+    default void beforeStartPeriodic() {}
 }

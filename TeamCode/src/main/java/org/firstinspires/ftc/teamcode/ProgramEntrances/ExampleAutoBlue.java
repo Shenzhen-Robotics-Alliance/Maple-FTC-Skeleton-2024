@@ -18,6 +18,6 @@ public class ExampleAutoBlue extends LinearOpMode {
                 new ExampleAuto()
         );
 
-        OpModeUtils.runOpMode(robot, this::waitForStart, this::opModeIsActive, this::isStopRequested, telemetry);
+        OpModeUtils.runAutoMode(robot, this);
     }
 }
