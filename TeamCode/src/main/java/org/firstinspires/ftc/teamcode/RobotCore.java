@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.arcrobotics.ftclib.command.FunctionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,6 +14,8 @@ import org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels.MapleOdometerWhe
 import static org.firstinspires.ftc.teamcode.Constants.ChassisHardwareConfigs.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /**
  * declares all the subsystems of a robot
@@ -70,12 +73,14 @@ public final class RobotCore {
                         50
                 ),
                 imu,
-                new Pose2d()
+                new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)) // facing forward
         );
-
         testOdometry.register();
-        testOdometry.setDefaultCommand(new InstantCommand(
+        testOdometry.setDefaultCommand(new FunctionalCommand(
+                () -> {},
                 () -> Constants.telemetry.addData("Estimated Pose", testOdometry.getEstimatedPose()),
+                (Boolean terminated) -> {},
+                () -> false,
                 testOdometry
         ));
     }

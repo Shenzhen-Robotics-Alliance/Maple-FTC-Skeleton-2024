@@ -56,8 +56,8 @@ public interface HolonomicDriveSubsystem extends Subsystem {
      * */
     default void runDriverStationCentricChassisSpeeds(ChassisSpeeds driverStationCentricSpeeds, AllianceSide side) {
         final Rotation2d driverStationFacing = (AllianceSide.RED.equals(side)) ?
-                Rotation2d.fromDegrees(90) // red
-                : Rotation2d.fromDegrees(-90); // blue or not given
+                Rotation2d.fromDegrees(180) // red
+                : Rotation2d.fromDegrees(0); // blue or not given
         runRobotCentricChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(
                 driverStationCentricSpeeds,
                 getPose().getRotation().minus(driverStationFacing)
