@@ -56,9 +56,11 @@ public class RectangularRegionColorComparisonPipeLine extends OpenCvPipeline {
 
         double highestDensity = Double.NEGATIVE_INFINITY;
 
+        int regionID = 0;
         for (RegionOfInterest regionOfInterest : regionOfInterests) {
             double density = getFocusedChannelDensityInRegion(focusedChannelMat, regionOfInterest);
-            telemetry.addData("density of " + regionOfInterest, density);
+            telemetry.addData("density of ROI" + regionID, density);
+            telemetry.addData("center of ROI" + regionID++, regionOfInterest.centerX + ", " + regionOfInterest.centerY);
             if (density > highestDensity) {
                 highestDensity = density;
                 regionWithHighestDensity = regionOfInterest;
