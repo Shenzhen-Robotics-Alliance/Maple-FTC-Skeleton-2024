@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Utils;
 
-import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.constants.Constants;
 
 public class MapleTime {
     public static void wait(double seconds) {

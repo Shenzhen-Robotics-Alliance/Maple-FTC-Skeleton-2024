@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.Commands.Drive;
+package org.firstinspires.ftc.teamcode.commands.drive;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.Subsystems.Drive.HolonomicDriveSubsystem;
+import org.firstinspires.ftc.teamcode.constants.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.drive.HolonomicDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.Utils.MapleJoystickDriveInput;
 
@@ -45,8 +45,8 @@ public class GamePadDrive extends CommandBase {
         this.currentChassisSpeedsSetPointDriverStationCentric = HolonomicDriveSubsystem.constrainAcceleration(
                 currentChassisSpeedsSetPointDriverStationCentric,
                 desiredDriveStationCentricSpeed,
-                driveSubsystem.getChassisMaxLinearVelocity() / Constants.DriverConfigs.linearAccelerationSmoothOutTime,
-                driveSubsystem.getChassisMaxAngularVelocity() / Constants.DriverConfigs.rotationalAccelerationSmoothOutTime,
+                driveSubsystem.getChassisMaxLinearVelocity() / Constants.DriverConfigs.LINEAR_ACCELERATION_SMOOTH_OUT_TIME,
+                driveSubsystem.getChassisMaxAngularVelocity() / Constants.DriverConfigs.ROTATIONAL_ACCELERATION_SMOOTH_OUT_TIME,
                 1/Constants.SystemConfigs.ROBOT_UPDATE_RATE_HZ
         );
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.tests;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Utils.MapleLoopClock;
 import org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels.MapleEncoder;
 
-import static org.firstinspires.ftc.teamcode.Constants.ChassisHardwareConfigs.*;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.*;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -30,7 +30,7 @@ public class OdometryCalibration implements SimpleUnitTest {
                 LEFT_ODOMETER_WHEEL_INVERTED,
                 ODOMETER_ENCODER_TICKS_PER_REVOLUTION,
                 1,
-                ODOMETER_WHEELS_RADIUS
+                ODOMETER_WHEELS_RADIUS_METERS
         );
 
         this.rightOdometerWheel = new MapleEncoder(
@@ -38,7 +38,7 @@ public class OdometryCalibration implements SimpleUnitTest {
                 RIGHT_ODOMETER_WHEEL_INVERTED,
                 ODOMETER_ENCODER_TICKS_PER_REVOLUTION,
                 1,
-                ODOMETER_WHEELS_RADIUS
+                ODOMETER_WHEELS_RADIUS_METERS
         );
 
         this.centerOdometerWheel = new MapleEncoder(
@@ -46,7 +46,7 @@ public class OdometryCalibration implements SimpleUnitTest {
                 CENTER_ODOMETER_WHEEL_INVERTED,
                 ODOMETER_ENCODER_TICKS_PER_REVOLUTION,
                 1,
-                ODOMETER_WHEELS_RADIUS
+                ODOMETER_WHEELS_RADIUS_METERS
         );
 
         this.frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -81,10 +81,10 @@ public class OdometryCalibration implements SimpleUnitTest {
         telemetry.addData("center rev", centerOdometerWheel.getDistanceMeters());
 
         final double rotaryPower = gamepad.a ? 0.3: -0;
-        frontLeft.setPower(-rotaryPower * frontLeftMotorDirection);
-        backLeft.setPower(-rotaryPower * backLeftMotorDirection);
-        frontRight.setPower(rotaryPower * frontRightMotorDirection);
-        backRight.setPower(rotaryPower * backRightMotorDirection);
+        frontLeft.setPower(-rotaryPower * FRONT_LEFT_MOTOR_DIRECTION);
+        backLeft.setPower(-rotaryPower * BACK_LEFT_MOTOR_DIRECTION);
+        frontRight.setPower(rotaryPower * FRONT_RIGHT_MOTOR_DIRECTION);
+        backRight.setPower(rotaryPower * BACK_RIGHT_MOTOR_DIRECTION);
 
         final double imuReading = getIMUReading();
         radiansRotated += Rotation2d.fromRadians(imuReading).minus(Rotation2d.fromRadians(previousRotationRadians)).getRadians();

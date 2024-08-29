@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.Robot;
 
-import org.firstinspires.ftc.teamcode.Autos.Auto;
+import org.firstinspires.ftc.teamcode.autos.Auto;
 import org.firstinspires.ftc.teamcode.Utils.MapleLoopClock;
 
 /**
@@ -12,11 +12,11 @@ import org.firstinspires.ftc.teamcode.Utils.MapleLoopClock;
 public class AutonomousRobot extends Robot {
     private static final MapleLoopClock beforeStartPeriodicClock = new MapleLoopClock(24);
     private final Auto auto;
-    private final RobotCore robotCore;
-    public AutonomousRobot(RobotCore robotCore, Auto auto) {
+    private final RobotContainer robotContainer;
+    public AutonomousRobot(RobotContainer robotContainer, Auto auto) {
         super();
         this.auto = auto;
-        this.robotCore = robotCore;
+        this.robotContainer = robotContainer;
     }
 
     public void beforeStartPeriodic() {
@@ -25,6 +25,6 @@ public class AutonomousRobot extends Robot {
     }
 
     public void startAuto() {
-        super.schedule(auto.getAutonomousCommands(robotCore));
+        super.schedule(auto.getAutonomousCommands(robotContainer));
     }
 }

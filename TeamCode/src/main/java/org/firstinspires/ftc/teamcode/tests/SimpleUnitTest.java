@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Tests;
+package org.firstinspires.ftc.teamcode.tests;
 
 public interface SimpleUnitTest {
     default void beforeStartPeriodic() {}

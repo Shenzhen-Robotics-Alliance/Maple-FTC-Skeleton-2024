@@ -5,10 +5,9 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.Commands.Drive.GamePadDrive;
+import org.firstinspires.ftc.teamcode.commands.drive.GamePadDrive;
 import org.firstinspires.ftc.teamcode.Utils.MapleJoystickDriveInput;
 
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 
 /**
@@ -16,11 +15,11 @@ import edu.wpi.first.math.geometry.Pose2d;
  * here we bind all the commands to a key on the GamePad
  * */
 public class TeleOpRobot extends Robot {
-    private final RobotCore robotCore;
+    private final RobotContainer robotContainer;
     private final GamepadEx pilotGamePad, copilotGamePad;
-    public TeleOpRobot(RobotCore robotCore, Gamepad pilotGamePad, Gamepad copilotGamePad) {
+    public TeleOpRobot(RobotContainer robotContainer, Gamepad pilotGamePad, Gamepad copilotGamePad) {
         super();
-        this.robotCore = robotCore;
+        this.robotContainer = robotContainer;
         this.pilotGamePad = new GamepadEx(pilotGamePad);
         this.copilotGamePad = new GamepadEx(copilotGamePad);
 
@@ -28,15 +27,15 @@ public class TeleOpRobot extends Robot {
     }
 
     private void configureKeyBindings() {
-        robotCore.driveSubsystem.setDefaultCommand(new GamePadDrive(
-                robotCore.driveSubsystem,
+        robotContainer.driveSubsystem.setDefaultCommand(new GamePadDrive(
+                robotContainer.driveSubsystem,
                 MapleJoystickDriveInput.leftHandedJoystick(pilotGamePad),
                 () -> true,
-                robotCore.currentSide
+                robotContainer.currentSide
         ));
 
         this.pilotGamePad.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                () -> robotCore.driveSubsystem.setPose(new Pose2d())
+                () -> robotContainer.driveSubsystem.setPose(new Pose2d())
         );
     }
 

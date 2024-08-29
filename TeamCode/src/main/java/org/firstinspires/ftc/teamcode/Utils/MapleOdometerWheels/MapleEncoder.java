@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.constants.Constants;
 
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.util.Units;

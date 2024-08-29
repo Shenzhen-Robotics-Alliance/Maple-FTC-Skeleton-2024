@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode.Autos;
+package org.firstinspires.ftc.teamcode.autos;
 
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.RunCommand;
 
-import org.firstinspires.ftc.teamcode.RobotCore;
+import org.firstinspires.ftc.teamcode.RobotContainer;
 
 public class ExampleAuto implements Auto {
     @Override
-    public Command getAutonomousCommands(RobotCore robotCore) {
+    public Command getAutonomousCommands(RobotContainer robotContainer) {
         return new RunCommand(
-                () -> System.out.println("Example Running on " + robotCore.currentSide + " Side...")
+                () -> System.out.println("Example Running on " + robotContainer.currentSide + " Side...")
         ).beforeStarting(
                 () -> System.out.println("Starting Example...")
         );
