@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels;
+package org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels;
 
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.constants.Constants;
-import org.firstinspires.ftc.teamcode.Utils.MapleTime;
+import org.firstinspires.ftc.teamcode.utils.MapleTime;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;

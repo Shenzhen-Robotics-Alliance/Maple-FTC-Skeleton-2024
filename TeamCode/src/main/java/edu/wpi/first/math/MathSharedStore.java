@@ -4,7 +4,7 @@
 
 package edu.wpi.first.math;
 
-import org.firstinspires.ftc.teamcode.Utils.MapleTime;
+import org.firstinspires.ftc.teamcode.utils.MapleTime;
 
 import edu.wpi.first.util.WPIUtilJNI;
 

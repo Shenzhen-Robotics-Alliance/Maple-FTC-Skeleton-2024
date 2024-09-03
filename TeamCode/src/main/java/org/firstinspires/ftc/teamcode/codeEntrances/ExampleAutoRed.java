@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.AutonomousRobot;
 import org.firstinspires.ftc.teamcode.autos.ExampleAuto;
 import org.firstinspires.ftc.teamcode.RobotContainer;
-import org.firstinspires.ftc.teamcode.Utils.AllianceSide;
-import org.firstinspires.ftc.teamcode.Utils.OpModeUtils;
+import org.firstinspires.ftc.teamcode.utils.AllianceSide;
+import org.firstinspires.ftc.teamcode.utils.OpModeUtils;
 
 @Autonomous(name="<Auto>[Red] Example")
 public class ExampleAutoRed extends LinearOpMode {

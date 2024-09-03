@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.arcrobotics.ftclib.command.Robot;
 
 import org.firstinspires.ftc.teamcode.autos.Auto;
-import org.firstinspires.ftc.teamcode.Utils.MapleLoopClock;
+import org.firstinspires.ftc.teamcode.utils.MapleLoopClock;
 
 /**
  * robot during autonomous period

@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.commands.drive.GamePadDrive;
-import org.firstinspires.ftc.teamcode.Utils.MapleJoystickDriveInput;
+import org.firstinspires.ftc.teamcode.utils.MapleJoystickDriveInput;
 
 import edu.wpi.first.math.geometry.Pose2d;
 

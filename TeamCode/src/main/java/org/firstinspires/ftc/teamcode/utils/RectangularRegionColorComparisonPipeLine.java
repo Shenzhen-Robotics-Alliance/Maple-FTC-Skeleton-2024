@@ -1,6 +1,6 @@
 // Created By Iron Maple (19581) and ChatGPT, Under MIT-License
 // original source https://github.com/Shenzhen-Robotics-Alliance/Maple-FTC-Skeleton-2024
-package org.firstinspires.ftc.teamcode.Utils;
+package org.firstinspires.ftc.teamcode.utils;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;

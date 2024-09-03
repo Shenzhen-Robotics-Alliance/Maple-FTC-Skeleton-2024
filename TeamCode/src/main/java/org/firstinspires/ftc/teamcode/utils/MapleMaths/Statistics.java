@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utils.MapleMaths;
+package org.firstinspires.ftc.teamcode.utils.MapleMaths;
 
 public final class Statistics {
     public static double getMean(double[] dataSet) {

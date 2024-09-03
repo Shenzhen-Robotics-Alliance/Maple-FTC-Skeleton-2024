@@ -1,7 +1,7 @@
 // By 5516 Iron Maple, original: https://github.com/Shenzhen-Robotics-Alliance/Maple-FTC-Skeleton-2024
 // Under MIT License
 
-package org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels;
+package org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 

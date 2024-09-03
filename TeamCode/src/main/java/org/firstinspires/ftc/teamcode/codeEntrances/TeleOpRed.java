@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.RobotContainer;
 import org.firstinspires.ftc.teamcode.TeleOpRobot;
-import org.firstinspires.ftc.teamcode.Utils.AllianceSide;
-import org.firstinspires.ftc.teamcode.Utils.OpModeUtils;
+import org.firstinspires.ftc.teamcode.utils.AllianceSide;
+import org.firstinspires.ftc.teamcode.utils.OpModeUtils;
 
 @TeleOp(name = "<Tele-Op>[Red]")
 public class TeleOpRed extends LinearOpMode {

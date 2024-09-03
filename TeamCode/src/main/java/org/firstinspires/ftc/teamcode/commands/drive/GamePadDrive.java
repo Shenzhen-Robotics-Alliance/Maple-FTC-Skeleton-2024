@@ -4,8 +4,8 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.constants.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.drive.HolonomicDriveSubsystem;
-import org.firstinspires.ftc.teamcode.Utils.AllianceSide;
-import org.firstinspires.ftc.teamcode.Utils.MapleJoystickDriveInput;
+import org.firstinspires.ftc.teamcode.utils.AllianceSide;
+import org.firstinspires.ftc.teamcode.utils.MapleJoystickDriveInput;
 
 import java.util.function.BooleanSupplier;
 

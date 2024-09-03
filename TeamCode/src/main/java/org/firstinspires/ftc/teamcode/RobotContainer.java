@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.constants.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.drive.MecanumDriveSubsystem;
-import org.firstinspires.ftc.teamcode.Utils.AllianceSide;
-import org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels.MapleEncoder;
-import org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels.MapleOdometerWheelsOdometry;
+import org.firstinspires.ftc.teamcode.utils.AllianceSide;
+import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleEncoder;
+import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleOdometerWheelsOdometry;
 
 import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.*;
 

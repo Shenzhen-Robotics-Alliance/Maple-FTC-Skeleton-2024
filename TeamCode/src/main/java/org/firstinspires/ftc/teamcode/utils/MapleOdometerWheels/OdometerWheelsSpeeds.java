@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels;
+package org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels;
 
 public class OdometerWheelsSpeeds {
     public final double leftWheelMetersPerSecond;

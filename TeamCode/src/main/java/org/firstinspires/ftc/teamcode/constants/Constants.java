@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.constants;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Utils.EmptyTelemetry;
+import org.firstinspires.ftc.teamcode.utils.EmptyTelemetry;
 
 
 public class Constants {

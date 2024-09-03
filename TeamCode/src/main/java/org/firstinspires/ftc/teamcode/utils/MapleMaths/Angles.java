@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utils.MapleMaths;
+package org.firstinspires.ftc.teamcode.utils.MapleMaths;
 
 public class Angles {
     /**

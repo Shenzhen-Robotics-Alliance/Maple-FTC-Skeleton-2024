@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.Utils;
+package org.firstinspires.ftc.teamcode.utils;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.constants.Constants;
-import org.firstinspires.ftc.teamcode.Utils.MapleMaths.MapleCommonMath;
+import org.firstinspires.ftc.teamcode.utils.MapleMaths.MapleCommonMath;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;

@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Utils.MapleLoopClock;
-import org.firstinspires.ftc.teamcode.Utils.MapleOdometerWheels.MapleEncoder;
+import org.firstinspires.ftc.teamcode.utils.MapleLoopClock;
+import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleEncoder;
 
 import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.*;
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utils.MapleMaths;
+package org.firstinspires.ftc.teamcode.utils.MapleMaths;
 
 public class MapleCommonMath {
     public static double linearInterpretationWithBounding(double x1, double y1, double x2, double y2, double x) {

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utils;
+package org.firstinspires.ftc.teamcode.utils;
 
 /**
  * helper class to constrain the frequency of a loop
