@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.drive;
 
+import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.*;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.constants.Constants;
@@ -45,8 +47,8 @@ public class GamePadDrive extends CommandBase {
         this.currentChassisSpeedsSetPointDriverStationCentric = HolonomicDriveSubsystem.constrainAcceleration(
                 currentChassisSpeedsSetPointDriverStationCentric,
                 desiredDriveStationCentricSpeed,
-                driveSubsystem.getChassisMaxLinearVelocity() / Constants.DriverConfigs.LINEAR_ACCELERATION_SMOOTH_OUT_TIME,
-                driveSubsystem.getChassisMaxAngularVelocity() / Constants.DriverConfigs.ROTATIONAL_ACCELERATION_SMOOTH_OUT_TIME,
+                driveSubsystem.getChassisMaxLinearVelocity() / LINEAR_ACCELERATION_SMOOTH_OUT_TIME,
+                driveSubsystem.getChassisMaxAngularVelocity() / ROTATIONAL_ACCELERATION_SMOOTH_OUT_TIME,
                 1/Constants.SystemConfigs.ROBOT_UPDATE_RATE_HZ
         );
 

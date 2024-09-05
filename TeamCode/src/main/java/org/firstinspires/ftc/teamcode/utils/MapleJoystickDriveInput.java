@@ -12,6 +12,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import java.util.function.DoubleSupplier;
 
+import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.*;
+
 public class MapleJoystickDriveInput {
     private final DoubleSupplier joystickXSupplier, joystickYSupplier, joystickOmegaSupplier;
 
@@ -48,7 +50,7 @@ public class MapleJoystickDriveInput {
                 linearSpeedYComponentDeadBanded = applySmartDeadBand(linearSpeedYComponentRaw, linearSpeedXComponentRaw);
 
         final Translation2d originalTranslationalSpeed = new Translation2d(linearSpeedXComponentDeadBanded, linearSpeedYComponentDeadBanded);
-        final double translationalSpeedMagnitudeScaled = Math.pow(originalTranslationalSpeed.getNorm(), Constants.DriverConfigs.TRANSLATIONAL_SPEED_INPUT_EXPONENT);
+        final double translationalSpeedMagnitudeScaled = Math.pow(originalTranslationalSpeed.getNorm(), TRANSLATIONAL_SPEED_INPUT_EXPONENT);
         return new Translation2d(
                 translationalSpeedMagnitudeScaled * chassisMaxVelocityMetersPerSec,
                 originalTranslationalSpeed.getAngle()
@@ -60,7 +62,7 @@ public class MapleJoystickDriveInput {
                 rotationSpeedRaw = -joystickOmegaSupplier.getAsDouble(),
                 rotationalSpeedDeadBanded = applySmartDeadBand(rotationSpeedRaw, 0),
                 rotationalSpeedScaledMagnitude = Math.abs(Math.pow(
-                        rotationalSpeedDeadBanded, Constants.DriverConfigs.ROTATION_SPEED_INPUT_EXPONENT
+                        rotationalSpeedDeadBanded, ROTATION_SPEED_INPUT_EXPONENT
                 )) * maxAngularVelocityRadPerSec;
         return Math.copySign(rotationalSpeedScaledMagnitude, rotationSpeedRaw);
     }
@@ -74,8 +76,8 @@ public class MapleJoystickDriveInput {
      * */
     private static double applySmartDeadBand(double axisValue, double otherAxisValue) {
         final double deadBand = MapleCommonMath.linearInterpretationWithBounding(
-                0, Constants.DriverConfigs.DEAD_BAND_WHEN_OTHER_AXIS_EMPTY,
-                1, Constants.DriverConfigs.DEAD_BAND_WHEN_OTHER_AXIS_FULL,
+                0, DEAD_BAND_WHEN_OTHER_AXIS_EMPTY,
+                1, DEAD_BAND_WHEN_OTHER_AXIS_FULL,
                 Math.abs(otherAxisValue)
         );
         return MathUtil.applyDeadband(axisValue, deadBand, 1);
