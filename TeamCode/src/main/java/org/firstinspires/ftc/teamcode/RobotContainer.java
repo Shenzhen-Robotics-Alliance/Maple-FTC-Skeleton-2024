@@ -1,18 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.FunctionalCommand;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.constants.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.drive.MecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.vision.AprilTagVision;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleEncoder;
 import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleOdometerWheelsOdometry;
 
 import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.*;
+
+import java.io.IOException;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,6 +32,8 @@ public final class RobotContainer {
     public final MecanumDriveSubsystem driveSubsystem;
 
     public final MapleOdometerWheelsOdometry testOdometry;
+
+    public final AprilTagVision vision;
     /** create all the subsystem with the hardware map */
     public RobotContainer(HardwareMap hardwareMap, AllianceSide side) {
         this.currentSide = side;
@@ -84,5 +91,15 @@ public final class RobotContainer {
                 () -> false,
                 testOdometry
         ));
+
+        this.vision = new AprilTagVision(hardwareMap.get(WebcamName.class, "AprilTag Cam"));
+    }
+
+    public void cleanUp() {
+        try {
+            vision.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

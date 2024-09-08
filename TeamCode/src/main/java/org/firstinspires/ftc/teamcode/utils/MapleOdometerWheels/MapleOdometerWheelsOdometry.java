@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -10,9 +12,15 @@ import org.firstinspires.ftc.teamcode.utils.MapleTime;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.KINEMATICS;
+import static org.firstinspires.ftc.teamcode.constants.FieldConstants.*;
+
+import java.util.Arrays;
 
 public class MapleOdometerWheelsOdometry implements Subsystem {
     private final OdometerWheelsPoseEstimator poseEstimator;
@@ -77,6 +85,7 @@ public class MapleOdometerWheelsOdometry implements Subsystem {
     /**
      * fetches the data cached by encoder thread (if encoder thread enabled) and feed these data to the pose estimator
      * */
+    private TelemetryPacket packet;
     public void periodic() {
         pollEncodersBlocking();
         final Twist2d twist2d = poseEstimator.kinematics.toTwist2d(previousPositions, getLatestPositions());
@@ -94,6 +103,10 @@ public class MapleOdometerWheelsOdometry implements Subsystem {
                 currentRotation,
                 getLatestPositions()
         );
+
+        packet = new TelemetryPacket();
+        displayPoseOnDashboard(getEstimatedPose(), "black");
+        FtcDashboard.getInstance().sendTelemetryPacket(packet);
     }
 
     public void resetPose(Pose2d currentPose) {
@@ -110,5 +123,26 @@ public class MapleOdometerWheelsOdometry implements Subsystem {
 
     public Pose2d getEstimatedPose() {
         return poseEstimator.getEstimatedPosition();
+    }
+
+    public void displayPoseOnDashboard(Pose2d pose, String color) {
+        final Translation2d center = pose.getTranslation();
+        final Rotation2d robotFacing = pose.getRotation();
+        final Translation2d[] corners = new Translation2d[] {
+                center.plus(KINEMATICS.getFrontLeft().rotateBy(robotFacing)),
+                center.plus(KINEMATICS.getFrontRight().rotateBy(robotFacing)),
+                center.plus(KINEMATICS.getRearRight().rotateBy(robotFacing)),
+                center.plus(KINEMATICS.getRearLeft().rotateBy(robotFacing))
+        };
+        System.out.println(Arrays.toString(corners));
+        final double[] xCorners = new double[4];
+        final double[] yCorners = new double[4];
+        for (int i = 0; i < 4; i++) {
+            xCorners[i] = (corners[i].getY() / FIELD_WIDTH_METERS * 144) - (double) 144/2;
+            yCorners[i] = -(corners[i].getX() / FIELD_HEIGHT_METERS * 144) + (double) 144/2;
+        }
+        packet.fieldOverlay()
+                .setFill(color)
+                .fillPolygon(xCorners, yCorners);
     }
 }

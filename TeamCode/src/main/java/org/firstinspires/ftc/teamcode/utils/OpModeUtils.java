@@ -17,6 +17,7 @@ public class OpModeUtils {
         final Runnable waitForStart = () -> {
             while (!opModeEntrance.isStarted() && !opModeEntrance.isStopRequested())
                 robot.beforeStartPeriodic();
+            robot.startAuto();
         };
         runOpMode(robot, waitForStart, opModeEntrance::opModeIsActive, opModeEntrance::isStopRequested, opModeEntrance.telemetry);
     }
@@ -33,10 +34,9 @@ public class OpModeUtils {
 
         while (opModeIsActivated.getAsBoolean() && !isStopRequested.getAsBoolean()) {
             robot.run();
-            driveStationTelemetry.update();
+            Constants.telemetry.update();
             loopClock.tick();
         }
         robot.reset(); // cancel the commands
-        Constants.telemetry = new EmptyTelemetry(); // destroy the telemetry instance
     }
 }
