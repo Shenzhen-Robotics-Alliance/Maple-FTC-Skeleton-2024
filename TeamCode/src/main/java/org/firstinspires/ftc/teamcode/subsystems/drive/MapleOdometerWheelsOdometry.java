@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels;
+package org.firstinspires.ftc.teamcode.subsystems.drive;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.constants.SystemConstants;
+import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleEncoder;
+import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.OdometerWheelsPoseEstimator;
+import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.OdometerWheelsPositions;
+import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.OdometerWheelsSpeeds;
 import org.firstinspires.ftc.teamcode.utils.MapleTime;
 
 import edu.wpi.first.math.Matrix;
@@ -54,6 +58,8 @@ public class MapleOdometerWheelsOdometry implements Subsystem {
 
         this.currentRotation = initialPose.getRotation();
         this.previousPositions = getLatestPositions();
+
+        resetPose(initialPose);
     }
 
     private void pollEncodersBlocking() {
@@ -62,6 +68,11 @@ public class MapleOdometerWheelsOdometry implements Subsystem {
         centerOdometerWheel.poll();
     }
 
+    /**
+    * poll the newest reading from imu
+    * note that this method will block the thread for 10~20 ms (because the control hub sucks)
+    * so avoid calling it periodically
+    * */
     private Rotation2d getIMUAngleBlocking() {
         return Rotation2d.fromRadians(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
     }
@@ -109,6 +120,7 @@ public class MapleOdometerWheelsOdometry implements Subsystem {
     }
 
     public void resetPose(Pose2d currentPose) {
+        pollEncodersBlocking();
         this.poseEstimator.resetPosition(getIMUAngleBlocking(), getLatestPositions(), currentPose);
     }
 

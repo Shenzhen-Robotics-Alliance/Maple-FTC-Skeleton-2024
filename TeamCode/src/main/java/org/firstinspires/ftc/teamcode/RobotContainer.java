@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.drive.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.vision.AprilTagVision;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleEncoder;
-import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleOdometerWheelsOdometry;
+import org.firstinspires.ftc.teamcode.subsystems.drive.MapleOdometerWheelsOdometry;
 
 import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.*;
 

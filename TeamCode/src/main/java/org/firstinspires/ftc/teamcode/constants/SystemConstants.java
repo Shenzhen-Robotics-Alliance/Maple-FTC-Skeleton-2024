@@ -10,5 +10,5 @@ public class SystemConstants {
     public static Telemetry telemetry = new EmptyTelemetry();
     public static final double ROBOT_UPDATE_RATE_HZ = 50.0;
     public static final double ODOMETRY_UPDATE_RATE_HZ = 200.0;
-    public static final double IMU_UPDATE_HZ = 0.0001;
+    public static final double IMU_UPDATE_HZ = 5;
 }
