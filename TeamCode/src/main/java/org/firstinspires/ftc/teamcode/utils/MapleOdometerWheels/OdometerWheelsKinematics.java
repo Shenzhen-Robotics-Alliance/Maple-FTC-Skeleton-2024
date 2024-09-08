@@ -31,7 +31,7 @@ public class OdometerWheelsKinematics implements Kinematics<OdometerWheelsSpeeds
         double deltaRightEncoder = end.rightWheelMeters - start.rightWheelMeters;
         double deltaHorizontalEncoder = end.centerWheelMeters - start.centerWheelMeters;
 
-        double dTheta = (deltaLeftEncoder - deltaRightEncoder) / trackWidth;
+        double dTheta = (deltaRightEncoder - deltaLeftEncoder) / trackWidth;
 
 
         double dx = (deltaLeftEncoder + deltaRightEncoder) / 2;
