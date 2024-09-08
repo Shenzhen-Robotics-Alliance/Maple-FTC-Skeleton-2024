@@ -27,4 +27,10 @@ public class AutonomousRobot extends Robot {
     public void startAuto() {
         super.schedule(auto.getAutonomousCommands(robotContainer));
     }
+
+    @Override
+    public void reset() {
+        super.reset();
+        robotContainer.cleanUp();
+    }
 }

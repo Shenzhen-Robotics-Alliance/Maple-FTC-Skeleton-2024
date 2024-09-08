@@ -42,5 +42,6 @@ public class TeleOpRobot extends Robot {
     @Override
     public void reset() {
         super.reset();
+        robotContainer.cleanUp();
     }
 }
