@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleOdometerWhe
 
 import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.*;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -24,7 +25,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 /**
  * declares all the subsystems of a robot
  * */
-public final class RobotContainer {
+public final class RobotContainer implements Closeable {
     public final AllianceSide currentSide;
 
     public final MecanumDriveSubsystem driveSubsystem;
@@ -93,11 +94,8 @@ public final class RobotContainer {
         this.vision = new AprilTagVision(hardwareMap.get(WebcamName.class, "AprilTag Cam"));
     }
 
-    public void cleanUp() {
-        try {
-            vision.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    public void close() throws IOException {
+        vision.close();
     }
 }

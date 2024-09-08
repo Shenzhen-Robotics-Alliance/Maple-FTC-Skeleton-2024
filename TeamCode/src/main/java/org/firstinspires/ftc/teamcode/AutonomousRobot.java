@@ -5,6 +5,8 @@ import com.arcrobotics.ftclib.command.Robot;
 import org.firstinspires.ftc.teamcode.autos.Auto;
 import org.firstinspires.ftc.teamcode.utils.MapleLoopClock;
 
+import java.io.IOException;
+
 /**
  * robot during autonomous period
  * here we schedule the autonomous commands
@@ -31,6 +33,10 @@ public class AutonomousRobot extends Robot {
     @Override
     public void reset() {
         super.reset();
-        robotContainer.cleanUp();
+        try {
+            robotContainer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
