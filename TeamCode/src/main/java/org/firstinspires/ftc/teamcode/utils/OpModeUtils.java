@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutonomousRobot;
-import org.firstinspires.ftc.teamcode.constants.Constants;
+import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.TeleOpRobot;
 
 import java.util.function.BooleanSupplier;
@@ -25,16 +25,16 @@ public class OpModeUtils {
         runOpMode(robot, opModeEntrance::waitForStart, opModeEntrance::opModeIsActive, opModeEntrance::isStopRequested, opModeEntrance.telemetry);
     }
     private static void runOpMode(Robot robot, Runnable waitForStart, BooleanSupplier opModeIsActivated, BooleanSupplier isStopRequested, Telemetry driveStationTelemetry) {
-        final MapleLoopClock loopClock = new MapleLoopClock(Constants.SystemConfigs.ROBOT_UPDATE_RATE_HZ);
-        Constants.telemetry = new MultipleTelemetry(driveStationTelemetry, FtcDashboard.getInstance().getTelemetry());
+        final MapleLoopClock loopClock = new MapleLoopClock(SystemConstants.ROBOT_UPDATE_RATE_HZ);
+        SystemConstants.telemetry = new MultipleTelemetry(driveStationTelemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart.run();
 
-        Constants.matchStartTimeMillis = System.currentTimeMillis();
+        SystemConstants.matchStartTimeMillis = System.currentTimeMillis();
 
         while (opModeIsActivated.getAsBoolean() && !isStopRequested.getAsBoolean()) {
             robot.run();
-            Constants.telemetry.update();
+            SystemConstants.telemetry.update();
             loopClock.tick();
         }
         robot.reset(); // cancel the commands

@@ -4,7 +4,7 @@ import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.*;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.constants.Constants;
+import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.subsystems.drive.HolonomicDriveSubsystem;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.MapleJoystickDriveInput;
@@ -43,13 +43,13 @@ public class GamePadDrive extends CommandBase {
         final ChassisSpeeds desiredDriveStationCentricSpeed = driveInput.getJoystickChassisSpeeds(
                 driveSubsystem.getChassisMaxLinearVelocity(), driveSubsystem.getChassisMaxAngularVelocity()
         );
-        Constants.telemetry.addData("Driver Station Requested Speed", desiredDriveStationCentricSpeed);
+        SystemConstants.telemetry.addData("Driver Station Requested Speed", desiredDriveStationCentricSpeed);
         this.currentChassisSpeedsSetPointDriverStationCentric = HolonomicDriveSubsystem.constrainAcceleration(
                 currentChassisSpeedsSetPointDriverStationCentric,
                 desiredDriveStationCentricSpeed,
                 driveSubsystem.getChassisMaxLinearVelocity() / LINEAR_ACCELERATION_SMOOTH_OUT_TIME,
                 driveSubsystem.getChassisMaxAngularVelocity() / ROTATIONAL_ACCELERATION_SMOOTH_OUT_TIME,
-                1/Constants.SystemConfigs.ROBOT_UPDATE_RATE_HZ
+                1/ SystemConstants.ROBOT_UPDATE_RATE_HZ
         );
 
         if (driveStationCentricModeSwitch.getAsBoolean() && allianceSide != AllianceSide.NOT_GIVEN)

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.constants.Constants;
+import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.utils.MapleTime;
 import org.firstinspires.ftc.teamcode.constants.DriveTrainConstants;
 
@@ -58,8 +58,8 @@ public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDri
         runDriveOpenLoop(backLeft, wheelSpeeds.rearLeftMetersPerSecond * BACK_LEFT_MOTOR_DIRECTION);
         runDriveOpenLoop(backRight, wheelSpeeds.rearRightMetersPerSecond * BACK_RIGHT_MOTOR_DIRECTION);
 
-        Constants.telemetry.addData("Chassis Speeds", speeds);
-        Constants.telemetry.addData("Wheel Speeds", wheelSpeeds);
+        SystemConstants.telemetry.addData("Chassis Speeds", speeds);
+        SystemConstants.telemetry.addData("Wheel Speeds", wheelSpeeds);
     }
 
     private void runDriveOpenLoop(DcMotor motor, double desiredSpeedMetersPerSecond) {

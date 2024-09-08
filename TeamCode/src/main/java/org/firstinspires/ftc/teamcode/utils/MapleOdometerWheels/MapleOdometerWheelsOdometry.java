@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.command.Subsystem;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.constants.Constants;
+import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.utils.MapleTime;
 
 import edu.wpi.first.math.Matrix;
@@ -91,8 +91,7 @@ public class MapleOdometerWheelsOdometry implements Subsystem {
         final Twist2d twist2d = poseEstimator.kinematics.toTwist2d(previousPositions, getLatestPositions());
         previousPositions = getLatestPositions();
 
-
-        if (MapleTime.getMatchTimeSeconds() - previousIMUUpdateTimeSeconds > 1.0/ Constants.SystemConfigs.IMU_UPDATE_HZ) {
+        if (MapleTime.getMatchTimeSeconds() - previousIMUUpdateTimeSeconds > 1.0/ SystemConstants.IMU_UPDATE_HZ) {
             currentRotation = getIMUAngleBlocking();
             previousIMUUpdateTimeSeconds = MapleTime.getMatchTimeSeconds();
         } else

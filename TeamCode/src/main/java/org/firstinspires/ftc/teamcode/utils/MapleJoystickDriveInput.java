@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.utils;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.constants.Constants;
 import org.firstinspires.ftc.teamcode.utils.MapleMaths.MapleCommonMath;
 
 import edu.wpi.first.math.MathUtil;

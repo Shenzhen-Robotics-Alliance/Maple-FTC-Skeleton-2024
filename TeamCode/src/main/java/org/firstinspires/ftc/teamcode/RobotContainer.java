@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.FunctionalCommand;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.constants.Constants;
+import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.subsystems.drive.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.vision.AprilTagVision;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
@@ -86,7 +84,7 @@ public final class RobotContainer {
         testOdometry.register();
         testOdometry.setDefaultCommand(new FunctionalCommand(
                 () -> {},
-                () -> Constants.telemetry.addData("Estimated Pose", testOdometry.getEstimatedPose()),
+                () -> SystemConstants.telemetry.addData("Estimated Pose", testOdometry.getEstimatedPose()),
                 (Boolean terminated) -> {},
                 () -> false,
                 testOdometry

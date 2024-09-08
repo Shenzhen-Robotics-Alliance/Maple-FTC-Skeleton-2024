@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.utils;
 
-import org.firstinspires.ftc.teamcode.constants.Constants;
+import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 
 public class MapleTime {
     public static void wait(double seconds) {
@@ -12,7 +12,7 @@ public class MapleTime {
     }
 
     public static double getMatchTimeSeconds() {
-        final long timeMillis = System.currentTimeMillis() - Constants.matchStartTimeMillis;
+        final long timeMillis = System.currentTimeMillis() - SystemConstants.matchStartTimeMillis;
         return timeMillis / 1000.0;
     }
 }
