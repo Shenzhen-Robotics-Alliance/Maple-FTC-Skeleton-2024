@@ -4,10 +4,11 @@
 
 package edu.wpi.first.math.interpolation;
 
-import edu.wpi.first.math.MathUtil;
 import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.TreeMap;
+
+import edu.wpi.first.math.MathUtil;
 
 /**
  * The TimeInterpolatableBuffer provides an easy way to estimate past measurements. One application

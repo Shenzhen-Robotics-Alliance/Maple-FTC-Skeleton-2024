@@ -4,10 +4,11 @@
 
 package edu.wpi.first.math.system;
 
+import org.ejml.simple.SimpleMatrix;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Num;
 import edu.wpi.first.math.Pair;
-import org.ejml.simple.SimpleMatrix;
 
 /** Discretization helper functions. */
 public final class Discretization {

@@ -4,12 +4,13 @@
 
 package edu.wpi.first.math.system;
 
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Num;
-import edu.wpi.first.math.numbers.N1;
 import java.util.function.BiFunction;
 import java.util.function.DoubleFunction;
 import java.util.function.Function;
+
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Num;
+import edu.wpi.first.math.numbers.N1;
 
 /** Numerical integration utilities. */
 public final class NumericalIntegration {

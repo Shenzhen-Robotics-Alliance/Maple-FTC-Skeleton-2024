@@ -10,13 +10,15 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.wpi.first.math.interpolation.Interpolatable;
-import edu.wpi.first.units.Distance;
-import edu.wpi.first.units.Measure;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+
+import edu.wpi.first.math.interpolation.Interpolatable;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.Measure;
 
 /** Represents a 2D pose containing translational and rotational elements. */
 @JsonIgnoreProperties(ignoreUnknown = true)

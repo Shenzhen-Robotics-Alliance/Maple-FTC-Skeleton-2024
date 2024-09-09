@@ -4,6 +4,10 @@
 
 package edu.wpi.first.math;
 
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.Objects;
+
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N10;
 import edu.wpi.first.math.numbers.N2;
@@ -14,8 +18,6 @@ import edu.wpi.first.math.numbers.N6;
 import edu.wpi.first.math.numbers.N7;
 import edu.wpi.first.math.numbers.N8;
 import edu.wpi.first.math.numbers.N9;
-import java.util.Objects;
-import org.ejml.simple.SimpleMatrix;
 
 /** A class for constructing vectors (Nx1 matrices). */
 public final class VecBuilder {

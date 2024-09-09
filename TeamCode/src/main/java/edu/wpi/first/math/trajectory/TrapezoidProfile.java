@@ -4,12 +4,13 @@
 
 package edu.wpi.first.math.trajectory;
 
+import java.util.Objects;
+
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Velocity;
-import java.util.Objects;
 
 /**
  * A trapezoid-shaped velocity profile.

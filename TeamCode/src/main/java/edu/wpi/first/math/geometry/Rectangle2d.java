@@ -4,8 +4,9 @@
 
 package edu.wpi.first.math.geometry;
 
-import edu.wpi.first.math.MathUtil;
 import java.util.Objects;
+
+import edu.wpi.first.math.MathUtil;
 
 /**
  * Represents a 2d rectangular space containing translational, rotational, and scaling components.

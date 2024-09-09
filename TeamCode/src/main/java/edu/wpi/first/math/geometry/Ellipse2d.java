@@ -4,9 +4,10 @@
 
 package edu.wpi.first.math.geometry;
 
+import java.util.Objects;
+
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.jni.Ellipse2dJNI;
-import java.util.Objects;
 
 /** Represents a 2d ellipse space containing translational, rotational, and scaling components. */
 public class Ellipse2d {

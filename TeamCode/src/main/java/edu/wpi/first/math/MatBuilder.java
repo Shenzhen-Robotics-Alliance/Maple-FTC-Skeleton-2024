@@ -4,8 +4,9 @@
 
 package edu.wpi.first.math;
 
-import java.util.Objects;
 import org.ejml.simple.SimpleMatrix;
+
+import java.util.Objects;
 
 /**
  * A class for constructing arbitrary RxC matrices.

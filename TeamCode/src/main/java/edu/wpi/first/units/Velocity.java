@@ -4,8 +4,9 @@
 
 package edu.wpi.first.units;
 
-import edu.wpi.first.units.collections.LongToObjectHashMap;
 import java.util.Objects;
+
+import edu.wpi.first.units.collections.LongToObjectHashMap;
 
 /**
  * Unit of velocity dimension that is a combination of a distance unit (numerator) and a time unit

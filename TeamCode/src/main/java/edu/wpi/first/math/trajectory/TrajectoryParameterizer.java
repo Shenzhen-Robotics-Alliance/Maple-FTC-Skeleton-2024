@@ -28,10 +28,11 @@
 
 package edu.wpi.first.math.trajectory;
 
-import edu.wpi.first.math.spline.PoseWithCurvature;
-import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.wpi.first.math.spline.PoseWithCurvature;
+import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 
 /** Class used to parameterize a trajectory by time. */
 public final class TrajectoryParameterizer {

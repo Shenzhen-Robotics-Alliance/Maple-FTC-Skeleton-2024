@@ -4,11 +4,12 @@
 
 package edu.wpi.first.math.controller;
 
+import org.ejml.simple.SimpleMatrix;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Num;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.LinearSystem;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * Contains the controller coefficients and logic for an implicit model follower.

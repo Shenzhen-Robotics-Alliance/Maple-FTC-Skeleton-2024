@@ -30,7 +30,7 @@ public class MaxVelocityConstraint implements TrajectoryConstraint {
   }
 
   @Override
-  public TrajectoryConstraint.MinMax getMinMaxAccelerationMetersPerSecondSq(
+  public MinMax getMinMaxAccelerationMetersPerSecondSq(
       Pose2d poseMeters, double curvatureRadPerMeter, double velocityMetersPerSecond) {
     return new MinMax();
   }

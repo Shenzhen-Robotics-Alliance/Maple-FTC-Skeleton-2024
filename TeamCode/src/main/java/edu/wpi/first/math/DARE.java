@@ -4,8 +4,9 @@
 
 package edu.wpi.first.math;
 
-import edu.wpi.first.math.jni.DAREJNI;
 import org.ejml.simple.SimpleMatrix;
+
+import edu.wpi.first.math.jni.DAREJNI;
 
 /** DARE solver utility functions. */
 public final class DARE {

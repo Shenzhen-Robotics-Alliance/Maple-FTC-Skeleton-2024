@@ -4,6 +4,13 @@
 
 package edu.wpi.first.math.system;
 
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Num;
 import edu.wpi.first.math.numbers.N1;
@@ -26,11 +33,6 @@ import edu.wpi.first.math.numbers.N6;
 import edu.wpi.first.math.numbers.N7;
 import edu.wpi.first.math.numbers.N8;
 import edu.wpi.first.math.numbers.N9;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * A plant defined using state-space notation.

@@ -7,6 +7,10 @@ package edu.wpi.first.math.kinematics;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.Arrays;
+
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,8 +20,6 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Velocity;
-import java.util.Arrays;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * Helper class that converts a chassis velocity (dx, dy, and dtheta components) into individual

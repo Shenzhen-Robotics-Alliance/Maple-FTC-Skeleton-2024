@@ -4,12 +4,13 @@
 
 package edu.wpi.first.math.controller;
 
+import org.ejml.simple.SimpleMatrix;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Num;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.Discretization;
 import edu.wpi.first.math.system.LinearSystem;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * Constructs a plant inversion model-based feedforward from a {@link LinearSystem}.

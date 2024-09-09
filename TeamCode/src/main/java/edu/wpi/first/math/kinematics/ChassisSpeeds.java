@@ -12,6 +12,8 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,7 +23,6 @@ import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Time;
 import edu.wpi.first.units.Velocity;
-import java.util.Objects;
 
 /**
  * Represents the speed of a robot chassis. Although this class contains similar members compared to

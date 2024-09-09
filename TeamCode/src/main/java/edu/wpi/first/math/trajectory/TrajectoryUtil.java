@@ -4,13 +4,14 @@
 
 package edu.wpi.first.math.trajectory;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.jni.TrajectoryUtilJNI;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.jni.TrajectoryUtilJNI;
 
 /** Trajectory utilities. */
 public final class TrajectoryUtil {

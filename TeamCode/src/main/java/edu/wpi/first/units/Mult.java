@@ -4,8 +4,9 @@
 
 package edu.wpi.first.units;
 
-import edu.wpi.first.units.collections.LongToObjectHashMap;
 import java.util.Objects;
+
+import edu.wpi.first.units.collections.LongToObjectHashMap;
 
 /**
  * A combinatory unit type that is equivalent to the product of two other others. Note that

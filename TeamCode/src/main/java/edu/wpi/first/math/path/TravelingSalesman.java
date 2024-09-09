@@ -4,13 +4,14 @@
 
 package edu.wpi.first.math.path;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.function.ToDoubleBiFunction;
+
 import edu.wpi.first.math.Num;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.optimization.SimulatedAnnealing;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.function.ToDoubleBiFunction;
 
 /**
  * Given a list of poses, this class finds the shortest possible route that visits each pose exactly

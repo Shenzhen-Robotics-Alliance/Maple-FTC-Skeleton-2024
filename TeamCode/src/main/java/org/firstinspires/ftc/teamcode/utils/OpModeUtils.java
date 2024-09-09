@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.AutonomousRobot;
-import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.TeleOpRobot;
+import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 
 import java.util.function.BooleanSupplier;
 

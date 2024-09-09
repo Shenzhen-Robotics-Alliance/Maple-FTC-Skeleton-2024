@@ -1,17 +1,20 @@
 package org.firstinspires.ftc.teamcode.utils;
 
+import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.DEAD_BAND_WHEN_OTHER_AXIS_EMPTY;
+import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.DEAD_BAND_WHEN_OTHER_AXIS_FULL;
+import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.ROTATION_SPEED_INPUT_EXPONENT;
+import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.TRANSLATIONAL_SPEED_INPUT_EXPONENT;
+
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.utils.MapleMaths.MapleCommonMath;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-
-import java.util.function.DoubleSupplier;
-
-import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.*;
 
 public class MapleJoystickDriveInput {
     private final DoubleSupplier joystickXSupplier, joystickYSupplier, joystickOmegaSupplier;

@@ -4,6 +4,8 @@
 
 package edu.wpi.first.math.controller;
 
+import org.ejml.simple.SimpleMatrix;
+
 import edu.wpi.first.math.DARE;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.Matrix;
@@ -13,7 +15,6 @@ import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.Discretization;
 import edu.wpi.first.math.system.LinearSystem;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * Contains the controller coefficients and logic for a linear-quadratic regulator (LQR). LQRs use

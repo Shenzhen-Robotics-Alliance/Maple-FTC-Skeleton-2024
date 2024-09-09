@@ -4,10 +4,11 @@
 
 package edu.wpi.first.math.filter;
 
-import edu.wpi.first.util.DoubleCircularBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import edu.wpi.first.util.DoubleCircularBuffer;
 
 /**
  * A class that implements a moving-window median filter. Useful for reducing measurement noise,

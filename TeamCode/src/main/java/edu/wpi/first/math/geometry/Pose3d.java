@@ -8,9 +8,11 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Objects;
+
 import edu.wpi.first.math.interpolation.Interpolatable;
 import edu.wpi.first.math.jni.Pose3dJNI;
-import java.util.Objects;
 
 /** Represents a 3D pose containing translational and rotational elements. */
 @JsonIgnoreProperties(ignoreUnknown = true)

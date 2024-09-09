@@ -4,16 +4,16 @@
 
 package edu.wpi.first.math.estimator;
 
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.Num;
-import edu.wpi.first.math.numbers.N1;
-
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.Num;
+import edu.wpi.first.math.numbers.N1;
 
 /**
  * This class incorporates time-delayed measurements into a Kalman filter's state estimate.

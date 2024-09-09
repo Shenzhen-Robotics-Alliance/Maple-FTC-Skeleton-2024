@@ -1,5 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.CENTER_ODOMETER_WHEEL_INVERTED;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.CENTER_ODOMETER_WHEEL_NAME;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.IMU_PARAMS;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.LEFT_ODOMETER_WHEEL_INVERTED;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.LEFT_ODOMETER_WHEEL_NAME;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.ODOMETER_CENTER_WHEELS_OFFSET;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.ODOMETER_ENCODER_TICKS_PER_REVOLUTION;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.ODOMETER_WHEELS_RADIUS_METERS;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.ODOMETER_WHEELS_TRACK_WIDTH_METERS;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.RIGHT_ODOMETER_WHEEL_INVERTED;
+import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.RIGHT_ODOMETER_WHEEL_NAME;
+
 import com.arcrobotics.ftclib.command.FunctionalCommand;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,13 +19,11 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.constants.SystemConstants;
+import org.firstinspires.ftc.teamcode.subsystems.drive.MapleOdometerWheelsOdometry;
 import org.firstinspires.ftc.teamcode.subsystems.drive.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.vision.AprilTagVision;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleEncoder;
-import org.firstinspires.ftc.teamcode.subsystems.drive.MapleOdometerWheelsOdometry;
-
-import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.*;
 
 import java.io.Closeable;
 import java.io.IOException;

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.drive;
 
-import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.*;
+import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.LINEAR_ACCELERATION_SMOOTH_OUT_TIME;
+import static org.firstinspires.ftc.teamcode.constants.GamepadConfigs.ROTATIONAL_ACCELERATION_SMOOTH_OUT_TIME;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

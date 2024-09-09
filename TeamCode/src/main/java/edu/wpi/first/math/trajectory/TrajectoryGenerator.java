@@ -4,6 +4,11 @@
 
 package edu.wpi.first.math.trajectory;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,10 +19,6 @@ import edu.wpi.first.math.spline.Spline;
 import edu.wpi.first.math.spline.SplineHelper;
 import edu.wpi.first.math.spline.SplineParameterizer;
 import edu.wpi.first.math.spline.SplineParameterizer.MalformedSplineException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.BiConsumer;
 
 /** Helper class used to generate trajectories with various constraints. */
 public final class TrajectoryGenerator {

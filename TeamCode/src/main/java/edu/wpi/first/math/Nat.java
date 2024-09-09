@@ -10,14 +10,6 @@ package edu.wpi.first.math;
 
 import edu.wpi.first.math.numbers.N0;
 import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N2;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.numbers.N4;
-import edu.wpi.first.math.numbers.N5;
-import edu.wpi.first.math.numbers.N6;
-import edu.wpi.first.math.numbers.N7;
-import edu.wpi.first.math.numbers.N8;
-import edu.wpi.first.math.numbers.N9;
 import edu.wpi.first.math.numbers.N10;
 import edu.wpi.first.math.numbers.N11;
 import edu.wpi.first.math.numbers.N12;
@@ -28,7 +20,15 @@ import edu.wpi.first.math.numbers.N16;
 import edu.wpi.first.math.numbers.N17;
 import edu.wpi.first.math.numbers.N18;
 import edu.wpi.first.math.numbers.N19;
+import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.numbers.N20;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.numbers.N4;
+import edu.wpi.first.math.numbers.N5;
+import edu.wpi.first.math.numbers.N6;
+import edu.wpi.first.math.numbers.N7;
+import edu.wpi.first.math.numbers.N8;
+import edu.wpi.first.math.numbers.N9;
 // CHECKSTYLE.ON
 
 /**

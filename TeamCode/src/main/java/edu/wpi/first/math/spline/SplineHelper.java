@@ -4,11 +4,13 @@
 
 package edu.wpi.first.math.spline;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import org.ejml.simple.SimpleMatrix;
+
 import java.util.Arrays;
 import java.util.List;
-import org.ejml.simple.SimpleMatrix;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /** Helper class that is used to generate cubic and quintic splines from user provided waypoints. */
 public final class SplineHelper {

@@ -4,6 +4,10 @@
 
 package edu.wpi.first.math.estimator;
 
+import java.util.NavigableMap;
+import java.util.Optional;
+import java.util.TreeMap;
+
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
@@ -18,9 +22,6 @@ import edu.wpi.first.math.kinematics.Kinematics;
 import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import java.util.NavigableMap;
-import java.util.Optional;
-import java.util.TreeMap;
 
 /**
  * This class wraps {@link Odometry} to fuse latency-compensated vision measurements with encoder

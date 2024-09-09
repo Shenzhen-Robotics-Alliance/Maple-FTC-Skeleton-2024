@@ -4,6 +4,11 @@
 
 package edu.wpi.first.math.estimator;
 
+import org.ejml.dense.row.decomposition.qr.QRDecompositionHouseholder_DDRM;
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.function.BiFunction;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Num;
@@ -13,9 +18,6 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.Discretization;
 import edu.wpi.first.math.system.NumericalIntegration;
 import edu.wpi.first.math.system.NumericalJacobian;
-import java.util.function.BiFunction;
-import org.ejml.dense.row.decomposition.qr.QRDecompositionHouseholder_DDRM;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * A Kalman filter combines predictions from a model and measurements to give an estimate of the

@@ -4,9 +4,6 @@
 
 package edu.wpi.first.math;
 
-import edu.wpi.first.math.jni.EigenJNI;
-import edu.wpi.first.math.numbers.N1;
-import java.util.Objects;
 import org.ejml.MatrixDimensionException;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.CommonOps_DDRM;
@@ -15,6 +12,11 @@ import org.ejml.dense.row.NormOps_DDRM;
 import org.ejml.dense.row.factory.DecompositionFactory_DDRM;
 import org.ejml.interfaces.decomposition.CholeskyDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
+
+import java.util.Objects;
+
+import edu.wpi.first.math.jni.EigenJNI;
+import edu.wpi.first.math.numbers.N1;
 
 /**
  * A shape-safe wrapper over Efficient Java Matrix Library (EJML) matrices.

@@ -4,6 +4,11 @@
 
 package edu.wpi.first.math.system;
 
+import org.ejml.MatrixDimensionException;
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.function.Function;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Num;
 import edu.wpi.first.math.StateSpaceUtil;
@@ -11,9 +16,6 @@ import edu.wpi.first.math.controller.LinearPlantInversionFeedforward;
 import edu.wpi.first.math.controller.LinearQuadraticRegulator;
 import edu.wpi.first.math.estimator.KalmanFilter;
 import edu.wpi.first.math.numbers.N1;
-import java.util.function.Function;
-import org.ejml.MatrixDimensionException;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * Combines a controller, feedforward, and observer for controlling a mechanism with full state

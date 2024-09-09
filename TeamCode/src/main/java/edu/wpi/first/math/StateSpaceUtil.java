@@ -4,13 +4,15 @@
 
 package edu.wpi.first.math;
 
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.Random;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.jni.StateSpaceUtilJNI;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.numbers.N4;
-import java.util.Random;
-import org.ejml.simple.SimpleMatrix;
 
 /** State-space utilities. */
 public final class StateSpaceUtil {

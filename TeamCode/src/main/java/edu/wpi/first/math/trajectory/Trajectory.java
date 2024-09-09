@@ -9,12 +9,14 @@ import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Transform2d;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform2d;
 
 /**
  * Represents a time-parameterized trajectory. The trajectory contains of various States that

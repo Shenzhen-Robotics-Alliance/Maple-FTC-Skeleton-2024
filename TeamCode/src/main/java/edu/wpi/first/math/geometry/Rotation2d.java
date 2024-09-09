@@ -10,13 +10,15 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Objects;
+
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.interpolation.Interpolatable;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
-import java.util.Objects;
 
 /**
  * A rotation in a 2D coordinate frame represented by a point on the unit circle (cosine and sine).
@@ -248,7 +250,7 @@ public class Rotation2d
    * Returns the radian value of the Rotation2d.
    *
    * @return The radian value of the Rotation2d.
-   * @see edu.wpi.first.math.MathUtil#angleModulus(double) to constrain the angle within (-pi, pi]
+   * @see MathUtil#angleModulus(double) to constrain the angle within (-pi, pi]
    */
   @JsonProperty
   public double getRadians() {
@@ -259,7 +261,7 @@ public class Rotation2d
    * Returns the degree value of the Rotation2d.
    *
    * @return The degree value of the Rotation2d.
-   * @see edu.wpi.first.math.MathUtil#inputModulus(double, double, double) to constrain the angle
+   * @see MathUtil#inputModulus(double, double, double) to constrain the angle
    *     within (-180, 180]
    */
   public double getDegrees() {

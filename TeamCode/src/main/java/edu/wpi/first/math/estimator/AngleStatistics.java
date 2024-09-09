@@ -4,12 +4,14 @@
 
 package edu.wpi.first.math.estimator;
 
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.function.BiFunction;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Num;
 import edu.wpi.first.math.numbers.N1;
-import java.util.function.BiFunction;
-import org.ejml.simple.SimpleMatrix;
 
 /** Angle statistics functions. */
 public final class AngleStatistics {

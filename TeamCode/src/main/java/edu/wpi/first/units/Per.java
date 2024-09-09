@@ -4,8 +4,9 @@
 
 package edu.wpi.first.units;
 
-import edu.wpi.first.units.collections.LongToObjectHashMap;
 import java.util.Objects;
+
+import edu.wpi.first.units.collections.LongToObjectHashMap;
 
 /**
  * Generic combinatory unit type that represents the proportion of one unit to another, such as

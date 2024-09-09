@@ -4,10 +4,12 @@
 
 package edu.wpi.first.math;
 
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.Objects;
+
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import java.util.Objects;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * A shape-safe wrapper over Efficient Java Matrix Library (EJML) matrices.

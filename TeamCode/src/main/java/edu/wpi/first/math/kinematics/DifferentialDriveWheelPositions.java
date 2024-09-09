@@ -10,10 +10,11 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import java.util.Objects;
 
 /** Represents the wheel positions for a differential drive drivetrain. */
 public class DifferentialDriveWheelPositions

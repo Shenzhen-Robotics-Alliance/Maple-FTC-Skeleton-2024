@@ -10,11 +10,12 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Velocity;
-import java.util.Objects;
 
 /** Represents the state of one swerve module. */
 public class SwerveModuleState

@@ -4,11 +4,12 @@
 
 package edu.wpi.first.math.estimator;
 
+import org.ejml.simple.SimpleMatrix;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.Num;
 import edu.wpi.first.math.numbers.N1;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * Generates sigma points and weights according to Van der Merwe's 2004 dissertation[1] for the

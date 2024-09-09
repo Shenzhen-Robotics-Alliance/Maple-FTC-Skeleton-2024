@@ -4,9 +4,10 @@
 
 package edu.wpi.first.math.jni;
 
-import edu.wpi.first.util.RuntimeLoader;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import edu.wpi.first.util.RuntimeLoader;
 
 /** Base class for all WPIMath JNI wrappers. */
 public class WPIMathJNI {

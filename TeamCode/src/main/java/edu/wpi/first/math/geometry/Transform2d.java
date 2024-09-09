@@ -6,9 +6,10 @@ package edu.wpi.first.math.geometry;
 
 import static edu.wpi.first.units.Units.Meters;
 
+import java.util.Objects;
+
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import java.util.Objects;
 
 /** Represents a transformation for a Pose2d in the pose's frame. */
 public class Transform2d {

@@ -4,11 +4,13 @@
 
 package edu.wpi.first.math.spline;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import org.ejml.simple.SimpleMatrix;
+
 import java.util.Arrays;
 import java.util.Optional;
-import org.ejml.simple.SimpleMatrix;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 /** Represents a two-dimensional parametric spline that interpolates between two points. */
 public abstract class Spline {

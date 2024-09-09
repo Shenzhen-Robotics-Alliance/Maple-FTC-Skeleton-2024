@@ -4,11 +4,13 @@
 
 package edu.wpi.first.math.filter;
 
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.Arrays;
+
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.util.DoubleCircularBuffer;
-import java.util.Arrays;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * This class implements a linear, digital filter. All types of FIR and IIR filters are supported.

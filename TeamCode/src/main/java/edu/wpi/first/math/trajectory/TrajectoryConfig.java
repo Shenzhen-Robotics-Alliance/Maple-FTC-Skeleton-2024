@@ -7,6 +7,9 @@ package edu.wpi.first.math.trajectory;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.MetersPerSecondPerSecond;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -17,8 +20,6 @@ import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Velocity;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents the configuration for generating a trajectory. This class stores the start velocity,
