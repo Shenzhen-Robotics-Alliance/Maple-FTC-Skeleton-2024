@@ -1,11 +1,17 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+// Modified by 19581/5516 IRON Maple https://github.com/Shenzhen-Robotics-Alliance
 
 package edu.wpi.first.math.geometry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+
 import java.util.Objects;
 
-/** Represents a transformation for a Pose3d in the pose's frame. */
+/**
+ * Represents a transformation for a Pose3d in the pose's frame.
+ * */
 public class Transform3d {
   /**
    * A preallocated Transform3d representing no transformation.
@@ -139,6 +145,22 @@ public class Transform3d {
    */
   public Rotation3d getRotation() {
     return m_rotation;
+  }
+
+  /**
+   * creates a WPILib Transform3d object from a FTC Pose3d object
+   * */
+  public static Transform3d fromFTCPose3d(Pose3D ftcPose3D) {
+    return new Transform3d(
+            ftcPose3D.getPosition().x,
+            ftcPose3D.getPosition().y,
+            ftcPose3D.getPosition().z,
+            new Rotation3d(
+                    ftcPose3D.getOrientation().getRoll(AngleUnit.RADIANS),
+                    ftcPose3D.getOrientation().getPitch(AngleUnit.RADIANS),
+                    ftcPose3D.getOrientation().getYaw(AngleUnit.RADIANS)
+            )
+    );
   }
 
   /**

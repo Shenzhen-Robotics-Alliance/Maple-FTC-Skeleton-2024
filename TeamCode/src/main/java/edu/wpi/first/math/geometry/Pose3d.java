@@ -1,6 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+// Modified by 19581/5516 IRON Maple https://github.com/Shenzhen-Robotics-Alliance
 
 package edu.wpi.first.math.geometry;
 
@@ -8,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import java.util.Objects;
 
@@ -324,5 +328,21 @@ public class Pose3d implements Interpolatable<Pose3d> {
               twist.dx * t, twist.dy * t, twist.dz * t, twist.rx * t, twist.ry * t, twist.rz * t);
       return this.exp(scaledTwist);
     }
+  }
+
+  /**
+   * creates a WPILib Transform3d object from a FTC Pose3d object
+   * */
+  public static Pose3d fromFTCPose3d(Pose3D ftcPose3D) {
+    return new Pose3d(
+            ftcPose3D.getPosition().x,
+            ftcPose3D.getPosition().y,
+            ftcPose3D.getPosition().z,
+            new Rotation3d(
+                    ftcPose3D.getOrientation().getRoll(AngleUnit.RADIANS),
+                    ftcPose3D.getOrientation().getPitch(AngleUnit.RADIANS),
+                    ftcPose3D.getOrientation().getYaw(AngleUnit.RADIANS)
+            )
+    );
   }
 }
