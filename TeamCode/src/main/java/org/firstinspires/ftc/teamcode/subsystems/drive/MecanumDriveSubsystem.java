@@ -102,6 +102,6 @@ public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDri
 
     @Override
     public void addVisionMeasurement(Pose2d visionPose, double timestamp) {
-
+        poseEstimator.addVisionMeasurement(visionPose, timestamp);
     }
 }

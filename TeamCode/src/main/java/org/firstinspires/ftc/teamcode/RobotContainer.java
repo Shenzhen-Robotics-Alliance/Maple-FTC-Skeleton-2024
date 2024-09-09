@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.subsystems.drive.MapleOdometerWheelsOdometry;
 import org.firstinspires.ftc.teamcode.subsystems.drive.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.vision.AprilTagVision;
+import org.firstinspires.ftc.teamcode.subsystems.vision.VisionIOFTCVisionPortal;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleEncoder;
 
@@ -101,7 +102,10 @@ public final class RobotContainer implements Closeable {
                 testOdometry
         ));
 
-        this.vision = new AprilTagVision(hardwareMap.get(WebcamName.class, "AprilTag Cam"));
+        this.vision = new AprilTagVision(
+                new VisionIOFTCVisionPortal(hardwareMap.get(WebcamName.class, "AprilTag Cam")),
+                driveSubsystem
+        );
     }
 
     @Override
