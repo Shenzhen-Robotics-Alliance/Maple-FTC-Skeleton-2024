@@ -17,12 +17,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.subsystems.drive.MapleOdometerWheelsOdometry;
 import org.firstinspires.ftc.teamcode.subsystems.drive.MecanumDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.vision.AprilTagVision;
-import org.firstinspires.ftc.teamcode.subsystems.vision.VisionIOFTCVisionPortal;
 import org.firstinspires.ftc.teamcode.utils.AllianceSide;
 import org.firstinspires.ftc.teamcode.utils.MapleOdometerWheels.MapleEncoder;
 
@@ -43,7 +40,7 @@ public final class RobotContainer implements Closeable {
 
     public final MapleOdometerWheelsOdometry testOdometry;
 
-    public final AprilTagVision vision;
+    // public final AprilTagVision vision;
     /** create all the subsystem with the hardware map */
     public RobotContainer(HardwareMap hardwareMap, AllianceSide side) {
         this.currentSide = side;
@@ -57,11 +54,6 @@ public final class RobotContainer implements Closeable {
 
         final IMU imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(IMU_PARAMS);
-
-        this.driveSubsystem = new MecanumDriveSubsystem(
-                frontLeft, frontRight, backLeft, backRight,
-                imu
-        );
 
         this.testOdometry = new MapleOdometerWheelsOdometry(
                 ODOMETER_WHEELS_TRACK_WIDTH_METERS,
@@ -102,14 +94,19 @@ public final class RobotContainer implements Closeable {
                 testOdometry
         ));
 
-        this.vision = new AprilTagVision(
-                new VisionIOFTCVisionPortal(hardwareMap.get(WebcamName.class, "AprilTag Cam")),
-                driveSubsystem
+        this.driveSubsystem = new MecanumDriveSubsystem(
+                frontLeft, frontRight, backLeft, backRight,
+                testOdometry
         );
+
+//        this.vision = new AprilTagVision(
+//                new VisionIOFTCVisionPortal(hardwareMap.get(WebcamName.class, "AprilTag Cam")),
+//                driveSubsystem
+//        );
     }
 
     @Override
     public void close() throws IOException {
-        vision.close();
+        // vision.close();
     }
 }

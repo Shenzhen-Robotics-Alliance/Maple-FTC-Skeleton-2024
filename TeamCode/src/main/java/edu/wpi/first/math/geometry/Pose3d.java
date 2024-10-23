@@ -1,7 +1,8 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-// Modified by 19581/5516 IRON Maple https://github.com/Shenzhen-Robotics-Alliance
+//
+// Modified by 19581/5516 IRON Maple, as part of https://github.com/Shenzhen-Robotics-Alliance/Maple-FTC-Skeleton-2024
 
 package edu.wpi.first.math.geometry;
 

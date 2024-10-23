@@ -30,9 +30,10 @@ public class OpModeUtils {
 
         waitForStart.run();
 
-        SystemConstants.matchStartTimeMillis = System.currentTimeMillis();
-
+        long previousMillis = SystemConstants.matchStartTimeMillis = System.currentTimeMillis();
         while (opModeIsActivated.getAsBoolean() && !isStopRequested.getAsBoolean()) {
+            SystemConstants.telemetry.addData("Robot Loop Time MS", (System.currentTimeMillis() - previousMillis));
+            previousMillis = System.currentTimeMillis();
             robot.run();
             SystemConstants.telemetry.update();
             loopClock.tick();

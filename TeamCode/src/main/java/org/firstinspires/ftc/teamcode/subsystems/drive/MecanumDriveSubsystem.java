@@ -9,9 +9,7 @@ import static org.firstinspires.ftc.teamcode.constants.DriveTrainConstants.MAX_V
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.constants.DriveTrainConstants;
 import org.firstinspires.ftc.teamcode.constants.SystemConstants;
 import org.firstinspires.ftc.teamcode.utils.MapleTime;
@@ -27,32 +25,20 @@ import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDriveSubsystem {
     private final DcMotor frontLeft, frontRight, backLeft, backRight;
     private final MecanumDriveKinematics mecanumDriveKinematics;
-    private final MecanumDrivePoseEstimator poseEstimator;
-    private final IMU imu;
+    private final MapleOdometerWheelsOdometry odometry;
 
-    public MecanumDriveSubsystem(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight, IMU imu) {
+    public MecanumDriveSubsystem(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight, MapleOdometerWheelsOdometry odometry) {
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;
         this.backLeft = backLeft;
         this.backRight = backRight;
-        this.imu = imu;
+        this.odometry = odometry;
 
         this.mecanumDriveKinematics = DriveTrainConstants.KINEMATICS;
-        this.poseEstimator = new MecanumDrivePoseEstimator(
-                mecanumDriveKinematics,
-                getIMUAngle(),
-                new MecanumDriveWheelPositions(0, 0, 0, 0),
-                new Pose2d()
-        );
     }
 
     @Override
     public void periodic() {
-        poseEstimator.updateWithTime(
-                MapleTime.getMatchTimeSeconds(),
-                getIMUAngle(),
-                new MecanumDriveWheelPositions(0, 0, 0, 0)
-        );
     }
 
     @Override
@@ -73,16 +59,16 @@ public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDri
 
     @Override
     public Pose2d getPose() {
-        return poseEstimator.getEstimatedPosition();
+        return odometry.getEstimatedPose();
     }
 
-    private Rotation2d getIMUAngle() {
-        return Rotation2d.fromRadians(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+    private Rotation2d getRobotAngle() {
+        return odometry.getEstimatedPose().getRotation();
     }
 
     @Override
     public void setPose(Pose2d currentPose) {
-        poseEstimator.resetPose(currentPose);
+        odometry.resetPose(currentPose);
     }
 
     @Override
@@ -102,6 +88,6 @@ public class MecanumDriveSubsystem extends SubsystemBase implements HolonomicDri
 
     @Override
     public void addVisionMeasurement(Pose2d visionPose, double timestamp) {
-        poseEstimator.addVisionMeasurement(visionPose, timestamp);
+        odometry.addVisionMeasurement(visionPose, timestamp);
     }
 }
