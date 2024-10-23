@@ -34,7 +34,9 @@ public class AprilTagVision implements Subsystem, Closeable {
     }
 
     @Override
-    public void close() throws IOException {
-        io.close();
+    public void close() {
+        try {
+            io.close();
+        } catch (IOException ignored) {}
     }
 }
